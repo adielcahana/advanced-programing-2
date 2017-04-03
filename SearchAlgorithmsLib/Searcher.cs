@@ -31,6 +31,7 @@ namespace SearchAlgorithmsLib
 
         public void Push(T state)
         {
+
             openList.Enqueue(state , state.Cost);
         }
 
@@ -49,12 +50,13 @@ namespace SearchAlgorithmsLib
             return openList.Contains(state);
         }
 
-        public bool Get(T state)
+        public T Get(T state)
         {
             foreach(T s in openList)
             {
                 if (s.Equals(state)) return s;
             }
+            return null;
         }
 
         public abstract Solution Search(Isearchable<T> searchable);
