@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace SearchAlgorithmsLib
 {
-    class BestFirstSearch<T> : Searcher<T> where T : State<T>
+    public class BestFirstSearch<T> : Searcher<T> where T : State<T>
     {
-        public override Solution Search(Isearchable<T> searchable)
+        public override ISolution<T> Search(Isearchable<T> searchable)
         {
+            Dictionary<int, T> states = new Dictionary<int, T>();
             HashSet<T> closed = new HashSet<T>();
             T current = searchable.getInintialState();
             T goal = searchable.getGoalState();
@@ -22,7 +23,7 @@ namespace SearchAlgorithmsLib
                 current = this.Pop();
                 closed.Add(current);
 
-                if (current.Equals(goal)) return Backtrace(current);
+                if (current.Equals(goal)) return BackTrace(current);
 
                 List<T> succesors = searchable.getAllPossibleState(current);
                 foreach (T s in succesors)
@@ -30,15 +31,34 @@ namespace SearchAlgorithmsLib
                     if (!closed.Contains(s) && !this.Contains(s))
                     {
                         this.Push(s);
+                        states.Add(s.GetHashCode(), s);
                     }
-                    else if (!this.Contains)
+                    else 
                     {
-                       
+                        T lastPath;
+                        states.TryGetValue(s.GetHashCode(), out lastPath);
+                        if (s.Cost < lastPath.Cost)
+                        {
+                            lastPath.Cost = s.Cost;
+                            lastPath.CameFrom = s.CameFrom;
+                            this.Update(lastPath);
+                        } 
                     }
                 }
-
             }
-            
+            return null;
+        }
+
+        private ISolution<T> BackTrace(T state)
+        {
+            ISolution<T> solution = new StackSolution<T>();
+            solution.Add(state);
+            while (state.CameFrom != null)
+            {
+                state = (T) state.CameFrom;
+                solution.Add(state);
+            }
+            return solution;
         }
     }
 }

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace SearchAlgorithmsLib
 {
-    public class Solution
+    public interface ISolution<T>
     {
+        void Add(T state);
+        T Get();
     }
 }

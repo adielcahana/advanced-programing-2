@@ -40,9 +40,9 @@ namespace SearchAlgorithmsLib
             return openList.Count == 0;
         }
 
-        public void Update(T state, float priority)
+        public void Update(T state)
         {
-            openList.UpdatePriority(state, priority);
+            openList.UpdatePriority(state, state.Cost);
         }
 
         public bool Contains(T state)
@@ -59,6 +59,6 @@ namespace SearchAlgorithmsLib
             return null;
         }
 
-        public abstract Solution Search(Isearchable<T> searchable);
+        public abstract ISolution<T> Search(Isearchable<T> searchable);
     }
 }

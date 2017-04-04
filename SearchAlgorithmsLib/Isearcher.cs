@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SearchAlgorithmsLib
 {
-    public interface Isearcher<T>
+    public interface Isearcher<T> where T : State<T>
     {
-        Solution Search(Isearchable<T> searchable);
+        ISolution<T> Search(Isearchable<T> searchable);
         int GetNumberOfNodesEvaluated();
     }
 }

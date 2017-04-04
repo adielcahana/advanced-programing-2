@@ -33,5 +33,10 @@ namespace SearchAlgorithmsLib
         {
             return state.Equals(s.state);
         }
+
+        public override int GetHashCode()
+        {
+            return state.ToString().GetHashCode();
+        }
     }
 }
