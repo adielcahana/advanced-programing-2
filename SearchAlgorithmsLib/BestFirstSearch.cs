@@ -2,14 +2,14 @@
 
 namespace SearchAlgorithmsLib
 {
-    public class BestFirstSearch<T> : Searcher<T> where T : State<T>
+    public class BestFirstSearch<T> : Searcher<T>
     {
         public override ISolution<T> Search(ISearchable<T> searchable)
         {
-            Dictionary<int, T> states = new Dictionary<int, T>();
-            HashSet<T> closed = new HashSet<T>();
-            T current = searchable.GetInintialState();
-            T goal = searchable.GetGoalState();
+            Dictionary<int, State<T>> states = new Dictionary<int, State<T>>();
+            HashSet<State<T>> closed = new HashSet<State<T>>();
+            State<T> current = searchable.GetInintialState();
+            State<T> goal = searchable.GetGoalState();
 
             current.Cost = 0;
             Push(current);
@@ -21,8 +21,8 @@ namespace SearchAlgorithmsLib
 
                 if (current.Equals(goal)) return BackTrace(current);
 
-                List<T> succesors = searchable.GetAllPossibleState(current);
-                foreach (T s in succesors)
+                List<State<T>> succesors = searchable.GetAllPossibleState(current);
+                foreach (State<T> s in succesors)
                 {
                     if (!closed.Contains(s) && !Contains(s))
                     {
@@ -31,7 +31,7 @@ namespace SearchAlgorithmsLib
                     }
                     else 
                     {
-                        T lastPath;
+                        State<T> lastPath;
                         states.TryGetValue(s.GetHashCode(), out lastPath);
                         if (s.Cost < lastPath.Cost)
                         {
@@ -45,13 +45,13 @@ namespace SearchAlgorithmsLib
             return null;
         }
 
-        private ISolution<T> BackTrace(T state)
+        private ISolution<T> BackTrace(State<T> state)
         {
             ISolution<T> solution = new StackSolution<T>();
             solution.Add(state);
             while (state.CameFrom != null)
             {
-                state = (T) state.CameFrom;
+                state = state.CameFrom;
                 solution.Add(state);
             }
             return solution;

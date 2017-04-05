@@ -2,12 +2,14 @@
 {
     public class State<T>
     {
-        private T _state;
 
-        public State(T state)
+        public State(T data)
         {
-            _state = state;
+            this.Data = data;
+            this.Cost = 0;
         }
+
+        public T Data { get; }
 
         public float Cost { get; set; }
 
@@ -15,12 +17,12 @@
 
         public bool Equals(State<T> s)
         {
-            return _state.Equals(s._state);
+            return Data.Equals(s.Data);
         }
 
         public override int GetHashCode()
         {
-            return _state.ToString().GetHashCode();
+            return Data.ToString().GetHashCode();
         }
     }
 }

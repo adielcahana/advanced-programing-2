@@ -2,14 +2,14 @@
 
 namespace SearchAlgorithmsLib
 {
-    public abstract class Searcher<T> : ISearcher<T> where T : State<T>
+    public abstract class Searcher<T> : ISearcher<T> 
     {
-        private SimplePriorityQueue<T> _openList;
+        private SimplePriorityQueue<State<T>> _openList;
         private int _evaluatedNodes;
 
         public Searcher()
         {
-            _openList = new SimplePriorityQueue<T>();
+            _openList = new SimplePriorityQueue<State<T>>();
             _evaluatedNodes = 0;
         }
 
@@ -18,15 +18,14 @@ namespace SearchAlgorithmsLib
             return _evaluatedNodes;
         }
 
-        public T Pop()
+        public State<T> Pop()
         {
             _evaluatedNodes++;
             return _openList.Dequeue();
         }
 
-        public void Push(T state)
+        public void Push(State<T> state)
         {
-
             _openList.Enqueue(state , state.Cost);
         }
 
@@ -35,19 +34,19 @@ namespace SearchAlgorithmsLib
             return _openList.Count == 0;
         }
 
-        public void Update(T state)
+        public void Update(State<T> state)
         {
             _openList.UpdatePriority(state, state.Cost);
         }
 
-        public bool Contains(T state)
+        public bool Contains(State<T> state)
         {
             return _openList.Contains(state);
         }
 
-        public T Get(T state)
+        public State<T> Get(State<T> state)
         {
-            foreach(T s in _openList)
+            foreach(State<T> s in _openList)
             {
                 if (s.Equals(state)) return s;
             }

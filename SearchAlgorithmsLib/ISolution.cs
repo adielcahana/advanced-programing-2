@@ -1,8 +1,10 @@
-﻿namespace SearchAlgorithmsLib
+﻿using System.Collections.Generic;
+
+namespace SearchAlgorithmsLib
 {
-    public interface ISolution<T>
+    public interface ISolution<T> : IEnumerable<State<T>>
     {
-        void Add(T state);
-        T Get();
+        void Add(State<T> state);
+        State<T> Get();
     }
 }

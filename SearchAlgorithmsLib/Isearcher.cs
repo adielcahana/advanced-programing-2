@@ -1,6 +1,6 @@
 ﻿namespace SearchAlgorithmsLib
 {
-    public interface ISearcher<T> where T : State<T>
+    public interface ISearcher<T>
     {
         ISolution<T> Search(ISearchable<T> searchable);
         int GetNumberOfNodesEvaluated();

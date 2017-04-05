@@ -2,10 +2,10 @@
 
 namespace SearchAlgorithmsLib
 {
-    public interface ISearchable<T> where T : State<T>
+    public interface ISearchable<T>
     {
-        T GetInintialState();
-        T GetGoalState();
-        List<T> GetAllPossibleState(T state);
+        State<T> GetInintialState();
+        State<T> GetGoalState();
+        List<State<T>> GetAllPossibleState(State<T> state);
     }
 }
