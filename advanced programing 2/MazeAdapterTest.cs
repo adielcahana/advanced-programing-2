@@ -12,28 +12,26 @@ namespace advanced_programing_2
         {
             int col = 10;
             int row = 10;
+
             DFSMazeGenerator generator = new DFSMazeGenerator();
             Maze maze = generator.Generate(col, row);
-            ISearchable<Position> adapter = new MazeAdapter(maze);
-            ISearcher<Position> Searcher = new BestFirstSearch<Position>();
-            ISolution<Position> sol = Searcher.Search(adapter);
-            string maze_string = maze.ToString();
 
-            StringBuilder sb = new StringBuilder();
-            State<Position> state = sol.Get();
-            for (int i = 0; i < maze_string.Length; i++)
+            string mazeString = maze.ToString();
+            Console.WriteLine(mazeString);
+
+            ISearchable<Position> adapter = new MazeAdapter(maze);
+            ISearcher<Position> searcher = new BestFirstSearch<Position>();
+            ISolution<Position> sol = searcher.Search(adapter);
+
+            StringBuilder sb = new StringBuilder(mazeString);
+
+            foreach (State<Position> s in sol)
             {
-                if (state.Data.Row * (col + 1) + state.Data.Col == i)
-                {
-                    sb.Append('$');
-                }
-                else
-                {
-                    sb.Append(maze_string[i]);
-                }
+                sb[s.Data.Row * (col + 2) + s.Data.Col] = '$';
             }
-            Console.WriteLine(maze_string);
+
             Console.WriteLine(sb.ToString());
+            Console.Read();
         }
     }
 }

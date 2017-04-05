@@ -7,6 +7,7 @@
         {
             this.Data = data;
             this.Cost = 0;
+            this.CameFrom = null;
         }
 
         public T Data { get; }

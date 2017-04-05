@@ -18,6 +18,7 @@ namespace SearchAlgorithmsLib
             {
                 current = Pop();
                 closed.Add(current);
+                states.Remove(current.GetHashCode());
 
                 if (current.Equals(goal)) return BackTrace(current);
 
