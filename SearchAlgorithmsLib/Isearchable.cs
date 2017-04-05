@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SearchAlgorithmsLib
 {
-    public interface Isearchable<T> where T : State<T>
+    public interface ISearchable<T> where T : State<T>
     {
-        T getInintialState();
-        T getGoalState();
-        List<T> getAllPossibleState(T state);
+        T GetInintialState();
+        T GetGoalState();
+        List<T> GetAllPossibleState(T state);
     }
 }

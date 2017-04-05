@@ -1,42 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SearchAlgorithmsLib
+﻿namespace SearchAlgorithmsLib
 {
     public class State<T>
     {
-        private T state;
-        private float cost;
-        private State<T> cameFrom;
+        private T _state;
 
         public State(T state)
         {
-            this.state = state;
+            _state = state;
         }
 
-        public float Cost
-        {
-            get { return cost; }
-            set { cost = value; }
-        }
+        public float Cost { get; set; }
 
-        public State<T> CameFrom
-        {
-            get { return cameFrom; }
-            set { cameFrom = value; }
-        }
- 
+        public State<T> CameFrom { get; set; }
+
         public bool Equals(State<T> s)
         {
-            return state.Equals(s.state);
+            return _state.Equals(s._state);
         }
 
         public override int GetHashCode()
         {
-            return state.ToString().GetHashCode();
+            return _state.ToString().GetHashCode();
         }
     }
 }

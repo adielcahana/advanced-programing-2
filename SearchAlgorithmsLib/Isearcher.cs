@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SearchAlgorithmsLib
+﻿namespace SearchAlgorithmsLib
 {
-    public interface Isearcher<T> where T : State<T>
+    public interface ISearcher<T> where T : State<T>
     {
-        ISolution<T> Search(Isearchable<T> searchable);
+        ISolution<T> Search(ISearchable<T> searchable);
         int GetNumberOfNodesEvaluated();
     }
 }

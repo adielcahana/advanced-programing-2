@@ -1,64 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Priority_Queue;
+﻿using Priority_Queue;
 
 namespace SearchAlgorithmsLib
 {
-    public abstract class Searcher<T> : Isearcher<T> where T : State<T>
+    public abstract class Searcher<T> : ISearcher<T> where T : State<T>
     {
-        private SimplePriorityQueue<T> openList;
-        private int evaluatedNodes;
+        private SimplePriorityQueue<T> _openList;
+        private int _evaluatedNodes;
 
         public Searcher()
         {
-            openList = new SimplePriorityQueue<T>();
-            evaluatedNodes = 0;
+            _openList = new SimplePriorityQueue<T>();
+            _evaluatedNodes = 0;
         }
 
         public int GetNumberOfNodesEvaluated()
         {
-            return evaluatedNodes;
+            return _evaluatedNodes;
         }
 
         public T Pop()
         {
-            evaluatedNodes++;
-            return openList.Dequeue();
+            _evaluatedNodes++;
+            return _openList.Dequeue();
         }
 
         public void Push(T state)
         {
 
-            openList.Enqueue(state , state.Cost);
+            _openList.Enqueue(state , state.Cost);
         }
 
         public bool IsEmpty()
         {
-            return openList.Count == 0;
+            return _openList.Count == 0;
         }
 
         public void Update(T state)
         {
-            openList.UpdatePriority(state, state.Cost);
+            _openList.UpdatePriority(state, state.Cost);
         }
 
         public bool Contains(T state)
         {
-            return openList.Contains(state);
+            return _openList.Contains(state);
         }
 
         public T Get(T state)
         {
-            foreach(T s in openList)
+            foreach(T s in _openList)
             {
                 if (s.Equals(state)) return s;
             }
             return null;
         }
 
-        public abstract ISolution<T> Search(Isearchable<T> searchable);
+        public abstract ISolution<T> Search(ISearchable<T> searchable);
     }
 }

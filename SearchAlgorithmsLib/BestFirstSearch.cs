@@ -1,36 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SearchAlgorithmsLib
 {
     public class BestFirstSearch<T> : Searcher<T> where T : State<T>
     {
-        public override ISolution<T> Search(Isearchable<T> searchable)
+        public override ISolution<T> Search(ISearchable<T> searchable)
         {
             Dictionary<int, T> states = new Dictionary<int, T>();
             HashSet<T> closed = new HashSet<T>();
-            T current = searchable.getInintialState();
-            T goal = searchable.getGoalState();
+            T current = searchable.GetInintialState();
+            T goal = searchable.GetGoalState();
 
             current.Cost = 0;
-            this.Push(current);
+            Push(current);
             
-            while (!this.IsEmpty())
+            while (!IsEmpty())
             {
-                current = this.Pop();
+                current = Pop();
                 closed.Add(current);
 
                 if (current.Equals(goal)) return BackTrace(current);
 
-                List<T> succesors = searchable.getAllPossibleState(current);
+                List<T> succesors = searchable.GetAllPossibleState(current);
                 foreach (T s in succesors)
                 {
-                    if (!closed.Contains(s) && !this.Contains(s))
+                    if (!closed.Contains(s) && !Contains(s))
                     {
-                        this.Push(s);
+                        Push(s);
                         states.Add(s.GetHashCode(), s);
                     }
                     else 
@@ -41,7 +37,7 @@ namespace SearchAlgorithmsLib
                         {
                             lastPath.Cost = s.Cost;
                             lastPath.CameFrom = s.CameFrom;
-                            this.Update(lastPath);
+                            Update(lastPath);
                         } 
                     }
                 }

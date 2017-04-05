@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SearchAlgorithmsLib
 {
     class StackSolution<T> : ISolution<T>
     {
-        private Stack<T> states;
+        private Stack<T> _states;
         public StackSolution()
         {
-            states = new Stack<T>();
+            _states = new Stack<T>();
         }
 
         public void Add(T state)
         {
-            states.Push(state);
+            _states.Push(state);
         }
 
         public T Get()
         {
-            return states.Pop();
+            return _states.Pop();
         }
     }
 }
