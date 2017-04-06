@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SearchAlgorithmsLib
 {
     public class DepthFirstSearch<T> : Searcher<T>
     {
-
         public override ISolution<T> Search(ISearchable<T> searchable)
         {
             State<T> root = searchable.GetInintialState();

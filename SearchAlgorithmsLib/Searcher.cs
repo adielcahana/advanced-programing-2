@@ -2,10 +2,10 @@
 
 namespace SearchAlgorithmsLib
 {
-    public abstract class Searcher<T> : ISearcher<T> 
+    public abstract class Searcher<T> : ISearcher<T>
     {
-        private SimplePriorityQueue<State<T>> _openList;
         private int _evaluatedNodes;
+        private readonly SimplePriorityQueue<State<T>> _openList;
 
         public Searcher()
         {
@@ -18,6 +18,8 @@ namespace SearchAlgorithmsLib
             return _evaluatedNodes;
         }
 
+        public abstract ISolution<T> Search(ISearchable<T> searchable);
+
         public State<T> Pop()
         {
             _evaluatedNodes++;
@@ -26,7 +28,7 @@ namespace SearchAlgorithmsLib
 
         public void Push(State<T> state)
         {
-            _openList.Enqueue(state , state.Cost);
+            _openList.Enqueue(state, state.Cost);
         }
 
         public bool IsEmpty()
@@ -46,10 +48,8 @@ namespace SearchAlgorithmsLib
 
         public State<T> Get(State<T> state)
         {
-            foreach(State<T> s in _openList)
-            {
+            foreach (State<T> s in _openList)
                 if (s.Equals(state)) return s;
-            }
             return null;
         }
 
@@ -64,7 +64,5 @@ namespace SearchAlgorithmsLib
             }
             return solution;
         }
-
-        public abstract ISolution<T> Search(ISearchable<T> searchable);
     }
 }

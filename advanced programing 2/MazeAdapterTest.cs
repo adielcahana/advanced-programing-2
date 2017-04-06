@@ -6,9 +6,9 @@ using SearchAlgorithmsLib;
 
 namespace advanced_programing_2
 {
-    class MazeAdapterTest
+    internal class MazeAdapterTest
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             int col = 10;
             int row = 10;
@@ -26,9 +26,7 @@ namespace advanced_programing_2
             StringBuilder sb = new StringBuilder(mazeString);
 
             foreach (State<Position> s in sol)
-            {
                 sb[s.Data.Row * (col + 2) + s.Data.Col] = '$';
-            }
 
             Console.WriteLine(sb.ToString());
             Console.Read();

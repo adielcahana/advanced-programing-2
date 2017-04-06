@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using SearchAlgorithmsLib;
 using MazeLib;
+using SearchAlgorithmsLib;
 
 namespace advanced_programing_2
 {
-    class MazeAdapter : ISearchable<Position>
+    internal class MazeAdapter : ISearchable<Position>
     {
-        private Maze maze;
+        private readonly Maze maze;
 
         public MazeAdapter(Maze maze)
         {
@@ -14,7 +14,7 @@ namespace advanced_programing_2
         }
 
         public List<State<Position>> GetAllPossibleState(State<Position> state)
-         {
+        {
             List<State<Position>> succesors = new List<State<Position>>();
             State<Position> succesor;
             State<Position> parent = state.CameFrom;
@@ -22,7 +22,7 @@ namespace advanced_programing_2
             int row = state.Data.Row;
             int col = state.Data.Col;
             float cost = state.Cost + 1;
-           
+
             if (row + 1 < maze.Rows && maze[row + 1, col] == free)
             {
                 succesor = new State<Position>(new Position(row + 1, col));
@@ -33,7 +33,7 @@ namespace advanced_programing_2
                     succesors.Add(succesor);
                 }
             }
-            if (col + 1 < maze.Cols && maze[row , col + 1] == free)
+            if (col + 1 < maze.Cols && maze[row, col + 1] == free)
             {
                 succesor = new State<Position>(new Position(row, col + 1));
                 if (parent == null || !succesor.Equals(parent))

@@ -2,12 +2,11 @@
 {
     public class State<T>
     {
-
         public State(T data)
         {
-            this.Data = data;
-            this.Cost = 0;
-            this.CameFrom = null;
+            Data = data;
+            Cost = 0;
+            CameFrom = null;
         }
 
         public T Data { get; }
