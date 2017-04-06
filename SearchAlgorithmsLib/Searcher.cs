@@ -4,8 +4,8 @@ namespace SearchAlgorithmsLib
 {
     public abstract class Searcher<T> : ISearcher<T>
     {
-        private int _evaluatedNodes;
         private readonly SimplePriorityQueue<State<T>> _openList;
+        private int _evaluatedNodes;
 
         public Searcher()
         {

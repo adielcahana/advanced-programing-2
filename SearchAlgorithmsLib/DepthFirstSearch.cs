@@ -8,13 +8,12 @@ namespace SearchAlgorithmsLib
         {
             State<T> root = searchable.GetInintialState();
             State<T> goal = searchable.GetGoalState();
-            State<T> current = null;
             root.Cost = 0;
             Push(root);
 
             while (!IsEmpty())
             {
-                current = Pop();
+                State<T> current = Pop();
                 if (current.Equals(goal)) return BackTrace(current);
 
                 List<State<T>> succesors = searchable.GetAllPossibleState(current);
