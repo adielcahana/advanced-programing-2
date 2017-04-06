@@ -53,6 +53,18 @@ namespace SearchAlgorithmsLib
             return null;
         }
 
+        protected ISolution<T> BackTrace(State<T> state)
+        {
+            ISolution<T> solution = new StackSolution<T>();
+            solution.Add(state);
+            while (state.CameFrom != null)
+            {
+                state = state.CameFrom;
+                solution.Add(state);
+            }
+            return solution;
+        }
+
         public abstract ISolution<T> Search(ISearchable<T> searchable);
     }
 }
