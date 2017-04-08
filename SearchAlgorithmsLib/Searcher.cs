@@ -24,9 +24,9 @@ namespace SearchAlgorithmsLib
             return _openList.Dequeue();
         }
 
-        public void Push(State<T> state)
+        public void Push(State<T> state, float priority)
         {
-            _openList.Enqueue(state , state.Cost);
+            _openList.Enqueue(state , priority);
         }
 
         public bool IsEmpty()
@@ -51,6 +51,18 @@ namespace SearchAlgorithmsLib
                 if (s.Equals(state)) return s;
             }
             return null;
+        }
+
+        protected ISolution<T> BackTrace(State<T> state)
+        {
+            ISolution<T> solution = new StackSolution<T>();
+            solution.Add(state);
+            while (state.CameFrom != null)
+            {
+                state = state.CameFrom;
+                solution.Add(state);
+            }
+            return solution;
         }
 
         public abstract ISolution<T> Search(ISearchable<T> searchable);

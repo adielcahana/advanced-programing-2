@@ -44,9 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BestFirstSearch.cs" />
+    <Compile Include="DepthFirstSearch.cs" />
+    <Compile Include="Searcher.cs" />
     <Compile Include="StackSolution.cs" />
     <Compile Include="ISolution.cs" />
-    <Compile Include="Searcher.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Isearcher.cs" />
     <Compile Include="Isearchable.cs" />

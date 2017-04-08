@@ -10,20 +10,22 @@ namespace advanced_programing_2
     {
         static void Main(string[] args)
         {
-            int col = 10;
-            int row = 10;
+            int col = 1000;
+            int row = 1000;
 
             DFSMazeGenerator generator = new DFSMazeGenerator();
             Maze maze = generator.Generate(col, row);
 
-            string mazeString = maze.ToString();
-            Console.WriteLine(mazeString);
+            //string mazeString = maze.ToString();
+            //Console.WriteLine(mazeString);
 
             ISearchable<Position> adapter = new MazeAdapter(maze);
-            ISearcher<Position> searcher = new BestFirstSearch<Position>();
-            ISolution<Position> sol = searcher.Search(adapter);
+            ISearcher<Position> BfsSearcher = new BestFirstSearch<Position>();
+            ISolution<Position> sol = BfsSearcher.Search(adapter);
 
-            StringBuilder sb = new StringBuilder(mazeString);
+            int BfsNumOfStases = BfsSearcher.GetNumberOfNodesEvaluated();
+
+            /*StringBuilder sb = new StringBuilder(mazeString);
 
             foreach (State<Position> s in sol)
             {
@@ -31,6 +33,24 @@ namespace advanced_programing_2
             }
 
             Console.WriteLine(sb.ToString());
+            */
+            ISearcher<Position> DfsSearcher = new DepthFirstSearch<Position>();
+            sol = DfsSearcher.Search(adapter);
+
+            int DfsNumOfStases = DfsSearcher.GetNumberOfNodesEvaluated();
+            /*
+            sb = new StringBuilder(mazeString);
+
+            foreach (State<Position> s in sol)
+            {
+                sb[s.Data.Row * (col + 2) + s.Data.Col] = '$';
+            }
+
+            Console.WriteLine(sb.ToString());
+            */
+            Console.WriteLine("number of BFS states:" + BfsNumOfStases);
+            Console.WriteLine("number of DFS states:" + DfsNumOfStases);
+
             Console.Read();
         }
     }

@@ -12,7 +12,7 @@ namespace SearchAlgorithmsLib
             State<T> goal = searchable.GetGoalState();
 
             current.Cost = 0;
-            Push(current);
+            Push(current, current.Cost);
             
             while (!IsEmpty())
             {
@@ -27,7 +27,7 @@ namespace SearchAlgorithmsLib
                 {
                     if (!closed.Contains(s) && !Contains(s))
                     {
-                        Push(s);
+                        Push(s, s.Cost);
                         states.Add(s.GetHashCode(), s);
                     }
                     else 
@@ -44,18 +44,6 @@ namespace SearchAlgorithmsLib
                 }
             }
             return null;
-        }
-
-        private ISolution<T> BackTrace(State<T> state)
-        {
-            ISolution<T> solution = new StackSolution<T>();
-            solution.Add(state);
-            while (state.CameFrom != null)
-            {
-                state = state.CameFrom;
-                solution.Add(state);
-            }
-            return solution;
         }
     }
 }
