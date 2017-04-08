@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 
 namespace SearchAlgorithmsLib
 {
-    class StackSolution<T> : ISolution<T>
+    internal class StackSolution<T> : ISolution<T>
     {
-        private Stack<State<T>> _states;
+        private readonly Stack<State<T>> _states;
+
         public StackSolution()
         {
             _states = new Stack<State<T>>();

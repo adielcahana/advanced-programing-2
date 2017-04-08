@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SearchAlgorithmsLib
 {
@@ -12,8 +13,8 @@ namespace SearchAlgorithmsLib
             State<T> goal = searchable.GetGoalState();
 
             current.Cost = 0;
-            Push(current, current.Cost);
-            
+            Push(current);
+
             while (!IsEmpty())
             {
                 current = Pop();
@@ -24,24 +25,23 @@ namespace SearchAlgorithmsLib
 
                 List<State<T>> succesors = searchable.GetAllPossibleState(current);
                 foreach (State<T> s in succesors)
-                {
                     if (!closed.Contains(s) && !Contains(s))
                     {
-                        Push(s, s.Cost);
+                        Push(s);
                         states.Add(s.GetHashCode(), s);
                     }
-                    else 
+                    else
                     {
                         State<T> lastPath;
                         states.TryGetValue(s.GetHashCode(), out lastPath);
+                        Debug.Assert(lastPath != null, "lastPath in BFS is null");
                         if (s.Cost < lastPath.Cost)
                         {
                             lastPath.Cost = s.Cost;
                             lastPath.CameFrom = s.CameFrom;
                             Update(lastPath);
-                        } 
+                        }
                     }
-                }
             }
             return null;
         }

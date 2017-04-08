@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
-using SearchAlgorithmsLib;
 using MazeLib;
+using SearchAlgorithmsLib;
 
 namespace advanced_programing_2
 {
-    class MazeAdapter : ISearchable<Position>
+    internal class MazeAdapter : ISearchable<Position>
     {
-        private Maze maze;
+        private readonly Maze _maze;
 
         public MazeAdapter(Maze maze)
         {
-            this.maze = maze;
+            _maze = maze;
         }
 
         public List<State<Position>> GetAllPossibleState(State<Position> state)
-         {
+        {
             List<State<Position>> succesors = new List<State<Position>>();
             State<Position> succesor;
             State<Position> parent = state.CameFrom;
@@ -22,8 +22,8 @@ namespace advanced_programing_2
             int row = state.Data.Row;
             int col = state.Data.Col;
             float cost = state.Cost + 1;
-           
-            if (row + 1 < maze.Rows && maze[row + 1, col] == free)
+
+            if (row + 1 < _maze.Rows && _maze[row + 1, col] == free)
             {
                 succesor = new State<Position>(new Position(row + 1, col));
                 if (parent == null || !succesor.Equals(parent))
@@ -33,7 +33,7 @@ namespace advanced_programing_2
                     succesors.Add(succesor);
                 }
             }
-            if (col + 1 < maze.Cols && maze[row , col + 1] == free)
+            if (col + 1 < _maze.Cols && _maze[row, col + 1] == free)
             {
                 succesor = new State<Position>(new Position(row, col + 1));
                 if (parent == null || !succesor.Equals(parent))
@@ -43,7 +43,7 @@ namespace advanced_programing_2
                     succesors.Add(succesor);
                 }
             }
-            if (row - 1 >= 0 && maze[row - 1, col] == free)
+            if (row - 1 >= 0 && _maze[row - 1, col] == free)
             {
                 succesor = new State<Position>(new Position(row - 1, col));
                 if (parent == null || !succesor.Equals(parent))
@@ -53,7 +53,7 @@ namespace advanced_programing_2
                     succesors.Add(succesor);
                 }
             }
-            if (col - 1 >= 0 && maze[row, col - 1] == free)
+            if (col - 1 >= 0 && _maze[row, col - 1] == free)
             {
                 succesor = new State<Position>(new Position(row, col - 1));
                 if (parent == null || !succesor.Equals(parent))
@@ -68,12 +68,12 @@ namespace advanced_programing_2
 
         public State<Position> GetGoalState()
         {
-            return new State<Position>(maze.GoalPos);
+            return new State<Position>(_maze.GoalPos);
         }
 
         public State<Position> GetInintialState()
         {
-            return new State<Position>(maze.InitialPos);
+            return new State<Position>(_maze.InitialPos);
         }
     }
 }
