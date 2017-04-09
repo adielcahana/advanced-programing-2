@@ -13,7 +13,7 @@ namespace SearchAlgorithmsLib
             State<T> goal = searchable.GetGoalState();
 
             current.Cost = 0;
-            Push(current);
+            Push(current, current.Cost);
 
             while (!IsEmpty())
             {
@@ -27,7 +27,7 @@ namespace SearchAlgorithmsLib
                 foreach (State<T> s in succesors)
                     if (!closed.Contains(s) && !Contains(s))
                     {
-                        Push(s);
+                        Push(s , s.Cost);
                         states.Add(s.GetHashCode(), s);
                     }
                     else
