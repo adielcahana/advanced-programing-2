@@ -34,6 +34,7 @@ namespace Server
                 { }
             }
             Console.WriteLine("Server stopped");
+            Console.ReadLine();
         }
 
         public void Stop()

@@ -2,7 +2,7 @@
 {
     class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Controller controller = new Controller();
             ClientHandler ch = new ClientHandler(controller);

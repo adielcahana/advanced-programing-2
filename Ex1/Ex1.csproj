@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BA4B82F4-4704-475F-BF3A-E66639700B3D}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>advanced_programing_2</RootNamespace>
-    <AssemblyName>advanced programing 2</AssemblyName>
+    <RootNamespace>Ex1</RootNamespace>
+    <AssemblyName>Ex1</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -33,21 +33,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MazeGeneratorLib">
-      <HintPath>..\..\..\..\Downloads\MazeGeneratorLib.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\אורי\בר אילן\שנה ב\סמסטר ב\תכנות מתקדם 2\תרגיל 1\MazeGeneratorLib.dll</HintPath>
     </Reference>
     <Reference Include="MazeLib">
-      <HintPath>..\..\..\..\Downloads\MazeLib.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\אורי\בר אילן\שנה ב\סמסטר ב\תכנות מתקדם 2\תרגיל 1\MazeLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MazeSolution.cs" />
     <Compile Include="MazeAdapter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SearchAlgorithmsLib\SearchAlgorithmsLib.csproj">
