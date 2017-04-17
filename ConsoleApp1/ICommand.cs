@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net.Sockets;
 
-namespace ConsoleApp1
+namespace Server
 {
-    interface ICommand
+    internal interface ICommand
     {
-        string Execute(string commandLine, TcpClient client = null);
+        string Execute(string[] args, TcpClient client = null);
     }
 }

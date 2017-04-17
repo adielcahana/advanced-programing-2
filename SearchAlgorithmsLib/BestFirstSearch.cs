@@ -7,6 +7,7 @@ namespace SearchAlgorithmsLib
     {
         public override ISolution<T> Search(ISearchable<T> searchable)
         {
+            Reset();
             Dictionary<int, State<T>> states = new Dictionary<int, State<T>>();
             HashSet<State<T>> closed = new HashSet<State<T>>();
             State<T> current = searchable.GetInintialState();
@@ -27,7 +28,7 @@ namespace SearchAlgorithmsLib
                 foreach (State<T> s in succesors)
                     if (!closed.Contains(s) && !Contains(s))
                     {
-                        Push(s , s.Cost);
+                        Push(s, s.Cost);
                         states.Add(s.GetHashCode(), s);
                     }
                     else

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SearchAlgorithmsLib
 {
-    internal class StackSolution<T> : ISolution<T>
+    public class StackSolution<T> : ISolution<T>
     {
         private readonly Stack<State<T>> _states;
 

@@ -4,7 +4,7 @@ using SearchAlgorithmsLib;
 
 namespace advanced_programing_2
 {
-    internal class MazeAdapter : ISearchable<Position>
+    public class MazeAdapter : ISearchable<Position>
     {
         private readonly Maze _maze;
 

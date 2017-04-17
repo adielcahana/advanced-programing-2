@@ -32,8 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MazeGeneratorLib">
+      <HintPath>..\advanced programing 2\bin\Debug\MazeGeneratorLib.dll</HintPath>
+    </Reference>
     <Reference Include="MazeLib">
       <HintPath>..\..\..\..\לימודים\שנה ג\תכנות מתקדם 2\תרגילי בית\תרגיל 1\MazeLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,16 +51,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Solve.cs" />
     <Compile Include="Commands\Generate.cs" />
     <Compile Include="ICommand.cs" />
-    <Compile Include="IModel.cs" />
+    <Compile Include="MazeModel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\advanced programing 2\ex1.csproj">
+      <Project>{ba4b82f4-4704-475f-bf3a-e66639700b3d}</Project>
+      <Name>ex1</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SearchAlgorithmsLib\SearchAlgorithmsLib.csproj">
       <Project>{12367745-207B-4C95-915E-B85FAAB8D452}</Project>
       <Name>SearchAlgorithmsLib</Name>
