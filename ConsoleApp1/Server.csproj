@@ -32,8 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MazeGeneratorLib">
+      <HintPath>..\..\..\..\Desktop\אורי\בר אילן\שנה ב\סמסטר ב\תכנות מתקדם 2\תרגיל 1\MazeGeneratorLib.dll</HintPath>
+    </Reference>
     <Reference Include="MazeLib">
-      <HintPath>..\..\..\..\לימודים\שנה ג\תכנות מתקדם 2\תרגילי בית\תרגיל 1\MazeLib.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\אורי\בר אילן\שנה ב\סמסטר ב\תכנות מתקדם 2\תרגיל 1\MazeLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,9 +48,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller.cs" />
+    <Compile Include="Server.cs" />
+    <Compile Include="ClientHandler.cs" />
     <Compile Include="Commands\Generate.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IModel.cs" />
+    <Compile Include="IClientHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

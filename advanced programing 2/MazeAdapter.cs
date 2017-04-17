@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using MazeLib;
 using SearchAlgorithmsLib;
+using MazeLib;
 
 namespace advanced_programing_2
 {

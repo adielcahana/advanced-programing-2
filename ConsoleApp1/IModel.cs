@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MazeLib;
+﻿using MazeLib;
 using SearchAlgorithmsLib;
 
-namespace ConsoleApp1
+namespace Server
 {
     enum Algorithm
     {
