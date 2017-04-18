@@ -17,15 +17,17 @@ namespace Client
             using (StreamReader reader = new StreamReader(stream))
             using (StreamWriter writer = new StreamWriter(stream))
             {
+                
                 string answer = null;
                 do {
                     Console.Write("Please enter a command: ");
                     string command = Console.ReadLine();
-                    writer.Write(command);
+                    writer.WriteLine(command);
+                    writer.Flush();
                     // Get result from server
                     answer = reader.ReadLine();
-                    Console.WriteLine(answer);
-                } while (answer.Equals("close"));
+                    Console.WriteLine("server: " + answer);
+                } while (!answer.Equals("close"));
             }
             client.Close();
         }

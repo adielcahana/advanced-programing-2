@@ -3,7 +3,7 @@ using MazeGeneratorLib;
 using MazeLib;
 using SearchAlgorithmsLib;
 
-namespace advanced_programing_2
+namespace Ex1
 {
     internal class Program
     {

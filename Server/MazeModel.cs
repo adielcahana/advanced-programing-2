@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MazeGeneratorLib;
 using SearchAlgorithmsLib;
 using MazeLib;
-using advanced_programing_2;
+using Ex1;
 
 namespace Server
 {
