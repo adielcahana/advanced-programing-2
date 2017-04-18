@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.Net.Sockets;
-using System.Text;
+﻿using System.Net.Sockets;
 
 namespace Server.Commands
 {
@@ -15,8 +12,8 @@ namespace Server.Commands
         }
         public string Execute(string[] args, TcpClient client = null)
         {
-            string list = model.CreateList();
-            return JObject.Parse(list).ToString();
+            return model.CreateList();
         }
+
     }
 }

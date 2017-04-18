@@ -67,6 +67,7 @@ namespace SearchAlgorithmsLib
 
         protected void Reset()
         {
+            _openList.Clear();
             _evaluatedNodes = 0;
         }
     }

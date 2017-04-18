@@ -20,6 +20,7 @@ namespace Server.Commands
         {
             string name = args[0];
             _controller.finishGame(name, client);
+            return "close";
         }
     }
 }

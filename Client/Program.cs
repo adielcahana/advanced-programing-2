@@ -20,13 +20,14 @@ namespace Client
                 
                 string answer = null;
                 do {
+                    answer = "";
                     Console.Write("Please enter a command: ");
                     string command = Console.ReadLine();
                     writer.WriteLine(command);
                     writer.Flush();
                     // Get result from server
-                    answer = reader.ReadLine();
-                    Console.WriteLine("server: " + answer);
+                    answer = reader.ReadToEnd();
+                    Console.Write(answer);
                 } while (!answer.Equals("close"));
             }
             client.Close();

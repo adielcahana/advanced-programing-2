@@ -9,7 +9,6 @@ namespace Server
         private int port;
         private TcpListener listener;
         private IClientHandler ch;
-        private Controller controller;
 
         public Server(int port, IClientHandler ch)
         {

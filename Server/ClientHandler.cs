@@ -16,36 +16,20 @@ namespace Server
 
         public void HandleClient(TcpClient client)
         {
-            NetworkStream stream = client.GetStream();
-            StreamReader reader = new StreamReader(stream);
-            StreamWriter writer = new StreamWriter(stream);
             new Task(() =>
             {
+                using (NetworkStream stream = client.GetStream())
+                using (StreamReader reader = new StreamReader(stream))
+                using (StreamWriter writer = new StreamWriter(stream))
                 {
-                    while (true)
-                    {
-                        string commandLine = reader.ReadLine();
-                        Console.WriteLine(commandLine);
-                        string result = Console.ReadLine();
-//                        controller.ExecuteCommand(commandLine);
-                        writer.WriteLine(result);
-                        writer.Flush();
-                        if (result.Equals("close"))
-                        {
-                            break;
-                        }
-                    }
+                    string commandLine = reader.ReadLine();
+                    Console.WriteLine(commandLine);
+                    string result = controller.ExecuteCommand(commandLine, client);
+                    writer.Write(result);
+                    writer.Flush();
                 }
+                //client.Close();
             }).Start();
-                stream.Close();
-                reader.Close();
-                writer.Close();
-                client.Close();
-        }
-
-        private void CloseConnection(TcpClient client)
-        {
-            client.Close();
         }
     }
 }

@@ -68,12 +68,12 @@ namespace Server
         {
             if(_mazes.Count == 0)
             {
-                return "no games avaliable";
+                return "no games avaliable\n";
             }
             StringBuilder buildList = new StringBuilder();
             foreach (var item in _mazes)
             {
-                buildList.Append(item.Key + " ");
+                buildList.Append(item.Key + "\n");
             }
             return buildList.ToString();
         }

@@ -11,7 +11,7 @@ namespace Server
 {
     class Game
     {
-        private bool finish;
+        private int finish;
         private TcpClient _player1;
         private TcpClient _player2;
         private Position _player1Position;
@@ -21,12 +21,11 @@ namespace Server
 
         public Game(string name, Maze maze, TcpClient player1)
         {
-            finish = false;
+            finish = 0;
             _maze = maze;
             _name = name;
             _player1 = player1;
             _player1Position = maze.InitialPos;
-
         }
 
         public void AddPlayer(TcpClient player2)
@@ -42,7 +41,7 @@ namespace Server
 
         public bool isRunning()
         {
-            if(finish == true)
+            if(finish != 0)
             {
                 return false;
             }
@@ -50,9 +49,16 @@ namespace Server
             return !(_player1Position.Equals(goal) || _player2Position.Equals(goal));
         }
 
-        public void finishGame()
+        public void finishGame(TcpClient player)
         {
-            finish = true;
+            if (player == _player1)
+            {
+                finish = 1;
+            }
+            else
+            {
+                finish = 2;
+            }
         }
 
         private void PlayOneTurn(TcpClient player, Position playerPosition)
@@ -93,9 +99,23 @@ namespace Server
                             writer.Flush();
                         }
                     }
+                    else if (finish == 1)
+                    {
+                        using (NetworkStream stream = _player2.GetStream())
+                        using (StreamWriter writer = new StreamWriter(stream))
+                        {
+                            writer.WriteLine("close");
+                            writer.Flush();
+                        }
+                    }
                     else
                     {
-                        
+                        using (NetworkStream stream = _player1.GetStream())
+                        using (StreamWriter writer = new StreamWriter(stream))
+                        {
+                            writer.WriteLine("close");
+                            writer.Flush();
+                        }
                     }
                 }
                 _player1.Close();
