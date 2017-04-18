@@ -7,7 +7,7 @@ namespace advanced_programing_2
 {
     internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             int col = 1000;
             int row = 1000;
@@ -20,7 +20,7 @@ namespace advanced_programing_2
 
             ISearchable<Position> adapter = new MazeAdapter(maze);
             ISearcher<Position> BfsSearcher = new BestFirstSearch<Position>();
-            ISolution<Position> sol = BfsSearcher.Search(adapter);
+            BfsSearcher.Search(adapter);
 
             int BfsNumOfStases = BfsSearcher.GetNumberOfNodesEvaluated();
 
@@ -34,7 +34,7 @@ namespace advanced_programing_2
             Console.WriteLine(sb.ToString());
             */
             ISearcher<Position> DfsSearcher = new DepthFirstSearch<Position>();
-            sol = DfsSearcher.Search(adapter);
+            DfsSearcher.Search(adapter);
 
             int DfsNumOfStases = DfsSearcher.GetNumberOfNodesEvaluated();
             /*
