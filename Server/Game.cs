@@ -12,10 +12,13 @@ namespace Server
     class Game
     {
         private int finish;
+
         private TcpClient _player1;
         private TcpClient _player2;
+
         private Position _player1Position;
         private Position _player2Position;
+
         private string _name;
         public Maze _maze { get; }
 
