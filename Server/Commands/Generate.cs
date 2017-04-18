@@ -19,6 +19,10 @@ namespace Server.Commands
             int cols = int.Parse(args[2]);
 
             Maze maze = model.GenerateMaze(name, rows, cols);
+            if(maze == null)
+            {
+                return "name: " + name + " already taken\n";
+            }
             return maze.ToJSON();
         }
     }

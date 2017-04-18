@@ -28,7 +28,6 @@ namespace Server
                     writer.Write(result);
                     writer.Flush();
                 }
-                //client.Close();
             }).Start();
         }
     }

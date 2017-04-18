@@ -36,9 +36,9 @@ namespace Server
 
         public Maze GenerateMaze(string name, int row, int col)
         {
+            if (_mazes.ContainsKey(name))
+                return null;
             Maze maze;
-            if (_mazes.TryGetValue(name, out maze))
-                return maze;
             maze = _generator.Generate(col, row);
             maze.Name = name;
             _mazes.Add(name, maze);

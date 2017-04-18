@@ -62,7 +62,7 @@ namespace Ex1
             mazeSolution["Name"] = _name;
             StringBuilder solution = new StringBuilder();
             foreach (Direction d in _solution)
-                solution.Append(d);
+                solution.Append((int) d);
             mazeSolution["Solution"] = solution.ToString();
             mazeSolution["NodesEvaluated"] = _nodesEvaluated;
             return mazeSolution.ToString();
