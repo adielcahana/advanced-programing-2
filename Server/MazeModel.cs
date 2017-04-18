@@ -5,8 +5,6 @@ using SearchAlgorithmsLib;
 using MazeLib;
 using Ex1;
 using System.Text;
-using Newtonsoft.Json.Linq;
-using System.Net.Sockets;
 
 namespace Server
 {
@@ -71,6 +69,8 @@ namespace Server
                 return "no games avaliable\n";
             }
             StringBuilder buildList = new StringBuilder();
+            buildList.Append("[");
+            int counter = 0;
             foreach (var item in _mazes)
             {
                 buildList.Append(item.Key + "\n");

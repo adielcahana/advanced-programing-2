@@ -23,7 +23,7 @@ namespace Server
             commands.Add("start", new Start(model, this));
             commands.Add("join", new Join(this));
             commands.Add("list", new List(model));
-            commands.Add("play", new Play());
+            commands.Add("play", new Play(this));
             commands.Add("close", new Close(this));
         }
 
@@ -54,6 +54,10 @@ namespace Server
             Game game;
             if (games.TryGetValue(name, out game))
             {
+                if (!game.waitToSecondPlayer())
+                {
+                    return "game: " + name + "already play";
+                }
                 game.AddPlayer(player2);
                 game.Start();
                 return game._maze.ToJSON();
