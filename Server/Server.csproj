@@ -67,12 +67,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientHandler.cs" />
+    <Compile Include="Commands\Play.cs" />
+    <Compile Include="Commands\Start.cs" />
     <Compile Include="Commands\Solve.cs" />
     <Compile Include="Commands\Generate.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="IClientHandler.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="MazeModel.cs" />
+    <Compile Include="Move.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server.cs" />
