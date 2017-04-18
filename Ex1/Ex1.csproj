@@ -32,11 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MazeGeneratorLib">
-      <HintPath>..\..\..\..\Desktop\אורי\בר אילן\שנה ב\סמסטר ב\תכנות מתקדם 2\תרגיל 1\MazeGeneratorLib.dll</HintPath>
+    <Reference Include="MazeGeneratorLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\MazeGeneratorLib.dll</HintPath>
     </Reference>
-    <Reference Include="MazeLib">
-      <HintPath>..\..\..\..\Desktop\אורי\בר אילן\שנה ב\סמסטר ב\תכנות מתקדם 2\תרגיל 1\MazeLib.dll</HintPath>
+    <Reference Include="MazeLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\MazeLib.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -61,6 +63,10 @@
       <Project>{12367745-207b-4c95-915e-b85faab8d452}</Project>
       <Name>SearchAlgorithmsLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="MazeGeneratorLib.dll" />
+    <Content Include="MazeLib.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

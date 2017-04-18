@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using MazeGeneratorLib;
 using SearchAlgorithmsLib;
 using MazeLib;
-using advanced_programing_2;
+using Ex1;
+using System.Text;
+using Newtonsoft.Json.Linq;
+using System.Net.Sockets;
 
 namespace Server
 {
@@ -18,6 +21,7 @@ namespace Server
         private readonly ISearcher<Position>[] _algorithms;
         private readonly DFSMazeGenerator _generator;
         private readonly Dictionary<string, Maze> _mazes;
+
         private readonly Dictionary<string, MazeSolution> _solutions;
 
         public MazeModel()
@@ -58,6 +62,20 @@ namespace Server
             Console.WriteLine("the maze: " + name + "does not exist.");
             //TODO: handle a case when the maze does not exist
             return null;
+        }
+
+        public string CreateList()
+        {
+            if(_mazes.Count == 0)
+            {
+                return "no games avaliable";
+            }
+            StringBuilder buildList = new StringBuilder();
+            foreach (var item in _mazes)
+            {
+                buildList.Append(item.Key + " ");
+            }
+            return buildList.ToString();
         }
     }
 }

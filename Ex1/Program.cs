@@ -3,11 +3,11 @@ using MazeGeneratorLib;
 using MazeLib;
 using SearchAlgorithmsLib;
 
-namespace advanced_programing_2
+namespace Ex1
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             int col = 1000;
             int row = 1000;
@@ -20,7 +20,7 @@ namespace advanced_programing_2
 
             ISearchable<Position> adapter = new MazeAdapter(maze);
             ISearcher<Position> BfsSearcher = new BestFirstSearch<Position>();
-            BfsSearcher.Search(adapter);
+            ISolution<Position> sol = BfsSearcher.Search(adapter);
 
             int BfsNumOfStases = BfsSearcher.GetNumberOfNodesEvaluated();
 
@@ -34,7 +34,7 @@ namespace advanced_programing_2
             Console.WriteLine(sb.ToString());
             */
             ISearcher<Position> DfsSearcher = new DepthFirstSearch<Position>();
-            DfsSearcher.Search(adapter);
+            sol = DfsSearcher.Search(adapter);
 
             int DfsNumOfStases = DfsSearcher.GetNumberOfNodesEvaluated();
             /*

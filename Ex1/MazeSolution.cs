@@ -5,7 +5,7 @@ using MazeLib;
 using Newtonsoft.Json.Linq;
 using SearchAlgorithmsLib;
 
-namespace advanced_programing_2
+namespace Ex1
 {
     public class MazeSolution
     {
