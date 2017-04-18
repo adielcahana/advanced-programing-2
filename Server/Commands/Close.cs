@@ -4,17 +4,17 @@ namespace Server.Commands
 {
     class Close : ICommand
     {
-        private Controller _controller;
+        private MazeModel _model;
 
-        public Close(Controller controller)
+        public Close(MazeModel model)
         {
-            this._controller = controller;
+            this._model = model;
         }
 
         public string Execute(string[] args, TcpClient client = null)
         {
             string name = args[0];
-            _controller.finishGame(name, client);
+            _model.finishGame(name, client);
             return "close";
         }
     }

@@ -7,6 +7,7 @@ using Ex1;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Net.Sockets;
+using Newtonsoft.Json;
 
 namespace Server
 {
@@ -21,12 +22,14 @@ namespace Server
         private readonly ISearcher<Position>[] _algorithms;
         private readonly DFSMazeGenerator _generator;
         private readonly Dictionary<string, Maze> _mazes;
+        private Dictionary<string, Game> _games;
 
         private readonly Dictionary<string, MazeSolution> _solutions;
 
         public MazeModel()
         {
             _mazes = new Dictionary<string, Maze>();
+            _games = new Dictionary<string, Game>();
             _solutions = new Dictionary<string, MazeSolution>();
             _generator = new DFSMazeGenerator();
             _algorithms = new ISearcher<Position>[2];
@@ -66,16 +69,52 @@ namespace Server
 
         public string CreateList()
         {
-            if(_mazes.Count == 0)
+            if(_games.Count == 0)
             {
                 return "no games avaliable\n";
             }
             StringBuilder buildList = new StringBuilder();
-            foreach (var item in _mazes)
+            List<string> names = new List<string>(_games.Keys.Count);
+            foreach (string name in _games.Keys)
             {
-                buildList.Append(item.Key + "\n");
+                names.Add(name);
+            }   
+            return JsonConvert.SerializeObject(names, Formatting.Indented);
+        }
+
+        public string NewGame(String name, int rows, int cols, TcpClient player1)
+        {
+            Maze maze = new Maze(rows, cols);
+            Game game = new Game(name, maze, player1);
+            _games.Add(name, game);
+            while (game.waitToSecondPlayer())
+            {
+                System.Threading.Thread.Sleep(10);
             }
-            return buildList.ToString();
+            return maze.ToJSON();
+        }
+
+        public string JoinGame(String name, TcpClient player2)
+        {
+            Game game;
+            if (_games.TryGetValue(name, out game))
+            {
+                game.AddPlayer(player2);
+                game.Start();
+                return game._maze.ToJSON();
+            }
+            return "the name: " + name + "does not exist";
+        }
+
+        public string finishGame(string name, TcpClient client)
+        {
+            Game game;
+            if (_games.TryGetValue(name, out game))
+            {
+                game.finishGame(client);
+                return "close";
+            }
+            return "the name: " + name + "does not exist";
         }
     }
 }
