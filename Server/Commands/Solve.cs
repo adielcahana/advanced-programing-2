@@ -16,7 +16,8 @@ namespace Server.Commands
         {
             string name = args[0];
             bool type;
-            if (!bool.TryParse(args[1], out type))
+            bool result;
+            if (result = bool.TryParse(args[1], out type))
             {
                 Algorithm alg = type ? Algorithm.DFS : Algorithm.BFS;
                 MazeSolution solution = model.SolveMaze(name, alg);

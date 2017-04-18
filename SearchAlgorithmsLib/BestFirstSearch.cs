@@ -34,13 +34,14 @@ namespace SearchAlgorithmsLib
                     else
                     {
                         State<T> lastPath;
-                        states.TryGetValue(s.GetHashCode(), out lastPath);
-                        Debug.Assert(lastPath != null, "lastPath in BFS is null");
-                        if (s.Cost < lastPath.Cost)
+                        if (states.TryGetValue(s.GetHashCode(), out lastPath))
                         {
-                            lastPath.Cost = s.Cost;
-                            lastPath.CameFrom = s.CameFrom;
-                            Update(lastPath);
+                            if (s.Cost < lastPath.Cost)
+                            {
+                                lastPath.Cost = s.Cost;
+                                lastPath.CameFrom = s.CameFrom;
+                                Update(lastPath);
+                            }
                         }
                     }
             }
