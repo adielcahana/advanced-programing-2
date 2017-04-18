@@ -44,7 +44,7 @@ namespace Client
             string command = null;
             do
             {
-                Console.WriteLine("You are in multiple game");
+                Console.WriteLine("start multiple game\n");
                 using (NetworkStream stream = client.GetStream())
                 using (StreamReader reader = new StreamReader(stream))
                 using (StreamWriter writer = new StreamWriter(stream))

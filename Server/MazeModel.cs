@@ -113,7 +113,7 @@ namespace Server
                 game.finishGame(client);
                 return "close";
             }
-            return "the name: " + name + "does not exist";
+            return "the name: " + name + "does not exist\n";
         }
     }
 }

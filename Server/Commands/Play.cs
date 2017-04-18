@@ -13,7 +13,7 @@ namespace Server.Commands
         public Play()
         {
             moves = new Dictionary<string, Move>();
-           /* moves.Add("up", new Move("up"));
+            /*moves.Add("up", new Move("up"));
             moves.Add("down", new Move("down"));
             moves.Add("right", new Move("right"));
             moves.Add("leftt", new Move("left"));*/

@@ -1,16 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 using MazeLib;
+using System.Collections.Generic;
+using Server.Commands;
+using System.Linq;
 
 namespace Server
 {
-    class Game
+    class Game : IController
     {
+        private MazeModel _model;
+        private Dictionary<string, ICommand> commands;
         private int finish;
 
         private TcpClient _player1;
@@ -22,13 +24,28 @@ namespace Server
         private string _name;
         public Maze _maze { get; }
 
-        public Game(string name, Maze maze, TcpClient player1)
+        public Game(string name, Maze maze, TcpClient player1, MazeModel model)
         {
+            _model = model;
+            commands = new Dictionary<string, ICommand>();
+            commands.Add("play", new Play());
+            commands.Add("close", new Close(model));
             finish = 0;
             _maze = maze;
             _name = name;
             _player1 = player1;
             _player1Position = maze.InitialPos;
+        }
+
+        public string ExecuteCommand(string commandLine, TcpClient client = null)
+        {
+            string[] arr = commandLine.Split(' ');
+            string commandKey = arr[0];
+            if (!commands.ContainsKey(commandKey))
+                return "Command not found\n";
+            string[] args = arr.Skip(1).ToArray();
+            ICommand command = commands[commandKey];
+            return command.Execute(args, client);
         }
 
         public void AddPlayer(TcpClient player2)
