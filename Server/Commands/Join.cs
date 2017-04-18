@@ -9,15 +9,16 @@ namespace Server.Commands
 {
     class Join : ICommand
     {
-        private Controller _controller;
-        public Join(Controller controller)
+        private MazeModel _model;
+
+        public Join(MazeModel model)
         {
-            this._controller = controller;
+            this._model = model;
         }
         public string Execute(string[] args, TcpClient client = null)
         {
             string name = args[0];
-            return _controller.JoinGame(name, client);
+            return _model.JoinGame(name, client);
         }
     }
 }

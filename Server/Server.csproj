@@ -78,6 +78,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="IClientHandler.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="IController.cs" />
     <Compile Include="MazeModel.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Program.cs" />

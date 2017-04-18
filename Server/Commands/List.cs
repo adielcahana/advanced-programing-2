@@ -12,7 +12,7 @@ namespace Server.Commands
         }
         public string Execute(string[] args, TcpClient client = null)
         {
-            string list = model.CreateList();
+            return model.CreateList();
         }
 
     }
