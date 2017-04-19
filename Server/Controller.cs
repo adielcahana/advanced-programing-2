@@ -7,19 +7,8 @@ namespace Server
 {
     class Controller : IController
     {
-        private Dictionary<string, ICommand> commands;
-        private MazeModel _model;
-
-        public Controller(MazeModel model)
-        {
-            this._model = model;
-            commands = new Dictionary<string, ICommand>();
-            commands.Add("generate", new Generate(model));
-            commands.Add("solve", new Solve(model));
-            commands.Add("start", new Start(model, this));
-            commands.Add("join", new Join(model));
-            commands.Add("list", new List(model));
-        }
+        protected Dictionary<string, ICommand> commands;
+        public Controller(){}
 
         public string ExecuteCommand(string commandLine, TcpClient client = null)
         {
