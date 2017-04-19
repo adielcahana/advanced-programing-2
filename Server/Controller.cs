@@ -7,7 +7,7 @@ namespace Server
 {
     class Controller : IController
     {
-        protected Dictionary<string, ICommand> commands;
+        protected Dictionary<string, ICommand> commands; 
         public Controller(){}
 
         public string ExecuteCommand(string commandLine, TcpClient client = null)
