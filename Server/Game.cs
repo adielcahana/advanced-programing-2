@@ -16,10 +16,13 @@ namespace Server
         private Stack<string> movesStack1;
         private Stack<string> movesStack2;
         private int finish;
+
         private TcpClient _player1;
         private TcpClient _player2;
+
         private Position _player1Position;
         private Position _player2Position;
+
         private string _name;
         public Maze _maze { get; }
 
