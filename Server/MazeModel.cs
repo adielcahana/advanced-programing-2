@@ -4,7 +4,6 @@ using MazeGeneratorLib;
 using SearchAlgorithmsLib;
 using MazeLib;
 using Ex1;
-using System.Text;
 using System.Net.Sockets;
 using Newtonsoft.Json;
 
@@ -83,7 +82,9 @@ namespace Server
         public string NewGame(String name, int rows, int cols, TcpClient player1)
         {
             Maze maze = new Maze(rows, cols);
-            Game game = new Game(name, maze, player1);
+            Game game = new Game(name, maze, player1, this);
+            Player player = new Player(game);
+            player.HandleClient(player1);
             _games.Add(name, game);
             while (game.waitToSecondPlayer())
             {
@@ -97,8 +98,9 @@ namespace Server
             Game game;
             if (_games.TryGetValue(name, out game))
             {
+                Player player = new Player(game);
                 game.AddPlayer(player2);
-                game.Start();
+                player.HandleClient(player2);
                 return game._maze.ToJSON();
             }
             return "the name: " + name + "does not exist";
@@ -109,7 +111,6 @@ namespace Server
             Game game;
             if (_games.TryGetValue(name, out game))
             {
-                game.finishGame(client);
                 return "close";
             }
             return "the name: " + name + "does not exist\n";

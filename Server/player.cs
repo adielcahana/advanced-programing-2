@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Server
@@ -13,7 +10,7 @@ namespace Server
         private IController _gameController;
         public Player(IController game)
         {
-            _gameController = game;
+            _gameController = game
         }
         public void HandleClient(TcpClient client)
         {
@@ -30,7 +27,7 @@ namespace Server
             new Task(() => // send moves
             {
                 {
-                    string commandLine = writer.WriteLine("fssfsfsfffff");
+                    string commandLine = null;
                     Console.WriteLine(commandLine);
                     string result = _gameController.ExecuteCommand(commandLine, client);
                     writer.Write(result);

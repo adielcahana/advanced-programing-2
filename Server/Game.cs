@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using MazeLib;
@@ -13,9 +12,9 @@ namespace Server
     {
         private MazeModel _model;
         private Dictionary<string, ICommand> commands;
-        private Stack<string> movesStack1;
-        private Stack<string> movesStack2;
         private int finish;
+
+        private int playersInTheGame;
 
         private TcpClient _player1;
         private TcpClient _player2;
@@ -30,12 +29,11 @@ namespace Server
         {
             _model = model;
             commands = new Dictionary<string, ICommand>();
-            movesStack1 = new Stack<string>();
-            movesStack2 = new Stack<string>();
             finish = 0;
+            playersInTheGame = 1;
+            _player1 = player1;
             _maze = maze;
             _name = name;
-            _player1 = player1;
             _player1Position = maze.InitialPos;
             commands.Add("play", new Play(_name));
             commands.Add("close", new Close(model));
@@ -49,6 +47,7 @@ namespace Server
                 return "Command not found\n";
             string[] args = arr.Skip(1).ToArray();
             ICommand command = commands[commandKey];
+            // send command to second player
             return command.Execute(args, client);
         }
 
@@ -63,7 +62,7 @@ namespace Server
             return _player2 == null;
         }
 
-        public bool isRunning()
+        /*public bool isRunning()
         {
             if(finish != 0)
             {
@@ -71,9 +70,9 @@ namespace Server
             }
             Position goal = _maze.GoalPos;
             return !(_player1Position.Equals(goal) || _player2Position.Equals(goal));
-        }
+        }*/
 
-        public void finishGame(TcpClient player)
+        /*public void finishGame(TcpClient player)
         {
             if (player == _player1)
             {
@@ -83,9 +82,9 @@ namespace Server
             {
                 finish = 2;
             }
-        }
+        }*/
 
-        private void Play(TcpClient player, Position playerPosition)
+        /*private void Play(TcpClient player, Position playerPosition)
         {
             new Task(() =>
             {
@@ -98,9 +97,9 @@ namespace Server
                 } while (move.Equals("close"));
             }).Start();
             
-        }
+        }*/
 
-        public void Start()
+        /*public void Start()
         {
             new Task(() =>
             {
@@ -150,6 +149,6 @@ namespace Server
                 _player1.Close();
                 _player2.Close();
             }).Start();
-        }
+        }*/
     }
 }

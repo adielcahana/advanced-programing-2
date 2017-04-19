@@ -14,7 +14,7 @@ namespace Server.Commands
         private string direcion;
         public Play(string name)
         {
-            this.gameName = name;
+            gameName = name;
         }
         public string Execute(string[] args, TcpClient client = null)
         {
