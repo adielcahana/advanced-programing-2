@@ -24,12 +24,6 @@ namespace Server.Commands
             return toJSON();
         }
 
-        private string toJSON()
-        {
-            JObject play = new JObject();
-            play["Name"] = _gameName;
-            play["Direction"] = Direction;
-            return play.ToString();
-        }
+
     }
 }

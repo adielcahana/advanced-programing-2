@@ -87,6 +87,8 @@ namespace Server
             _games.Add(name, game);
 
             game.initialize();
+            game.Start();
+
             return maze.ToJSON();
         }
 
@@ -104,6 +106,7 @@ namespace Server
         public void finishGame(string name, TcpClient client)
         {
             Game game;
+            _games[name].Finish();
             _games.Remove(name);
         }
     }

@@ -12,7 +12,7 @@ namespace Server
             commands = new Dictionary<string, ICommand>();
             commands.Add("generate", new Generate(model));
             commands.Add("solve", new Solve(model));
-            commands.Add("start", new Start(model, this));
+            commands.Add("start", new Start(model));
             commands.Add("join", new Join(model));
             commands.Add("list", new List(model));
         }

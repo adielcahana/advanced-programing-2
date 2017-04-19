@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Concurrent;
+using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using MazeLib;
@@ -12,12 +13,14 @@ namespace Server
     {
         private MazeModel _model;
         private Dictionary<string, ICommand> commands;
-        private int finish;
 
         private List<TcpClient> _players;
         private List<Position> _positions;
-        private Stack<string> _moves;
+        private ConcurrentQueue<Move> _moves;
+        private ConcurrentQueue<Move> _changes;
+        public static Dictionary<string, Direction> directions;
 
+        private bool _gameFinished;
         private bool _canContinue;
 
         private string _name;
@@ -25,9 +28,16 @@ namespace Server
 
         public Game(string name, Maze maze, MazeModel model)
         {
+            directions = new Dictionary<string, Direction>();
+            directions.Add(Direction.Up.ToString(), Direction.Up);
+            directions.Add(Direction.Down.ToString(), Direction.Down);
+            directions.Add(Direction.Right.ToString(), Direction.Right);
+            directions.Add(Direction.Left.ToString(), Direction.Left);
+
             _players = new List<TcpClient>();
             _positions = new List<Position>();
-            _moves = new Stack<string>();
+            _moves = new ConcurrentQueue<Move>();
+            _changes = new ConcurrentQueue<Move>();
 
             _name = name;
             _model = model;
@@ -38,11 +48,14 @@ namespace Server
             commands.Add("close", new Close(model));
 
             _canContinue = false;
+            _gameFinished = false;
         }
 
-        public string ExecuteCommand(string commandLine, TcpClient client = null)
+        public override string ExecuteCommand(string commandLine, TcpClient client = null)
         {
             string move = base.ExecuteCommand(commandLine, client);
+            _moves.Enqueue(new Move(directions[move], _name, _players.IndexOf(client)));
+            return null;
         }
 
         public void AddPlayer(TcpClient client)
@@ -66,6 +79,7 @@ namespace Server
             player.HandleClient(_players[1]);
         }
 
+
         /*public bool isRunning()
         {
             if(finish != 0)
@@ -76,17 +90,10 @@ namespace Server
             return !(_player1Position.Equals(goal) || _player2Position.Equals(goal));
         }*/
 
-        /*public void finishGame(TcpClient player)
+        public void Finish(TcpClient player)
         {
-            if (player == _player1)
-            {
-                finish = 1;
-            }
-            else
-            {
-                finish = 2;
-            }
-        }*/
+            _gameFinished = true;
+        }
 
         /*private void Play(TcpClient player, Position playerPosition)
         {
@@ -103,56 +110,41 @@ namespace Server
             
         }*/
 
-        /*public void Start()
+        public void Start()
         {
             new Task(() =>
             {
+                Move move;
+                while (!_gameFinished)
                 {
-                    while (isRunning())
+                    while (_moves.IsEmpty)
                     {
-                        Play(_player1, _player1Position);
-                        Play(_player2, _player2Position);
+                        System.Threading.Thread.Sleep(10);
                     }
-                    if (_player1Position.Equals(_maze.GoalPos))
+                    if (_moves.TryDequeue(out move))
                     {
-                        using (NetworkStream stream = _player1.GetStream())
-                        using (StreamWriter writer = new StreamWriter(stream))
+                        int row = _positions[move.ClientId].Row;
+                        int col = _positions[move.ClientId].Col;
+                        switch (move.MoveDirection)
                         {
-                            writer.WriteLine("you won");
-                            writer.Flush();
+                            case (Direction.Up):
+                                _positions[move.ClientId] = new Position(row - 1, col);
+                                break;
+                            case (Direction.Down):
+                                _positions[move.ClientId] = new Position(row + 1, col);
+                                break;
+                            case (Direction.Right):
+                                _positions[move.ClientId] = new Position(row, col + 1);
+                                break;
+                            case (Direction.Left):
+                                _positions[move.ClientId] = new Position(row, col - 1);
+                                break;
                         }
+                        _changes.Enqueue(move);
                     }
-                    else if (_player2Position.Equals(_maze.GoalPos))
-                    {
-                        using (NetworkStream stream = _player2.GetStream())
-                        using (StreamWriter writer = new StreamWriter(stream))
-                        {
-                            writer.WriteLine("you won");
-                            writer.Flush();
-                        }
-                    }
-                    else if (finish == 1)
-                    {
-                        using (NetworkStream stream = _player2.GetStream())
-                        using (StreamWriter writer = new StreamWriter(stream))
-                        {
-                            writer.WriteLine("close");
-                            writer.Flush();
-                        }
-                    }
-                    else
-                    {
-                        using (NetworkStream stream = _player1.GetStream())
-                        using (StreamWriter writer = new StreamWriter(stream))
-                        {
-                            writer.WriteLine("close");
-                            writer.Flush();
-                        }
-                    }
+                    _changes.Enqueue(new Move( Direction.Up , null, -1));
                 }
-                _player1.Close();
-                _player2.Close();
             }).Start();
-        }*/
+        }
     }
 }
