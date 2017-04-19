@@ -4,9 +4,9 @@ namespace Server.Commands
 {
     class List : ICommand
     {
-        private MazeModel model;
+        private IModel model;
 
-        public List(MazeModel model)
+        public List(IModel model)
         {
             this.model = model;
         }

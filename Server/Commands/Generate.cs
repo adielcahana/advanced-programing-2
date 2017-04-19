@@ -5,9 +5,9 @@ namespace Server.Commands
 {
     internal class Generate : ICommand
     {
-        private readonly MazeModel model;
+        private readonly IModel model;
 
-        public Generate(MazeModel model)
+        public Generate(IModel model)
         {
             this.model = model;
         }

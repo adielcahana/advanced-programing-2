@@ -8,58 +8,62 @@ using System.Linq;
 
 namespace Server
 {
-    class Game : IController
+    class Game : Controller
     {
         private MazeModel _model;
         private Dictionary<string, ICommand> commands;
         private int finish;
 
-        private int playersInTheGame;
+        private List<TcpClient> _players;
+        private List<Position> _positions;
+        private Stack<string> _moves;
 
-        private TcpClient _player1;
-        private TcpClient _player2;
-
-        private Position _player1Position;
-        private Position _player2Position;
+        private bool _canContinue;
 
         private string _name;
-        public Maze _maze { get; }
+        public Maze Maze { get; }
 
-        public Game(string name, Maze maze, TcpClient player1, MazeModel model)
+        public Game(string name, Maze maze, MazeModel model)
         {
-            _model = model;
-            commands = new Dictionary<string, ICommand>();
-            finish = 0;
-            playersInTheGame = 1;
-            _player1 = player1;
-            _maze = maze;
+            _players = new List<TcpClient>();
+            _positions = new List<Position>();
+            _moves = new Stack<string>();
+
             _name = name;
-            _player1Position = maze.InitialPos;
+            _model = model;
+
+            Maze = maze;
+            commands = new Dictionary<string, ICommand>();
             commands.Add("play", new Play(_name));
             commands.Add("close", new Close(model));
+
+            _canContinue = false;
         }
 
         public string ExecuteCommand(string commandLine, TcpClient client = null)
         {
-            string[] arr = commandLine.Split(' ');
-            string commandKey = arr[0];
-            if (!commands.ContainsKey(commandKey))
-                return "Command not found\n";
-            string[] args = arr.Skip(1).ToArray();
-            ICommand command = commands[commandKey];
-            // send command to second player
-            return command.Execute(args, client);
+            string move = base.ExecuteCommand(commandLine, client);
         }
 
-        public void AddPlayer(TcpClient player2)
+        public void AddPlayer(TcpClient client)
         {
-            _player2 = player2;
-            _player2Position = _maze.InitialPos;
+            _players.Add(client);
+            _positions.Add(Maze.InitialPos);
+            if (_players.Count == 2)
+            {
+                _canContinue = true;
+            }
         }
 
-        public bool waitToSecondPlayer()
+        public void initialize()
         {
-            return _player2 == null;
+            Player player = new Player(this);
+            while (!_canContinue)
+            {
+                System.Threading.Thread.Sleep(10);
+            }
+            player.HandleClient(_players[0]);
+            player.HandleClient(_players[1]);
         }
 
         /*public bool isRunning()

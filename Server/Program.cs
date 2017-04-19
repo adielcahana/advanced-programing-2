@@ -4,9 +4,9 @@
     {
         private static void Main(string[] args)
         {
-            MazeModel model = new MazeModel();
-            Controller controller = new Controller(model);
-            ClientHandler ch = new ClientHandler(controller);
+            IModel model = new MazeModel();
+            IController controller = new ServerController(model);
+            IClientHandler ch = new ClientHandler(controller);
             Server server = new Server(8000, ch);
             server.Start();
             server.Stop();

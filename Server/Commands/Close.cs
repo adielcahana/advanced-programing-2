@@ -4,9 +4,9 @@ namespace Server.Commands
 {
     class Close : ICommand
     {
-        private MazeModel _model;
+        private IModel _model;
 
-        public Close(MazeModel model)
+        public Close(IModel model)
         {
             this._model = model;
         }

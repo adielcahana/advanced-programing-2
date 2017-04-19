@@ -9,9 +9,9 @@ namespace Server.Commands
 {
     class Join : ICommand
     {
-        private MazeModel _model;
+        private IModel _model;
 
-        public Join(MazeModel model)
+        public Join(IModel model)
         {
             this._model = model;
         }

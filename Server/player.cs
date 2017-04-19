@@ -17,21 +17,26 @@ namespace Server
             NetworkStream stream = client.GetStream();
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream);
+            string output = null;
+
             new Task(() => //get moves
             {
+                do
                 {
-                    string commandLine = reader.ReadLine();
-                    _gameController.ExecuteCommand(commandLine, client);
-                }
+                    string input = reader.ReadLine();
+                    _gameController.ExecuteCommand(input, client);
+                } while (!output.Equals("close"));
             }).Start();
+
             new Task(() => // send moves
             {
                 {
-                    string commandLine = null;
-                    Console.WriteLine(commandLine);
-                    string result = _gameController.ExecuteCommand(commandLine, client);
-                    writer.Write(result);
-                    writer.Flush();
+                    do
+                    {
+                        output = _gameController.getMessage();
+                        writer.Write(output);
+                        writer.Flush();
+                    } while (!output.Equals("close"));
                 }
             }).Start();
         }
