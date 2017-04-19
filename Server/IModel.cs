@@ -15,6 +15,7 @@ namespace Server
         MazeSolution SolveMaze(string name, Algorithm algorithm);
         string NewGame(String name, int rows, int cols, TcpClient player1);
         string JoinGame(String name, TcpClient player2);
-        string finishGame(string name, TcpClient client);
+        string CreateList();
+        void finishGame(string name, TcpClient client);
     }
 }
