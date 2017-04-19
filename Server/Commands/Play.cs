@@ -10,29 +10,25 @@ namespace Server.Commands
 {
     class Play : ICommand
     {
-        private string gameName;
-        private string direcion;
+        private string _gameName;
+        private string Direction {set ; get;}
+
         public Play(string name)
         {
-            gameName = name;
+            _gameName = name;
         }
+
         public string Execute(string[] args, TcpClient client = null)
         {
-            string move = args[0];
-            setDirection(move);
+            Direction = args[0];
             return toJSON();
-        }
-        
-        private void setDirection(string move)
-        {
-            direcion = move;
         }
 
         private string toJSON()
         {
             JObject play = new JObject();
-            play["Name"] = gameName;
-            play["Direction"] = direcion;
+            play["Name"] = _gameName;
+            play["Direction"] = Direction;
             return play.ToString();
         }
     }

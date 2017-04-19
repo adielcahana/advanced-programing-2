@@ -5,9 +5,9 @@ namespace Server.Commands
 {
     internal class Solve : ICommand
     {
-        private readonly MazeModel model;
+        private readonly IModel model;
 
-        public Solve(MazeModel model)
+        public Solve(IModel model)
         {
             this.model = model;
         }

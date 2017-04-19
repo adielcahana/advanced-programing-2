@@ -8,9 +8,9 @@ namespace Server.Commands
 {
     class Start : ICommand
     {
-        private MazeModel _model;
+        private IModel _model;
 
-        public Start(MazeModel model, Controller controller)
+        public Start(IModel model)
         {
             _model = model;
         }

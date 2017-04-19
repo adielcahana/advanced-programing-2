@@ -15,7 +15,7 @@ namespace Server
         DFS
     }
 
-    internal class MazeModel
+    internal class MazeModel : IModel
     {
         private readonly ISearcher<Position>[] _algorithms;
         private readonly DFSMazeGenerator _generator;
@@ -82,14 +82,11 @@ namespace Server
         public string NewGame(String name, int rows, int cols, TcpClient player1)
         {
             Maze maze = new Maze(rows, cols);
-            Game game = new Game(name, maze, player1, this);
-            Player player = new Player(game);
-            player.HandleClient(player1);
+            Game game = new Game(name, maze, this);
+            game.AddPlayer(player1);
             _games.Add(name, game);
-            while (game.waitToSecondPlayer())
-            {
-                System.Threading.Thread.Sleep(10);
-            }
+
+            game.initialize();
             return maze.ToJSON();
         }
 
@@ -98,22 +95,16 @@ namespace Server
             Game game;
             if (_games.TryGetValue(name, out game))
             {
-                Player player = new Player(game);
                 game.AddPlayer(player2);
-                player.HandleClient(player2);
-                return game._maze.ToJSON();
+                return game.Maze.ToJSON();
             }
             return "the name: " + name + "does not exist";
         }
 
-        public string finishGame(string name, TcpClient client)
+        public void finishGame(string name, TcpClient client)
         {
             Game game;
-            if (_games.TryGetValue(name, out game))
-            {
-                return "close";
-            }
-            return "the name: " + name + "does not exist\n";
+            _games.Remove(name);
         }
     }
 }

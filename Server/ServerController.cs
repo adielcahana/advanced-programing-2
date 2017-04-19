@@ -5,8 +5,8 @@ namespace Server
 {
     class ServerController : Controller
     {
-        private MazeModel _model;
-        public ServerController(MazeModel model)
+        private IModel _model;
+        public ServerController(IModel model)
         {
             _model = model;
             commands = new Dictionary<string, ICommand>();

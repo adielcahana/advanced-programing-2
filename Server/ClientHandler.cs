@@ -7,9 +7,9 @@ namespace Server
 {
     class ClientHandler : IClientHandler
     {
-        private Controller controller;
+        private IController controller;
 
-        public ClientHandler(Controller controller)
+        public ClientHandler(IController controller)
         {
             this.controller = controller;
         }
