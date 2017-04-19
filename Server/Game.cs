@@ -13,6 +13,8 @@ namespace Server
     {
         private MazeModel _model;
         private Dictionary<string, ICommand> commands;
+        private Stack<string> movesStack1;
+        private Stack<string> movesStack2;
         private int finish;
         private TcpClient _player1;
         private TcpClient _player2;
@@ -25,13 +27,15 @@ namespace Server
         {
             _model = model;
             commands = new Dictionary<string, ICommand>();
-            commands.Add("play", new Play());
-            commands.Add("close", new Close(model));
+            movesStack1 = new Stack<string>();
+            movesStack2 = new Stack<string>();
             finish = 0;
             _maze = maze;
             _name = name;
             _player1 = player1;
             _player1Position = maze.InitialPos;
+            commands.Add("play", new Play(_name));
+            commands.Add("close", new Close(model));
         }
 
         public string ExecuteCommand(string commandLine, TcpClient client = null)
@@ -78,14 +82,19 @@ namespace Server
             }
         }
 
-        private void PlayOneTurn(TcpClient player, Position playerPosition)
+        private void Play(TcpClient player, Position playerPosition)
         {
-            using (NetworkStream stream = player.GetStream())
-            using (StreamReader reader = new StreamReader(stream))
-            using (StreamWriter writer = new StreamWriter(stream))
+            new Task(() =>
             {
-                string move = reader.ReadLine();
-            }
+                string move = null;
+                using (NetworkStream stream = _player1.GetStream())
+                using (StreamReader reader = new StreamReader(stream))
+                do
+                {
+                    move = reader.ReadLine();
+                } while (move.Equals("close"));
+            }).Start();
+            
         }
 
         public void Start()
@@ -95,8 +104,8 @@ namespace Server
                 {
                     while (isRunning())
                     {
-                        PlayOneTurn(_player1, _player1Position);
-                        PlayOneTurn(_player2, _player2Position);
+                        Play(_player1, _player1Position);
+                        Play(_player2, _player2Position);
                     }
                     if (_player1Position.Equals(_maze.GoalPos))
                     {

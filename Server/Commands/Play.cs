@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -9,18 +10,30 @@ namespace Server.Commands
 {
     class Play : ICommand
     {
-        private static Dictionary<string, Move> moves;
-        public Play()
+        private string gameName;
+        private string direcion;
+        public Play(string name)
         {
-            moves = new Dictionary<string, Move>();
-            /*moves.Add("up", new Move("up"));
-            moves.Add("down", new Move("down"));
-            moves.Add("right", new Move("right"));
-            moves.Add("leftt", new Move("left"));*/
+            this.gameName = name;
         }
         public string Execute(string[] args, TcpClient client = null)
         {
-            throw new NotImplementedException();
+            string move = args[0];
+            setDirection(move);
+            return toJSON();
+        }
+        
+        private void setDirection(string move)
+        {
+            direcion = move;
+        }
+
+        private string toJSON()
+        {
+            JObject play = new JObject();
+            play["Name"] = gameName;
+            play["Direction"] = direcion;
+            return play.ToString();
         }
     }
 }

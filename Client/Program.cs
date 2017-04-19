@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Client
 {
@@ -42,23 +43,30 @@ namespace Client
         {
             string answer = null;
             string command = null;
-            do
+            Console.WriteLine("start multiple game\n");
+            NetworkStream stream = client.GetStream();
+            StreamReader reader = new StreamReader(stream);
+            StreamWriter writer = new StreamWriter(stream);
+            new Task(() =>
             {
-                Console.WriteLine("start multiple game\n");
-                using (NetworkStream stream = client.GetStream())
-                using (StreamReader reader = new StreamReader(stream))
-                using (StreamWriter writer = new StreamWriter(stream))
+                do
                 {
                     answer = "";
-                    Console.Write("Please enter a command: ");
-                    command = Console.ReadLine();
-                    writer.WriteLine(command);
-                    writer.Flush();
-                    // Get result from server
                     answer = reader.ReadToEnd();
                     Console.Write(answer);
-                }
+                } while (!answer.Equals("close"));
+                }).Start();
+            do
+            {
+                Console.Write("Please enter a command: ");
+                command = Console.ReadLine();
+                writer.WriteLine(command);
+                writer.Flush();
+                // Get result from server
             } while (!answer.Equals("close"));
+            stream.Close();
+            reader.Close();
+            writer.Close();
             return command;
         }
     }

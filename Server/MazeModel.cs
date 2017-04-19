@@ -73,7 +73,6 @@ namespace Server
             {
                 return "no games avaliable\n";
             }
-            StringBuilder buildList = new StringBuilder();
             List<string> names = new List<string>(_games.Keys.Count);
             foreach (string name in _games.Keys)
             {

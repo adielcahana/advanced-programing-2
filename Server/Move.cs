@@ -8,5 +8,14 @@ namespace Server
 {
     class Move
     {
+        internal class Play
+        {
+            private string move;
+
+            public Play(string move)
+            {
+                this.move = move;
+            }
+        }
     }
 }
