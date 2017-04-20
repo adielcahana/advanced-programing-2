@@ -29,7 +29,7 @@ namespace Client
                     writer.Flush();
                     // Get result from server
                     answer = reader.ReadToEnd();
-                    Console.Write(answer);
+                    Console.Write(answer + "\n");
                 }
                 if (command.Equals("start") || command.Equals("join"))
                 {
