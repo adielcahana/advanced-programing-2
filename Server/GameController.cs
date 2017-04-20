@@ -41,20 +41,12 @@ namespace Server
             _model = model;
 
             Maze = maze;
-            commands = new Dictionary<string, ICommand>();
             commands.Add("play", new Play(_name, this));
             commands.Add("close", new Close(model));
 
             _canContinue = false;
             _gameFinished = false;
             lastReaderIndex = -1;
-        }
-
-        public override string ExecuteCommand(string commandLine, TcpClient client = null)
-        {
-            string move = base.ExecuteCommand(commandLine, client);
-            _moves.Enqueue(new Move(directions[move], _name, _players.IndexOf(client)));
-            return null;
         }
 
         public void AddPlayer(TcpClient client)
@@ -85,11 +77,11 @@ namespace Server
             int clientID = 0;
             if (client == _players[0])
             {
-                clientID = 1;
+                clientID = 0;
             }
             else
             {
-                clientID = 2;
+                clientID = 1;
             }
             _moves.Enqueue(new Move(dir, _name, clientID));
         }

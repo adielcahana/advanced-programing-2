@@ -7,8 +7,12 @@ namespace Server
 {
     class Controller : IController
     {
-        protected Dictionary<string, ICommand> commands; 
-        public Controller(){}
+        protected Dictionary<string, ICommand> commands;
+
+        public Controller()
+        {
+            commands = new Dictionary<string, ICommand>();
+        }
 
         public virtual string ExecuteCommand(string commandLine, TcpClient client = null)
         {

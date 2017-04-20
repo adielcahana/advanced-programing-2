@@ -9,7 +9,6 @@ namespace Server
         public ServerController(IModel model)
         {
             _model = model;
-            commands = new Dictionary<string, ICommand>();
             commands.Add("generate", new Generate(model));
             commands.Add("solve", new Solve(model));
             commands.Add("start", new Start(model));
