@@ -16,7 +16,7 @@ namespace Client
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
             string answer = null;
             string command = null;
-            while(true)
+            while (true)
             {
                 TcpClient client = new TcpClient();
                 client.Connect(ep);
@@ -31,12 +31,19 @@ namespace Client
                     writer.WriteLine(command);
                     writer.Flush();
                     // Get result from server
-                    answer = reader.ReadLine();
-                    Console.WriteLine(answer);
+                    while (reader.Peek() >= 0)
+                    {
+                        answer += reader.ReadLine();
+                        answer += "\n";
+                    }
+                    Console.Write(answer);
                 }
                 if (command.Contains("start") || command.Contains("join"))
                 {
-                    clientMultipleGame(client);
+                    if (!answer.Contains("does not exist"))
+                    {
+                        clientMultipleGame(client);
+                    }
                 }
                 stream.Close();
                 reader.Close();
@@ -48,25 +55,40 @@ namespace Client
         private void clientMultipleGame(TcpClient client)
         {
             string answer = "";
-            string command = "";
+            string command = null;
             Console.WriteLine("start multiple game\n");
-            new Task(() =>
+            Task read = new Task(() =>
             {
                 do
                 {
-                    answer = "";
                     answer = reader.ReadLine();
-                    Console.WriteLine(answer);
+                    if (answer == null)
+                    {
+                        answer = "";
+                    }
+                    else
+                    {
+                        Console.WriteLine(answer);
+                    }
                 } while (!answer.Equals("close"));
-                }).Start();
-            do
+            });
+            
+            Task write = new Task(() =>
             {
-                Console.Write("Please enter a command: ");
-                command = Console.ReadLine();
-                writer.WriteLine(command);
-                writer.Flush();
-                // Get result from server
-            } while (!answer.Equals("close"));
+                do
+                {
+                    command = Console.ReadLine();
+                    writer.WriteLine(command);
+                    writer.Flush();
+                    // Get result from server
+                } while (answer == null || !answer.Equals("close"));
+            });
+
+            read.Start();
+            write.Start();
+
+            read.Wait();
+            write.Wait();
         }
     }
 }

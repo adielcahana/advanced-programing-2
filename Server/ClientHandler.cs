@@ -18,15 +18,21 @@ namespace Server
         {
             new Task(() =>
             {
-                using (NetworkStream stream = client.GetStream())
-                using (StreamReader reader = new StreamReader(stream))
-                using (StreamWriter writer = new StreamWriter(stream))
+                NetworkStream stream = client.GetStream();
+                StreamReader reader = new StreamReader(stream);
+                StreamWriter writer = new StreamWriter(stream);
                 {
                     string commandLine = reader.ReadLine();
                     Console.WriteLine(commandLine);
                     string result = controller.ExecuteCommand(commandLine, client);
-                    writer.Write(result);
+                    writer.WriteLine(result);
                     writer.Flush();
+                    if(!commandLine.Contains("start") && commandLine.Contains("join"))
+                    {
+                        stream.Close();
+                        reader.Close();
+                        writer.Close();
+                    }
                 }
             }).Start();
         }
