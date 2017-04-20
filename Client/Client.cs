@@ -31,8 +31,8 @@ namespace Client
                     writer.WriteLine(command);
                     writer.Flush();
                     // Get result from server
-                    answer = reader.ReadToEnd();
-                    Console.Write(answer + "\n");
+                    answer = reader.ReadLine();
+                    Console.WriteLine(answer);
                 }
                 if (command.Contains("start") || command.Contains("join"))
                 {
@@ -47,16 +47,16 @@ namespace Client
 
         private void clientMultipleGame(TcpClient client)
         {
-            string answer = null;
-            string command = null;
+            string answer = "";
+            string command = "";
             Console.WriteLine("start multiple game\n");
             new Task(() =>
             {
                 do
                 {
                     answer = "";
-                    answer = reader.ReadToEnd();
-                    Console.Write(answer);
+                    answer = reader.ReadLine();
+                    Console.WriteLine(answer);
                 } while (!answer.Equals("close"));
                 }).Start();
             do
