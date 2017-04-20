@@ -12,35 +12,30 @@ namespace Server
         {
             _gameController = game;
         }
+
         public void HandleClient(TcpClient client)
         {
             string output = "";
             NetworkStream stream = client.GetStream();
-            StreamReader reader = new StreamReader(stream);
-            StreamWriter writer = new StreamWriter(stream);
-                new Task(() => //get moves
+            new Task(() => //get moves
             {
+                StreamReader reader = new StreamReader(stream);
                 do
                 {
-                    try
-                    {
-                        string input = reader.ReadLine();
-                        _gameController.ExecuteCommand(input, client);
-                    }
-                    catch (Exception e) { }
+                    string input = reader.ReadLine();
+                    _gameController.ExecuteCommand(input, client);
                 } while (!output.Equals("close"));
             }).Start();
 
             new Task(() => // send moves
             {
+                StreamWriter writer = new StreamWriter(stream);
+                do
                 {
-                        do
-                        {
-                        output = _gameController.getState();
-                        writer.Write(output);
-                        writer.Flush();
-                    } while (!output.Equals("close"));
-                }
+                    output = _gameController.getState(client);
+                    writer.WriteLine(output);
+                    writer.Flush();
+                } while (!output.Equals("close"));
             }).Start();
         }
     }

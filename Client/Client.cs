@@ -32,11 +32,14 @@ namespace Client
                     writer.Flush();
                     // Get result from server
                     answer = reader.ReadToEnd();
-                    Console.Write(answer + "\n");
+                    Console.WriteLine(answer);
                 }
                 if (command.Contains("start") || command.Contains("join"))
                 {
-                    clientMultipleGame(client);
+                    if (!answer.Contains("does not exist"))
+                    {
+                        clientMultipleGame(client);
+                    }
                 }
                 stream.Close();
                 reader.Close();
@@ -47,26 +50,41 @@ namespace Client
 
         private void clientMultipleGame(TcpClient client)
         {
-            string answer = null;
+            string answer = "";
             string command = null;
             Console.WriteLine("start multiple game\n");
-            new Task(() =>
+            Task read = new Task(() =>
             {
                 do
                 {
-                    answer = "";
-                    answer = reader.ReadToEnd();
-                    Console.Write(answer);
+                    answer = reader.ReadLine();
+                    if (answer == null)
+                    {
+                        answer = "";
+                    }
+                    else
+                    {
+                        Console.WriteLine(answer);
+                    }
                 } while (!answer.Equals("close"));
-                }).Start();
-            do
+            });
+            
+            Task write = new Task(() =>
             {
-                Console.Write("Please enter a command: ");
-                command = Console.ReadLine();
-                writer.WriteLine(command);
-                writer.Flush();
-                // Get result from server
-            } while (!answer.Equals("close"));
+                do
+                {
+                    command = Console.ReadLine();
+                    writer.WriteLine(command);
+                    writer.Flush();
+                    // Get result from server
+                } while (answer == null || !answer.Equals("close"));
+            });
+
+            read.Start();
+            write.Start();
+
+            read.Wait();
+            write.Wait();
         }
     }
 }

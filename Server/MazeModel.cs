@@ -60,7 +60,7 @@ namespace Server
                 _solutions.Add(name, solution);
                 return solution;
             }
-            Console.WriteLine("the maze: " + name + "does not exist.");
+            Console.WriteLine("the maze: " + name + " does not exist.");
             //TODO: handle a case when the maze does not exist
             return null;
         }
@@ -82,6 +82,7 @@ namespace Server
         public string NewGame(String name, int rows, int cols, TcpClient player1)
         {
             Maze maze = _generator.Generate(rows, cols);
+            maze.Name = name;
             GameController game = new GameController(name, maze, this);
             game.AddPlayer(player1);
             _games.Add(name, game);
@@ -100,7 +101,7 @@ namespace Server
                 game.AddPlayer(player2);
                 return game.Maze.ToJSON();
             }
-            return "the name: " + name + "does not exist";
+            return "the name: " + name + " does not exist";
         }
 
         public void finishGame(string name, TcpClient client)

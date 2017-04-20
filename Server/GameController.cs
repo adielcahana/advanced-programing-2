@@ -19,7 +19,7 @@ namespace Server
 
         private bool _gameFinished;
         private bool _canContinue;
-        private int numOfReadState;
+        private int lastReaderIndex;
 
         private string _name;
         public Maze Maze { get; }
@@ -47,7 +47,7 @@ namespace Server
 
             _canContinue = false;
             _gameFinished = false;
-            numOfReadState = 0;
+            lastReaderIndex = -1;
         }
 
         public override string ExecuteCommand(string commandLine, TcpClient client = null)
@@ -94,64 +94,41 @@ namespace Server
             _moves.Enqueue(new Move(dir, _name, clientID));
         }
 
-
-        /*public bool isRunning()
+        public string getState(TcpClient playerClient)
         {
-            if(finish != 0)
-            {
-                return false;
-            }
-            Position goal = _maze.GoalPos;
-            return !(_player1Position.Equals(goal) || _player2Position.Equals(goal));
-        }*/
-
-        public string getState()
-        {
-            while(_changes.Count == 0)
+            int indexOfClient = _players.IndexOf(playerClient);
+            while (_changes.Count == 0 || lastReaderIndex == indexOfClient)
             {
                 System.Threading.Thread.Sleep(10);
-            }
+            } 
+
             Move move;
-            if (numOfReadState == 0)
+            lock (this)
             {
-                _changes.TryPeek(out move);
+                if (lastReaderIndex == -1)
+                {
+                    _changes.TryPeek(out move);
+                    lastReaderIndex = indexOfClient;
+                }
+                else
+                {
+                    _changes.TryDequeue(out move);
+                    lastReaderIndex = -1;
+                }
             }
-            else
-            {
-                _changes.TryDequeue(out move);
-            }
-            string msg = move.ToJSON();
-            numOfReadState++;
-            while (numOfReadState < 2)
-            {
-                System.Threading.Thread.Sleep(10);
-            }
-            if(move.ClientId == -1)
+
+            if (move.ClientId == -1)
             {
                 return "close";
             }
-            return msg;
+
+            return move.ToJSON();
         }
 
         public void Finish(TcpClient player)
         {
             _gameFinished = true;
         }
-
-        /*private void Play(TcpClient player, Position playerPosition)
-        {
-            new Task(() =>
-            {
-                string move = null;
-                using (NetworkStream stream = _player1.GetStream())
-                using (StreamReader reader = new StreamReader(stream))
-                do
-                {
-                    move = reader.ReadLine();
-                } while (move.Equals("close"));
-            }).Start();
-            
-        }*/
 
         public void Start()
         {
