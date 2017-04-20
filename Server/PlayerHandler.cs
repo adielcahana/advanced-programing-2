@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
@@ -13,25 +14,28 @@ namespace Server
         }
         public void HandleClient(TcpClient client)
         {
+            string output = "";
             NetworkStream stream = client.GetStream();
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream);
-            string output = null;
-
-            new Task(() => //get moves
+                new Task(() => //get moves
             {
                 do
                 {
-                    string input = reader.ReadLine();
-                    _gameController.ExecuteCommand(input, client);
+                    try
+                    {
+                        string input = reader.ReadLine();
+                        _gameController.ExecuteCommand(input, client);
+                    }
+                    catch (Exception e) { }
                 } while (!output.Equals("close"));
             }).Start();
 
             new Task(() => // send moves
             {
                 {
-                    do
-                    {
+                        do
+                        {
                         output = _gameController.getState();
                         writer.Write(output);
                         writer.Flush();
