@@ -26,5 +26,7 @@ namespace Server.Commands
             _gameController.addMove(Direction, client);
             return null;
         }
+
+
     }
 }

@@ -16,7 +16,7 @@ namespace Client
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
             string answer = null;
             string command = null;
-            while(true)
+            while (true)
             {
                 TcpClient client = new TcpClient();
                 client.Connect(ep);
@@ -31,8 +31,12 @@ namespace Client
                     writer.WriteLine(command);
                     writer.Flush();
                     // Get result from server
-                    answer = reader.ReadToEnd();
-                    Console.WriteLine(answer);
+                    while (reader.Peek() >= 0)
+                    {
+                        answer += reader.ReadLine();
+                        answer += "\n";
+                    }
+                    Console.Write(answer);
                 }
                 if (command.Contains("start") || command.Contains("join"))
                 {
