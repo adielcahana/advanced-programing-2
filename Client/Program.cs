@@ -13,7 +13,7 @@ namespace Client
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
             string answer = null;
             string command = null;
-            do
+            while(true)
             {
                 TcpClient client = new TcpClient();
                 client.Connect(ep);
@@ -31,12 +31,12 @@ namespace Client
                     answer = reader.ReadToEnd();
                     Console.Write(answer + "\n");
                 }
-                if (command.Equals("start") || command.Equals("join"))
+                if (command.Contains("start") || command.Contains("join"))
                 {
                     command = clientMultipleGame(client);
                 }
                 client.Close();
-            } while (!answer.Equals("close"));
+            };
         }
 
         private static string clientMultipleGame(TcpClient client)
@@ -44,9 +44,9 @@ namespace Client
             string answer = null;
             string command = null;
             Console.WriteLine("start multiple game\n");
-            NetworkStream stream = client.GetStream();
-            StreamReader reader = new StreamReader(stream);
-            StreamWriter writer = new StreamWriter(stream);
+            //NetworkStream stream = client.GetStream();
+            //StreamReader reader = new StreamReader(stream);
+            //StreamWriter writer = new StreamWriter(stream);
             new Task(() =>
             {
                 do

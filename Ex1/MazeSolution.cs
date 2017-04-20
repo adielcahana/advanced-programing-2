@@ -45,10 +45,10 @@ namespace Ex1
                     case '1':
                         sol.Add(Direction.Right);
                         break;
-                    case '3':
+                    case '2':
                         sol.Add(Direction.Up);
                         break;
-                    case '4':
+                    case '3':
                         sol.Add(Direction.Down);
                         break;
                 }

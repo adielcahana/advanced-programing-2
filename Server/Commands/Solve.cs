@@ -16,7 +16,6 @@ namespace Server.Commands
         {
             string name = args[0];
             bool type;
-            bool result;
             if (!bool.TryParse(args[1], out type))
             {
                 Algorithm alg = type ? Algorithm.DFS : Algorithm.BFS;

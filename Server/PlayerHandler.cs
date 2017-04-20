@@ -1,14 +1,13 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
 namespace Server
 {
-    class Player : IClientHandler
+    class PlayerHandler : IClientHandler
     {
-        private IController _gameController;
-        public Player(IController game)
+        private GameController _gameController;
+        public PlayerHandler(GameController game)
         {
             _gameController = game;
         }
@@ -33,7 +32,7 @@ namespace Server
                 {
                     do
                     {
-                        output = _gameController.getMessage();
+                        output = _gameController.getState();
                         writer.Write(output);
                         writer.Flush();
                     } while (!output.Equals("close"));

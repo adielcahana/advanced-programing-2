@@ -20,14 +20,14 @@ namespace Server
         private readonly ISearcher<Position>[] _algorithms;
         private readonly DFSMazeGenerator _generator;
         private readonly Dictionary<string, Maze> _mazes;
-        private Dictionary<string, Game> _games;
+        private Dictionary<string, GameController> _games;
 
         private readonly Dictionary<string, MazeSolution> _solutions;
 
         public MazeModel()
         {
             _mazes = new Dictionary<string, Maze>();
-            _games = new Dictionary<string, Game>();
+            _games = new Dictionary<string, GameController>();
             _solutions = new Dictionary<string, MazeSolution>();
             _generator = new DFSMazeGenerator();
             _algorithms = new ISearcher<Position>[2];
@@ -81,8 +81,8 @@ namespace Server
 
         public string NewGame(String name, int rows, int cols, TcpClient player1)
         {
-            Maze maze = new Maze(rows, cols);
-            Game game = new Game(name, maze, this);
+            Maze maze = _generator.Generate(rows, cols);
+            GameController game = new GameController(name, maze, this);
             game.AddPlayer(player1);
             _games.Add(name, game);
 
@@ -94,7 +94,7 @@ namespace Server
 
         public string JoinGame(String name, TcpClient player2)
         {
-            Game game;
+            GameController game;
             if (_games.TryGetValue(name, out game))
             {
                 game.AddPlayer(player2);
@@ -105,8 +105,7 @@ namespace Server
 
         public void finishGame(string name, TcpClient client)
         {
-            Game game;
-            _games[name].Finish();
+            _games[name].Finish(client);
             _games.Remove(name);
         }
     }

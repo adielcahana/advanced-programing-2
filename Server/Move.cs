@@ -33,6 +33,7 @@ namespace Server
             JObject play = new JObject();
             play["Name"] = Name;
             play["Direction"] = MoveDirection.ToString();
+            play["ID"] = ClientId;
             return play.ToString();
         }
 

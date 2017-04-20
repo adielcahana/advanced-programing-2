@@ -35,8 +35,6 @@ namespace Server
                 { }
                 Console.WriteLine("Connection Handeld");
             }
-            Console.WriteLine("Server stopped");
-            Console.ReadLine();
         }
 
         public void Stop()

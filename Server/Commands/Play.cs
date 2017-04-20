@@ -11,17 +11,20 @@ namespace Server.Commands
     class Play : ICommand
     {
         private string _gameName;
+        private GameController _gameController;
         private string Direction {set ; get;}
 
-        public Play(string name)
+        public Play(string name, GameController gameController)
         {
             _gameName = name;
+            _gameController = gameController;
         }
 
         public string Execute(string[] args, TcpClient client = null)
         {
             Direction = args[0];
-            return toJSON();
+            _gameController.addMove(Direction, client);
+            return null;
         }
 
 

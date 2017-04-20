@@ -1,18 +1,15 @@
 ﻿using System.Collections.Concurrent;
-using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using MazeLib;
 using System.Collections.Generic;
 using Server.Commands;
-using System.Linq;
 
 namespace Server
 {
-    class Game : Controller
+    class GameController : Controller
     {
         private MazeModel _model;
-        private Dictionary<string, ICommand> commands;
 
         private List<TcpClient> _players;
         private List<Position> _positions;
@@ -22,11 +19,12 @@ namespace Server
 
         private bool _gameFinished;
         private bool _canContinue;
+        private int numOfReadState;
 
         private string _name;
         public Maze Maze { get; }
 
-        public Game(string name, Maze maze, MazeModel model)
+        public GameController(string name, Maze maze, MazeModel model)
         {
             directions = new Dictionary<string, Direction>();
             directions.Add(Direction.Up.ToString(), Direction.Up);
@@ -44,11 +42,12 @@ namespace Server
 
             Maze = maze;
             commands = new Dictionary<string, ICommand>();
-            commands.Add("play", new Play(_name));
+            commands.Add("play", new Play(_name, this));
             commands.Add("close", new Close(model));
 
             _canContinue = false;
             _gameFinished = false;
+            numOfReadState = 0;
         }
 
         public override string ExecuteCommand(string commandLine, TcpClient client = null)
@@ -70,13 +69,29 @@ namespace Server
 
         public void initialize()
         {
-            Player player = new Player(this);
+            PlayerHandler player = new PlayerHandler(this);
             while (!_canContinue)
             {
                 System.Threading.Thread.Sleep(10);
             }
             player.HandleClient(_players[0]);
             player.HandleClient(_players[1]);
+        }
+
+        public void addMove(string direction, TcpClient client)
+        {
+            Direction dir;
+            directions.TryGetValue(direction, out dir);
+            int clientID = 0;
+            if (client == _players[0])
+            {
+                clientID = 1;
+            }
+            else
+            {
+                clientID = 2;
+            }
+            _moves.Enqueue(new Move(dir, _name, clientID));
         }
 
 
@@ -89,6 +104,34 @@ namespace Server
             Position goal = _maze.GoalPos;
             return !(_player1Position.Equals(goal) || _player2Position.Equals(goal));
         }*/
+
+        public string getState()
+        {
+            while(_changes.Count == 0)
+            {
+                System.Threading.Thread.Sleep(10);
+            }
+            Move move;
+            if (numOfReadState == 0)
+            {
+                _changes.TryPeek(out move);
+            }
+            else
+            {
+                _changes.TryDequeue(out move);
+            }
+            string msg = move.ToJSON();
+            numOfReadState++;
+            while (numOfReadState < 2)
+            {
+                System.Threading.Thread.Sleep(10);
+            }
+            if(move.ClientId == -1)
+            {
+                return "close";
+            }
+            return msg;
+        }
 
         public void Finish(TcpClient player)
         {
