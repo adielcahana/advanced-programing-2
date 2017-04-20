@@ -27,8 +27,9 @@ namespace Server
                     string result = controller.ExecuteCommand(commandLine, client);
                     writer.WriteLine(result);
                     writer.Flush();
-                    if(!commandLine.Contains("start") && commandLine.Contains("join"))
+                    if(!(commandLine.Contains("start") ||commandLine.Contains("join")))
                     {
+                        client.Close();
                         stream.Close();
                         reader.Close();
                         writer.Close();

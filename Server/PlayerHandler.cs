@@ -36,8 +36,8 @@ namespace Server
                 {
                         do
                         {
-                        output = _gameController.getState();
-                        writer.Write(output);
+                        output = _gameController.getState(client);
+                        writer.WriteLine(output);
                         writer.Flush();
                     } while (!output.Equals("close"));
                 }

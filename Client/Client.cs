@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Server;
 
 namespace Client
 {
@@ -42,7 +43,8 @@ namespace Client
                 {
                     if (!answer.Contains("does not exist"))
                     {
-                        clientMultipleGame(client);
+
+                        clientMultipleGame(client, command);
                     }
                 }
                 stream.Close();
@@ -52,23 +54,30 @@ namespace Client
             };
         }
 
-        private void clientMultipleGame(TcpClient client)
+        private void clientMultipleGame(TcpClient client, string state)
         {
+            int ClientId = state.Contains("start") ? 0 : 1;
             string answer = "";
             string command = null;
-            Console.WriteLine("start multiple game\n");
+            Console.WriteLine("start multiple game");
             Task read = new Task(() =>
             {
                 do
                 {
-                    answer = reader.ReadLine();
-                    if (answer == null)
+                    answer = "";
+                    string msg;
+                    while ((msg = reader.ReadLine()) != null)
                     {
-                        answer = "";
+                        answer += msg;
+                        answer += "\n";
                     }
-                    else
+                    if (!answer.Equals(""))
                     {
-                        Console.WriteLine(answer);
+                        Move move = Move.FromJSON(answer);
+                        if (move.ClientId != ClientId)
+                        {
+                            Console.WriteLine(answer);
+                        }
                     }
                 } while (!answer.Equals("close"));
             });

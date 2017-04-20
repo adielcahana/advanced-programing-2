@@ -33,7 +33,7 @@ namespace Server
             JObject play = new JObject();
             play["Name"] = Name;
             play["Direction"] = MoveDirection.ToString();
-            play["ID"] = ClientId;
+            play["Id"] = ClientId;
             return play.ToString();
         }
 
@@ -41,7 +41,8 @@ namespace Server
         {
             JObject json = JObject.Parse(str);
             string name = (string) json["Name"];
-            return new Move(moves[(string) json["Directon"]], name);
+            int clientId = (int) json["Id"];
+            return new Move(moves[(string) json["Directon"]], name, clientId);
         }
     }
 }
