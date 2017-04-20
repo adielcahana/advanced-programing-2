@@ -10,7 +10,7 @@ namespace Server
         private IController _gameController;
         public Player(IController game)
         {
-            _gameController = game
+            _gameController = game;
         }
         public void HandleClient(TcpClient client)
         {

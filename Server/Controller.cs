@@ -10,7 +10,7 @@ namespace Server
         protected Dictionary<string, ICommand> commands; 
         public Controller(){}
 
-        public string ExecuteCommand(string commandLine, TcpClient client = null)
+        public virtual string ExecuteCommand(string commandLine, TcpClient client = null)
         {
             string[] arr = commandLine.Split(' ');
             string commandKey = arr[0];
