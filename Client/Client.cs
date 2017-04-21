@@ -61,7 +61,6 @@ namespace Client
             int ClientId = state.Contains("start") ? 0 : 1;
             string answer = "";
             string command = null;
-            Thread thread = null;
             Console.WriteLine("start multiple game");
             Task read = new Task(() =>
             {
@@ -84,10 +83,11 @@ namespace Client
                         }
                     }
                 } while (!answer.Equals("close"));
+                Console.WriteLine("Game ended!");
             });
+            
             Task write = new Task(() =>
             {
-                thread = Thread.CurrentThread;
                 do
                 {
                     command = Console.ReadLine();
@@ -101,8 +101,12 @@ namespace Client
             write.Start();
 
             read.Wait();
-            thread.Abort();
-            Console.WriteLine("Game end!");
+            write.Wait();
+
+            stream.Close();
+            reader.Close();
+            writer.Close();
+            client.Close();
         }
     }
 }

@@ -9,32 +9,32 @@ namespace Server
     class PlayerHandler : IClientHandler
     {
         private GameController _gameController;
+        
         public PlayerHandler(GameController game)
         {
             _gameController = game;
         }
         public void HandleClient(TcpClient client)
         {
-            string input = "";
             string output = "";
+
             NetworkStream stream = client.GetStream();
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream);
-            Thread thread = null;
 
             Task read = new Task(() => //get moves
             {
-                thread = Thread.CurrentThread;
+                string input = "";
+                string execute = "";
                 do
                 {
                     try
                     {
                         input = reader.ReadLine();
-                        _gameController.ExecuteCommand(input, client);
-                        System.Threading.Thread.Sleep(500);
+                        execute = _gameController.ExecuteCommand(input, client);
                     }
                     catch (Exception e) { }
-                } while (!output.Equals("close"));
+                } while (!execute.Equals("close"));
             });
 
             Task write = new Task(() => // send moves
@@ -46,7 +46,7 @@ namespace Server
                         writer.WriteLine(output);
                         writer.Flush();
                     } while (!output.Equals("close"));
-                    thread.Abort();
+
                     stream.Close();
                     reader.Close();
                     writer.Close();
