@@ -82,7 +82,7 @@ namespace Server
         public string NewGame(String name, int rows, int cols, TcpClient player1)
         {
             Maze maze = _generator.Generate(rows, cols);
-
+            maze.Name = name;
             GameController game = new GameController(name, maze, this);
             game.AddPlayer(player1);
             _games.Add(name, game);
