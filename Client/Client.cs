@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Server;
+using System.Configuration;
 using System.Threading;
 
 namespace Client
@@ -15,7 +15,8 @@ namespace Client
         private StreamWriter writer;
         public void start()
         {
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 8000);
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),
+                Int32.Parse(ConfigurationManager.AppSettings[1]));
             string answer = null;
             string command = null;
             while (true)

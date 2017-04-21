@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
 
@@ -39,8 +40,8 @@ namespace Server
         public void Start()
         {
             // initialize
-            IPEndPoint ep = new
-            IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),
+                Int32.Parse(ConfigurationManager.AppSettings[1]));
             listener = new TcpListener(ep);
             listener.Start();
             while (true)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using MazeLib;
 using Newtonsoft.Json.Linq;
 
-namespace Server
+namespace Client
 {
     class Move
     {
