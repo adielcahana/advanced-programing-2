@@ -82,6 +82,7 @@ namespace Client
                         }
                     }
                 } while (!answer.Equals("close"));
+                Console.WriteLine("Game ended!");
             });
             
             Task write = new Task(() =>
@@ -105,8 +106,6 @@ namespace Client
             reader.Close();
             writer.Close();
             client.Close();
-
-            Console.WriteLine("Game ended!");
         }
     }
 }

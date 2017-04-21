@@ -9,6 +9,7 @@ namespace Server
     class PlayerHandler : IClientHandler
     {
         private GameController _gameController;
+        
         public PlayerHandler(GameController game)
         {
             _gameController = game;
