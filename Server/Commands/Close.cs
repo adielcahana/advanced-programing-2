@@ -13,6 +13,10 @@ namespace Server.Commands
 
         public string Execute(string[] args, TcpClient client = null)
         {
+            if (args.Length != 1)
+            {
+                return "wrong arguments";
+            }
             string name = args[0];
             _model.finishGame(name, client);
             return "close";

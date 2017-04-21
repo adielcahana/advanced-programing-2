@@ -14,6 +14,10 @@ namespace Server.Commands
 
         public string Execute(string[] args, TcpClient client = null)
         {
+            if (args.Length != 2)
+            {
+                return "wrong arguments";
+            }
             string name = args[0];
             bool type;
             if (!bool.TryParse(args[1], out type))

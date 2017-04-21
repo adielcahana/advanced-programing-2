@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using MazeLib;
+﻿using System.Net.Sockets;
 
 namespace Server.Commands
 {
@@ -17,6 +13,10 @@ namespace Server.Commands
 
         public string Execute(string[] args, TcpClient client = null)
         {
+            if(args.Length != 3)
+            {
+                return "wrong arguments";
+            }
             string name = args[0];
             int rows = int.Parse(args[1]);
             int cols = int.Parse(args[2]);

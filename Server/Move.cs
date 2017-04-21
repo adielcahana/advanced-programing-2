@@ -11,7 +11,7 @@ namespace Server
     class Move
     {
         public Direction MoveDirection { get; set; }
-        private string Name { get; set; }
+        public string Name { get; set; }
         public int ClientId { get; set; }
         public static Dictionary<string, Direction> moves;
 
@@ -25,7 +25,7 @@ namespace Server
 
             MoveDirection = moveDirection;
             ClientId = clientId;
-            Name = Name;
+            Name = name;
         }
 
         public string ToJSON()

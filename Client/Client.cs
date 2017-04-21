@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Server;
+using System.Threading;
 
 namespace Client
 {
@@ -41,7 +42,7 @@ namespace Client
                 }
                 if (command.Contains("start") || command.Contains("join"))
                 {
-                    if (!answer.Contains("does not exist"))
+                    if (!answer.Contains("does not exist") && !answer.Contains("wrong arguments"))
                     {
 
                         clientMultipleGame(client, command);
@@ -65,23 +66,24 @@ namespace Client
                 do
                 {
                     answer = "";
-                    string msg;
-                    while ((msg = reader.ReadLine()) != null)
+                    string msg = "";
+                    do
                     {
+                        msg = reader.ReadLine();
                         answer += msg;
-                        answer += "\n";
-                    }
-                    if (!answer.Equals(""))
+                    } while (!msg.Equals("}") && !msg.Equals("close"));
+
+                    if (!answer.Equals("close"))
                     {
                         Move move = Move.FromJSON(answer);
                         if (move.ClientId != ClientId)
                         {
-                            Console.WriteLine(answer);
+                            Console.WriteLine(move.moveToJSON());
                         }
                     }
                 } while (!answer.Equals("close"));
             });
-            
+
             Task write = new Task(() =>
             {
                 do
@@ -96,8 +98,16 @@ namespace Client
             read.Start();
             write.Start();
 
+            /*var cancel = new CancellationTokenSource();
+            Parallel.Invoke(() =>
+            {
+                write.Wait(cancel.Token);
+            }, () =>
+            {
+                cancel.Cancel();
+            });*/
             read.Wait();
-            write.Wait();
+            Console.WriteLine("Game end!");
         }
     }
 }

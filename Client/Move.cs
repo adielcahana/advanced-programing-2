@@ -25,7 +25,7 @@ namespace Server
 
             MoveDirection = moveDirection;
             ClientId = clientId;
-            Name = Name;
+            Name = name;
         }
 
         public string ToJSON()
@@ -33,16 +33,30 @@ namespace Server
             JObject play = new JObject();
             play["Name"] = Name;
             play["Direction"] = MoveDirection.ToString();
-            play["Id"] = ClientId;
+            play["ID"] = ClientId;
+            return play.ToString();
+        }
+
+        public string moveToJSON()
+        {
+            JObject play = new JObject();
+            play["Name"] = Name;
+            play["Direction"] = MoveDirection.ToString();
             return play.ToString();
         }
 
         public static Move FromJSON(string str)
         {
+            moves = new Dictionary<string, Direction>();
+            moves.Add(Direction.Up.ToString(), Direction.Up);
+            moves.Add(Direction.Down.ToString(), Direction.Down);
+            moves.Add(Direction.Right.ToString(), Direction.Right);
+            moves.Add(Direction.Left.ToString(), Direction.Left);
             JObject json = JObject.Parse(str);
             string name = (string) json["Name"];
-            int clientId = (int) json["Id"];
-            return new Move(moves[(string) json["Directon"]], name, clientId);
+            int clientId = (int) json["ID"];
+            Direction direction = moves[(string)json["Direction"]];
+            return new Move(direction, name, clientId);
         }
     }
 }

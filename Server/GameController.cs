@@ -73,8 +73,22 @@ namespace Server
 
         public void addMove(string direction, TcpClient client)
         {
-            Direction dir;
-            directions.TryGetValue(direction, out dir);
+            Direction dir = new Direction();
+            switch (direction)
+            {
+                case "up":
+                    dir = Direction.Up;
+                    break;
+                case "down":
+                    dir = Direction.Down;
+                    break;
+                case "right":
+                    dir = Direction.Right;
+                    break;
+                case "left":
+                    dir = Direction.Left;
+                    break;
+            }
             int clientID = 0;
             if (client == _players[0])
             {
@@ -130,7 +144,7 @@ namespace Server
                 Move move;
                 while (!_gameFinished)
                 {
-                    while (_moves.IsEmpty)
+                    while (_moves.IsEmpty && !_gameFinished)
                     {
                         System.Threading.Thread.Sleep(10);
                     }
@@ -155,8 +169,8 @@ namespace Server
                         }
                         _changes.Enqueue(move);
                     }
-                    _changes.Enqueue(new Move(Direction.Up, null, -1));
                 }
+                _changes.Enqueue(new Move(Direction.Up, null, -1));
             }).Start();
         }
     }
