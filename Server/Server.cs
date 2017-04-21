@@ -4,31 +4,53 @@ using System.Net.Sockets;
 
 namespace Server
 {
+    /// <summary>
+    /// the server class, manage all the tcp connection
+    /// </summary>
     class Server
     {
+        /// <summary>
+        /// The port to listen
+        /// </summary>
         private int port;
+        /// <summary>
+        /// The tcp listener
+        /// </summary>
         private TcpListener listener;
+        /// <summary>
+        /// The client handler type
+        /// </summary>
         private IClientHandler ch;
 
+        /// <summary>
+        /// constructor of the <see cref="Server"/> class.
+        /// </summary>
+        /// <param name="port">The port.</param>
+        /// <param name="ch">The client handler.</param>
         public Server(int port, IClientHandler ch)
         {
             this.port = port;
             this.ch = ch;
         }
 
+        /// <summary>
+        /// Start the server.
+        /// </summary>
         public void Start()
         {
+            // initialize
             IPEndPoint ep = new
             IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
             listener = new TcpListener(ep);
             listener.Start();
             while (true)
             {
-                Console.WriteLine("Waiting for connections...");
                 try
                 {
+                    // get new connection with client
                     TcpClient client = listener.AcceptTcpClient();
                     Console.WriteLine("Got new connection");
+                    // give to the client handler to maanage the communication with the client
                     ch.HandleClient(client);
                 }
                 catch (SocketException)
@@ -37,6 +59,9 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Stop the server.
+        /// </summary>
         public void Stop()
         {
             listener.Stop();

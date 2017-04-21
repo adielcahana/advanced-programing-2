@@ -4,15 +4,32 @@ using SearchAlgorithmsLib;
 
 namespace Ex1
 {
+    /// <summary>
+    /// wrap the maze with the solve of ISearchable logic
+    /// </summary>
+    /// <seealso cref="SearchAlgorithmsLib.ISearchable{MazeLib.Position}" />
     public class MazeAdapter : ISearchable<Position>
     {
+        /// <summary>
+        /// The maze
+        /// </summary>
         private readonly Maze _maze;
 
+        /// <summary>
+        /// constructor of the <see cref="MazeAdapter"/> class.
+        /// </summary>
+        /// <param name="maze">The maze.</param>
         public MazeAdapter(Maze maze)
         {
             _maze = maze;
         }
 
+        /// <summary>
+        /// get a state and return all the possible state that next to it (according the Isearchable).
+        /// </summary>
+        /// <param name="state">The current state.</param>
+        /// <returns>
+        /// return list of the states</returns>
         public List<State<Position>> GetAllPossibleState(State<Position> state)
         {
             List<State<Position>> succesors = new List<State<Position>>();
@@ -66,11 +83,23 @@ namespace Ex1
             return succesors;
         }
 
+        /// <summary>
+        /// Get goal state.
+        /// </summary>
+        /// <returns>
+        /// return the goal state
+        /// </returns>
         public State<Position> GetGoalState()
         {
             return new State<Position>(_maze.GoalPos);
         }
 
+        /// <summary>
+        /// Gets the state of the inintial.
+        /// </summary>
+        /// <returns>
+        /// return the initial state
+        /// </returns>
         public State<Position> GetInintialState()
         {
             return new State<Position>(_maze.InitialPos);
