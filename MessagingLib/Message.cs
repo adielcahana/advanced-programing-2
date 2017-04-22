@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 namespace MessagingLib
 {
     public class Message
     {
-        private Int32 _msgSize;
-
-        public string Msg { get; }
+        private readonly int _msgSize;
 
         public Message(string msg)
         {
@@ -19,11 +12,15 @@ namespace MessagingLib
             Msg = msg;
         }
 
+        public string Msg { get; }
+
         public string ToJson()
         {
-            JObject msg = new JObject();
-            msg["size"] = _msgSize;
-            msg["message"] = Msg;
+            JObject msg = new JObject
+            {
+                ["size"] = _msgSize,
+                ["message"] = Msg
+            };
             return msg.ToString();
         }
 
@@ -35,7 +32,7 @@ namespace MessagingLib
         }
     }
 
-    static class Constants
+    internal static class Constants
     {
         public const int StartSize = 12;
         public const int EndSize = 12;

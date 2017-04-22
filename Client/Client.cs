@@ -1,111 +1,116 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using System.Configuration;
-using System.Threading;
 
 namespace Client
 {
-    class Client
+    /// <summary>
+    ///     encapsulate the client capabilities
+    /// </summary>
+    internal class Client
     {
-        private NetworkStream stream;
-        private StreamReader reader;
-        private StreamWriter writer;
-        public void start()
+        private StreamReader _reader;
+        private NetworkStream _stream;
+        private StreamWriter _writer;
+
+        /// <summary>
+        ///     Starts this session
+        /// </summary>
+        public void Start()
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),
-                Int32.Parse(ConfigurationManager.AppSettings[1]));
-            string answer = null;
-            string command = null;
+                int.Parse(ConfigurationManager.AppSettings[1]));
             while (true)
             {
                 TcpClient client = new TcpClient();
                 client.Connect(ep);
                 Console.WriteLine("You are connected");
-                stream = client.GetStream();
-                reader = new StreamReader(stream);
-                writer = new StreamWriter(stream);
+                _stream = client.GetStream();
+                _reader = new StreamReader(_stream);
+                _writer = new StreamWriter(_stream);
+                string answer;
+                string command;
                 {
                     answer = "";
                     Console.Write("Please enter a command: ");
                     command = Console.ReadLine();
-                    writer.WriteLine(command);
-                    writer.Flush();
+                    _writer.WriteLine(command);
+                    _writer.Flush();
                     // Get result from server
-                    while (reader.Peek() >= 0)
+                    while (_reader.Peek() >= 0)
                     {
-                        answer += reader.ReadLine();
+                        answer += _reader.ReadLine();
                         answer += "\n";
                     }
                     Console.Write(answer);
                 }
                 if (command.Contains("start") || command.Contains("join"))
-                {
                     if (!answer.Contains("does not exist") && !answer.Contains("wrong arguments"))
-                    {
-
-                        clientMultipleGame(client, command);
-                    }
-                }
-                stream.Close();
-                reader.Close();
-                writer.Close();
+                        StartMultipleGame(client, command);
+                _stream.Close();
+                _reader.Close();
+                _writer.Close();
                 client.Close();
-            };
+            }
         }
 
-        private void clientMultipleGame(TcpClient client, string state)
+        /// <summary>
+        ///     starts a multiple game.
+        /// </summary>
+        /// <param name="client">The client.</param>
+        /// <param name="state">The state - the command that started the game.</param>
+        private void StartMultipleGame(TcpClient client, string state)
         {
-            int ClientId = state.Contains("start") ? 0 : 1;
+            //define the client number
+            int clientId = state.Contains("start") ? 0 : 1;
             string answer = "";
-            string command = null;
+            string command;
             Console.WriteLine("start multiple game");
-
+            //read and send next move/close from user
             Task write = new Task(() =>
             {
                 do
                 {
                     command = Console.ReadLine();
-                    writer.WriteLine(command);
-                    writer.Flush();
+                    _writer.WriteLine(command);
+                    _writer.Flush();
                     // Get result from server
                 } while (!answer.Equals("close"));
             });
-
+            //read the next state from the server and procces it
             Task read = new Task(() =>
             {
                 do
                 {
                     answer = "";
-                    string msg = "";
+                    string msg;
                     do
                     {
-                        msg = reader.ReadLine();
+                        msg = _reader.ReadLine();
                         answer += msg;
                     } while (!msg.Equals("}") && !msg.Equals("close"));
-
+                    //print the second player last move
                     if (!answer.Equals("close"))
                     {
-                        Move move = Move.FromJSON(answer);
-                        if (move.ClientId != ClientId)
-                        {
-                            Console.WriteLine(move.moveToJSON());
-                        }
+                        Move move = Move.FromJson(answer);
+                        if (move.ClientId != clientId)
+                            Console.WriteLine(move.ToString());
                     }
                 } while (!answer.Equals("close"));
             });
-            
+
             read.Start();
             write.Start();
 
+            //wait for the last msg from server
             read.Wait();
-            //write.Wait();
 
-            stream.Close();
-            reader.Close();
-            writer.Close();
+            _stream.Close();
+            _reader.Close();
+            _writer.Close();
             client.Close();
 
             Console.WriteLine("Game ended!");

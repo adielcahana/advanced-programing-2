@@ -2,28 +2,29 @@
 using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Server.Controllers;
 
-namespace Server
+namespace Server.ClientHandlers
 {
     /// <summary>
-    /// the server main client handler
+    ///     the server main client handler
     /// </summary>
-    /// <seealso cref="Server.IClientHandler" />
-    class ClientHandler : IClientHandler
+    /// <seealso cref="IClientHandler" />
+    internal class ClientHandler : IClientHandler
     {
-        private IController controller;
+        private readonly IController _controller;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientHandler"/> class.
+        ///     Initializes a new instance of the <see cref="ClientHandler" /> class.
         /// </summary>
         /// <param name="controller">The controller.</param>
         public ClientHandler(IController controller)
         {
-            this.controller = controller;
+            _controller = controller;
         }
 
         /// <summary>
-        /// Handles the client by answering a single request and closing the connection.
+        ///     Handles the client by answering a single request and closing the connection.
         /// </summary>
         /// <param name="client">The client.</param>
         public void HandleClient(TcpClient client)
@@ -36,7 +37,7 @@ namespace Server
                 {
                     string commandLine = reader.ReadLine();
                     Console.WriteLine(commandLine);
-                    string result = controller.ExecuteCommand(commandLine, client);
+                    string result = _controller.ExecuteCommand(commandLine, client);
                     writer.WriteLine(result);
                     writer.Flush();
                     /*if the requset was for a new game,
@@ -44,7 +45,7 @@ namespace Server
                      * therefore the connection isb't closed.
                      */
 
-                    if (!(commandLine.Contains("start") ||commandLine.Contains("join")))
+                    if (!(commandLine.Contains("start") || commandLine.Contains("join")))
                     {
                         client.Close();
                         stream.Close();

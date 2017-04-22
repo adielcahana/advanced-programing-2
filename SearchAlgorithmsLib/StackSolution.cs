@@ -6,18 +6,20 @@ namespace SearchAlgorithmsLib
     public class StackSolution<T> : ISolution<T>
     {
         /// <summary>
-        /// stack of the states</summary>
+        ///     stack of the states
+        /// </summary>
         private readonly Stack<State<T>> _states;
 
         /// <summary>
-        /// constructor of the <see cref="StackSolution{T}"/> class.</summary>
+        ///     constructor of the <see cref="StackSolution{T}" /> class.
+        /// </summary>
         public StackSolution()
         {
             _states = new Stack<State<T>>();
         }
 
         /// <summary>
-        /// push new state to the stack.
+        ///     push new state to the stack.
         /// </summary>
         /// <param name="state">The state.</param>
         public void Add(State<T> state)
@@ -26,30 +28,33 @@ namespace SearchAlgorithmsLib
         }
 
         /// <summary>
-        /// pop the stack.
+        ///     pop the stack.
         /// </summary>
         /// <returns>
-        /// return the state the pulled from the stack</returns>
+        ///     return the state the pulled from the stack
+        /// </returns>
         public State<T> Get()
         {
             return _states.Pop();
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the stack.
+        ///     Returns an enumerator that iterates through the stack.
         /// </summary>
         /// <returns>
-        /// the stack enumaerator.</returns>
+        ///     the stack enumaerator.
+        /// </returns>
         public IEnumerator<State<T>> GetEnumerator()
         {
             return _states.GetEnumerator();
         }
 
         /// <summary>
-        /// Returns an enumerator that iterates through the stack.
+        ///     Returns an enumerator that iterates through the stack.
         /// </summary>
         /// <returns>
-        /// the stack enumaerator.</returns>
+        ///     the stack enumaerator.
+        /// </returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _states.GetEnumerator();

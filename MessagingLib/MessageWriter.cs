@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace MessagingLib
 {
-    class MessageWriter
+    internal class MessageWriter
     {
-        private TextWriter _writer;
+        private readonly TextWriter _writer;
 
         public MessageWriter(TextWriter writer)
         {

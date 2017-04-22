@@ -1,54 +1,62 @@
 ﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 using MazeLib;
-using System.Collections.Generic;
+using Server.ClientHandlers;
 using Server.Commands;
+using Server.Models;
 
-namespace Server
+namespace Server.Controllers
 {
     /// <summary>
-    /// game controller with the relevant ICommands
+    ///     game controller with the relevant ICommands
     /// </summary>
-    /// <seealso cref="Server.Controller" />
-    class GameController : Controller
+    /// <seealso cref="Controller" />
+    internal class GameController : Controller
     {
-        private MazeModel _model;
+        private static Dictionary<string, Direction> _directions;
 
-        private List<TcpClient> _players;
-        private List<Position> _positions;
         /// <summary>
-        /// The input moves
+        ///     The output changes that have been made in the game
         /// </summary>
-        private ConcurrentQueue<Move> _moves;
-        /// <summary>
-        /// The output changes that have been made in the game
-        /// </summary>
-        private ConcurrentQueue<Move> _changes;
-        public static Dictionary<string, Direction> directions;
+        private readonly ConcurrentQueue<Move> _changes;
+
         private bool _gameFinished;
         private bool _isPlayer2Connected;
+        private MazeModel _model;
+
         /// <summary>
-        /// The last client who read rhe changes
+        ///     The input moves
         /// </summary>
-        private int lastReaderIndex;
+        private readonly ConcurrentQueue<Move> _moves;
 
-        private string _name;
-        public Maze Maze { get; }
+        private readonly string _name;
+
+        private readonly List<TcpClient> _players;
+        private readonly List<Position> _positions;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameController"/> class.
+        ///     The last client who read rhe changes
+        /// </summary>
+        private int _lastReaderIndex;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="GameController" /> class.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="maze">The maze.</param>
         /// <param name="model">The model.</param>
         public GameController(string name, Maze maze, MazeModel model)
         {
-            directions = new Dictionary<string, Direction>();
-            directions.Add(Direction.Up.ToString(), Direction.Up);
-            directions.Add(Direction.Down.ToString(), Direction.Down);
-            directions.Add(Direction.Right.ToString(), Direction.Right);
-            directions.Add(Direction.Left.ToString(), Direction.Left);
+            _directions = new Dictionary<string, Direction>
+            {
+                {Direction.Up.ToString(), Direction.Up},
+                {Direction.Down.ToString(), Direction.Down},
+                {Direction.Right.ToString(), Direction.Right},
+                {Direction.Left.ToString(), Direction.Left}
+            };
 
             _players = new List<TcpClient>();
             _positions = new List<Position>();
@@ -59,17 +67,20 @@ namespace Server
             _model = model;
 
             Maze = maze;
-            commands = new Dictionary<string, ICommand>();
-            commands.Add("play", new Play(_name, this));
-            commands.Add("close", new Close(model));
-
+            Commands = new Dictionary<string, ICommand>
+            {
+                { "play", new Play(this) },
+                { "close", new Close(model) }
+            };
             _isPlayer2Connected = false;
             _gameFinished = false;
-            lastReaderIndex = -1;
+            _lastReaderIndex = -1;
         }
 
+        public Maze Maze { get; }
+
         /// <summary>
-        /// Adds the player.
+        ///     Adds the player.
         /// </summary>
         /// <param name="client">The client.</param>
         public void AddPlayer(TcpClient client)
@@ -77,33 +88,29 @@ namespace Server
             _players.Add(client);
             _positions.Add(Maze.InitialPos);
             if (_players.Count == 2)
-            {
                 _isPlayer2Connected = true;
-            }
         }
 
         /// <summary>
-        /// Initializes the game.
-        /// waiting for the next player to connect
+        ///     Initializes the game.
+        ///     waiting for the next player to connect
         /// </summary>
-        public void initialize()
+        public void Initialize()
         {
             PlayerHandler player = new PlayerHandler(this);
             while (!_isPlayer2Connected)
-            {
-                System.Threading.Thread.Sleep(10);
-            }
+                Thread.Sleep(10);
             player.HandleClient(_players[0]);
             player.HandleClient(_players[1]);
         }
 
 
         /// <summary>
-        /// Adds a move from a client.
+        ///     Adds a move from a client.
         /// </summary>
         /// <param name="direction">The direction.</param>
         /// <param name="client">The client.</param>
-        public void addMove(string direction, TcpClient client)
+        public void AddMove(string direction, TcpClient client)
         {
             Direction dir = new Direction();
             switch (direction)
@@ -121,100 +128,85 @@ namespace Server
                     dir = Direction.Left;
                     break;
             }
-            int clientID = 0;
-            if (client == _players[0])
-            {
-                clientID = 0;
-            }
-            else
-            {
-                clientID = 1;
-            }
-            _moves.Enqueue(new Move(dir, _name, clientID));
+            int clientId = client == _players[0] ? 0 : 1;
+            _moves.Enqueue(new Move(dir, _name, clientId));
         }
 
         /// <summary>
-        /// Gets the next game state.
-        /// responsible for passing the current state for both players before disposing it
+        ///     Gets the next game state.
+        ///     responsible for passing the current state for both players before disposing it
         /// </summary>
         /// <param name="playerClient">The player client.</param>
         /// <returns>
-        /// string represantation of the game state
+        ///     string represantation of the game state
         /// </returns>
-        public string getState(TcpClient playerClient)
+        public string GetState(TcpClient playerClient)
         {
             int indexOfClient = _players.IndexOf(playerClient);
             //sleep while the client already read the next state, ot rhe state hasn't changed
-            while (_changes.Count == 0 || lastReaderIndex == indexOfClient)
-            {
-                System.Threading.Thread.Sleep(10);
-            }
+            while (_changes.Count == 0 || _lastReaderIndex == indexOfClient)
+                Thread.Sleep(10);
 
             Move move;
             lock (this)
             {
                 // if the next state wasn't already read by one the players
-                if (lastReaderIndex == -1)
+                if (_lastReaderIndex == -1)
                 {
                     _changes.TryPeek(out move);
-                    lastReaderIndex = indexOfClient;
+                    _lastReaderIndex = indexOfClient;
                 }
                 else // if the next state was already read by one the players, dispose it
                 {
                     _changes.TryDequeue(out move);
-                    lastReaderIndex = -1;
+                    _lastReaderIndex = -1;
                 }
             }
 
             //case of closing state represented by irrelevant move
             if (move.ClientId == -1)
-            {
                 return "close";
-            }
 
-            return move.ToJSON();
+            return move.ToJson();
         }
 
         /// <summary>
-        /// Finishes the game.
+        ///     Finishes the game.
         /// </summary>
-        /// <param name="player">The player.</param>
-        public void Finish(TcpClient player)
+        public void Finish()
         {
             _gameFinished = true;
         }
 
         /// <summary>
-        /// Starts the game.
-        /// update the game state according to players movements
+        ///     Starts the game.
+        ///     update the game state according to players movements
         /// </summary>
         public void Start()
         {
             new Task(() =>
             {
-                Move move;
                 while (!_gameFinished)
                 {
                     while (_moves.IsEmpty && !_gameFinished)
-                    {
-                        System.Threading.Thread.Sleep(10);
-                    }
+                        Thread.Sleep(10);
+                    Move move;
                     if (_moves.TryDequeue(out move))
                     {
                         int row = _positions[move.ClientId].Row;
                         int col = _positions[move.ClientId].Col;
                         switch (move.MoveDirection)
                         {
-                            case (Direction.Up):
+                            case Direction.Up:
                                 _positions[move.ClientId] = new Position(row - 1, col);
                                 break;
-                            case (Direction.Down):
+                            case Direction.Down:
                                 _positions[move.ClientId] = new Position(row + 1, col);
                                 break;
-                            case (Direction.Right):
+                            case Direction.Right:
                                 _positions[move.ClientId] = new Position(row, col + 1);
                                 break;
-                            case (Direction.Left):
+                            case Direction.Left:
                                 _positions[move.ClientId] = new Position(row, col - 1);
                                 break;
                         }
@@ -222,7 +214,7 @@ namespace Server
                     }
                 }
                 //update _changes with an irelevant Move that closes the game
-                _changes.Enqueue(new Move(Direction.Up, null, -1));
+                _changes.Enqueue(new Move(Direction.Up, null));
             }).Start();
         }
     }

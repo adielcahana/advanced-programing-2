@@ -2,15 +2,16 @@
 using MazeGeneratorLib;
 using MazeLib;
 using SearchAlgorithmsLib;
+using SearchAlgorithmsLib.Algorithms;
 
 namespace Ex1
 {
     /// <summary>
-    /// main class: create maze and solve it with BFS and DFS algorithms
+    ///     main class: create maze and solve it with BFS and DFS algorithms
     /// </summary>
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             // the maze size 100x100
             int col = 100;
@@ -26,20 +27,20 @@ namespace Ex1
 
             // adapt the maze and solve it with BFS
             ISearchable<Position> adapter = new MazeAdapter(maze);
-            ISearcher<Position> BfsSearcher = new BestFirstSearch<Position>();
-            ISolution<Position> sol = BfsSearcher.Search(adapter);
+            ISearcher<Position> bfsSearcher = new BestFirstSearch<Position>();
+            bfsSearcher.Search(adapter);
 
-            int BfsNumOfStases = BfsSearcher.GetNumberOfNodesEvaluated();
+            int bfsNumOfStases = bfsSearcher.GetNumberOfNodesEvaluated();
 
             // solve the maze with DFS
-            ISearcher<Position> DfsSearcher = new DepthFirstSearch<Position>();
-            sol = DfsSearcher.Search(adapter);
+            ISearcher<Position> dfsSearcher = new DepthFirstSearch<Position>();
+            dfsSearcher.Search(adapter);
 
-            int DfsNumOfStases = DfsSearcher.GetNumberOfNodesEvaluated();
+            int dfsNumOfStases = dfsSearcher.GetNumberOfNodesEvaluated();
 
             // print the num of evalueted nodes for BFS and DFS
-            Console.WriteLine("number of BFS states:" + BfsNumOfStases);
-            Console.WriteLine("number of DFS states:" + DfsNumOfStases);
+            Console.WriteLine("number of BFS states:" + bfsNumOfStases);
+            Console.WriteLine("number of DFS states:" + dfsNumOfStases);
 
             Console.Read();
         }

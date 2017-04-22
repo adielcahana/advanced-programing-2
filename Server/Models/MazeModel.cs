@@ -1,43 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
-using MazeGeneratorLib;
-using SearchAlgorithmsLib;
-using MazeLib;
-using Ex1;
 using System.Net.Sockets;
+using Ex1;
+using MazeGeneratorLib;
+using MazeLib;
 using Newtonsoft.Json;
+using SearchAlgorithmsLib;
+using SearchAlgorithmsLib.Algorithms;
+using Server.Controllers;
 
-namespace Server
+namespace Server.Models
 {
     /// <summary>
-    /// algorithm enum according to the exercise specs
+    ///     algorithm enum according to the exercise specs
     /// </summary>
     internal enum Algorithm
     {
-        BFS,
-        DFS
+        Bfs,
+        Dfs
     }
 
     /// <summary>
-    /// encasulates all the logic of maze gaming
+    ///     encasulates all the logic of maze gaming
     /// </summary>
-    /// <seealso cref="Server.IModel" />
+    /// <seealso cref="IModel" />
     internal class MazeModel : IModel
     {
         private readonly ISearcher<Position>[] _algorithms;
         private readonly DFSMazeGenerator _generator;
+
         /// <summary>
-        /// The mazes cache
+        ///     The mazes cache
         /// </summary>
         private readonly Dictionary<string, Maze> _mazes;
+
         /// <summary>
-        /// The multiplayer games cache
-        /// </summary>
-        private Dictionary<string, GameController> _games;
-        /// <summary>
-        /// The solutions cache
+        ///     The solutions cache
         /// </summary>
         private readonly Dictionary<string, MazeSolution> _solutions;
+
+        /// <summary>
+        ///     The multiplayer games cache
+        /// </summary>
+        private readonly Dictionary<string, GameController> _games;
 
         public MazeModel()
         {
@@ -51,20 +56,19 @@ namespace Server
         }
 
         /// <summary>
-        /// Generates the maze.
+        ///     Generates the maze.
         /// </summary>
         /// <param name="name">The maze name.</param>
         /// <param name="row">number of rows.</param>
         /// <param name="col">number of cols.</param>
         /// <returns>
-        /// maze
+        ///     maze
         /// </returns>
         public Maze GenerateMaze(string name, int row, int col)
         {
             if (_mazes.ContainsKey(name))
                 return null;
-            Maze maze;
-            maze = _generator.Generate(col, row);
+            Maze maze = _generator.Generate(col, row);
             maze.Name = name;
             //save the maze
             _mazes.Add(name, maze);
@@ -72,12 +76,12 @@ namespace Server
         }
 
         /// <summary>
-        /// Solves the maze.
+        ///     Solves the maze.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="algorithm">The algorithm.</param>
         /// <returns>
-        /// the maze solution
+        ///     the maze solution
         /// </returns>
         public MazeSolution SolveMaze(string name, Algorithm algorithm)
         {
@@ -100,36 +104,32 @@ namespace Server
         }
 
         /// <summary>
-        /// Creates list of active game.
+        ///     Creates list of active game.
         /// </summary>
         /// <returns>
-        /// list of games names
+        ///     list of games names
         /// </returns>
         public string CreateList()
         {
-            if(_games.Count == 0)
-            {
+            if (_games.Count == 0)
                 return "no games avaliable\n";
-            }
             List<string> names = new List<string>(_games.Keys.Count);
             foreach (string name in _games.Keys)
-            {
                 names.Add(name);
-            }   
             return JsonConvert.SerializeObject(names, Formatting.Indented);
         }
 
         /// <summary>
-        /// create new game.
+        ///     create new game.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="rows">The rows.</param>
         /// <param name="cols">The cols.</param>
         /// <param name="player1">client.</param>
         /// <returns>
-        /// the maze detailes
+        ///     the maze detailes
         /// </returns>
-        public string NewGame(String name, int rows, int cols, TcpClient player1)
+        public string NewGame(string name, int rows, int cols, TcpClient player1)
         {
             Maze maze = _generator.Generate(rows, cols);
             maze.Name = name;
@@ -137,21 +137,21 @@ namespace Server
             game.AddPlayer(player1);
             _games.Add(name, game);
 
-            game.initialize();
+            game.Initialize();
             game.Start();
 
             return maze.ToJSON();
         }
 
         /// <summary>
-        /// player 2 join the game.
+        ///     player 2 join the game.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="player2">The player2.</param>
         /// <returns>
-        /// the maze detailes
+        ///     the maze detailes
         /// </returns>
-        public string JoinGame(String name, TcpClient player2)
+        public string JoinGame(string name, TcpClient player2)
         {
             GameController game;
             if (_games.TryGetValue(name, out game))
@@ -163,13 +163,13 @@ namespace Server
         }
 
         /// <summary>
-        /// notify the game to finish.
+        ///     notify the game to finish.
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="client">The client.</param>
-        public void finishGame(string name, TcpClient client)
+        public void FinishGame(string name, TcpClient client)
         {
-            _games[name].Finish(client);
+            _games[name].Finish();
             _games.Remove(name);
         }
     }

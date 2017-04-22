@@ -5,18 +5,18 @@ using SearchAlgorithmsLib;
 namespace Ex1
 {
     /// <summary>
-    /// wrap the maze with the solve of ISearchable logic
+    ///     wrap the maze with the solve of ISearchable logic
     /// </summary>
-    /// <seealso cref="SearchAlgorithmsLib.ISearchable{MazeLib.Position}" />
+    /// <seealso cref="Position" />
     public class MazeAdapter : ISearchable<Position>
     {
         /// <summary>
-        /// The maze
+        ///     The maze
         /// </summary>
         private readonly Maze _maze;
 
         /// <summary>
-        /// constructor of the <see cref="MazeAdapter"/> class.
+        ///     constructor of the <see cref="MazeAdapter" /> class.
         /// </summary>
         /// <param name="maze">The maze.</param>
         public MazeAdapter(Maze maze)
@@ -25,11 +25,12 @@ namespace Ex1
         }
 
         /// <summary>
-        /// get a state and return all the possible state that next to it (according the Isearchable).
+        ///     get a state and return all the possible state that next to it (according the Isearchable).
         /// </summary>
         /// <param name="state">The current state.</param>
         /// <returns>
-        /// return list of the states</returns>
+        ///     return list of the states
+        /// </returns>
         public List<State<Position>> GetAllPossibleState(State<Position> state)
         {
             List<State<Position>> succesors = new List<State<Position>>();
@@ -84,10 +85,10 @@ namespace Ex1
         }
 
         /// <summary>
-        /// Get goal state.
+        ///     Get goal state.
         /// </summary>
         /// <returns>
-        /// return the goal state
+        ///     return the goal state
         /// </returns>
         public State<Position> GetGoalState()
         {
@@ -95,10 +96,10 @@ namespace Ex1
         }
 
         /// <summary>
-        /// Gets the state of the inintial.
+        ///     Gets the state of the inintial.
         /// </summary>
         /// <returns>
-        /// return the initial state
+        ///     return the initial state
         /// </returns>
         public State<Position> GetInintialState()
         {

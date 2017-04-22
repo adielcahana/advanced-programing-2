@@ -1,20 +1,21 @@
 ﻿using System.Net.Sockets;
+using Server.Models;
 
 namespace Server.Commands
 {
     /// <summary>
-    /// implement start command
+    ///     implement start command
     /// </summary>
-    /// <seealso cref="Server.ICommand" />
-    class Start : ICommand
+    /// <seealso cref="ICommand" />
+    internal class Start : ICommand
     {
         /// <summary>
-        /// The model
+        ///     The model
         /// </summary>
-        private IModel _model;
+        private readonly IModel _model;
 
         /// <summary>
-        /// constructor of the <see cref="Start"/> class.
+        ///     constructor of the <see cref="Start" /> class.
         /// </summary>
         /// <param name="model">The model.</param>
         public Start(IModel model)
@@ -23,19 +24,17 @@ namespace Server.Commands
         }
 
         /// <summary>
-        /// exectue start command according the arguments.
+        ///     exectue start command according the arguments.
         /// </summary>
         /// <param name="args">The arguments.</param>
         /// <param name="client">The client that send the command.</param>
         /// <returns>
-        /// the maze details
+        ///     the maze details
         /// </returns>
         public string Execute(string[] args, TcpClient client = null)
         {
-            if(args.Length != 3)
-            {
+            if (args.Length != 3)
                 return "wrong arguments";
-            }
             // parse the args
             string name = args[0];
             int rows = int.Parse(args[1]);

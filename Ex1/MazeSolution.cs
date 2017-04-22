@@ -8,9 +8,9 @@ using SearchAlgorithmsLib;
 namespace Ex1
 {
     /// <summary>
-    /// adapter for the maze soltion.
-    /// enables the conversion of the original ISolution<Position>,
-    /// into direction list, and enables serialization
+    ///     adapter for the maze soltion.
+    ///     enables the conversion of the original ISolution
+    ///     into direction list, and enables serialization
     /// </summary>
     public class MazeSolution
     {
@@ -20,7 +20,7 @@ namespace Ex1
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MazeSolution"/> class.
+        ///     Initializes a new instance of the <see cref="MazeSolution" /> class.
         /// </summary>
         /// <param name="name">The maze name.</param>
         /// <param name="sol">The original solution.</param>
@@ -40,13 +40,13 @@ namespace Ex1
         }
 
         /// <summary>
-        /// deserialize MazeSolution From json string.
+        ///     deserialize MazeSolution From json string.
         /// </summary>
         /// <param name="str">json represantation of MazeSolution.</param>
         /// <returns>
-        /// MazeSolution object
+        ///     MazeSolution object
         /// </returns>
-        public static MazeSolution FromJSON(string str)
+        public static MazeSolution FromJson(string str)
         {
             JObject mazeSolution = JObject.Parse(str);
             string name = (string) mazeSolution["Name"];
@@ -73,25 +73,28 @@ namespace Ex1
         }
 
         /// <summary>
-        /// serialize MazeSolution to json string.
+        ///     serialize MazeSolution to json string.
         /// </summary>
         /// <returns>
-        /// json represantation of MazeSolution.
+        ///     json represantation of MazeSolution.
         /// </returns>
-        public string ToJSON()
+        public string ToJson()
         {
-            JObject mazeSolution = new JObject();
-            mazeSolution["Name"] = _name;
+            JObject mazeSolution = new JObject
+            {
+                ["Name"] = _name,
+                ["NodesEvaluated"] = _nodesEvaluated
+            };
             StringBuilder solution = new StringBuilder();
             foreach (Direction d in _solution)
                 solution.Append((int) d);
             mazeSolution["Solution"] = solution.ToString();
-            mazeSolution["NodesEvaluated"] = _nodesEvaluated;
+           
             return mazeSolution.ToString();
         }
 
         /// <summary>
-        /// converts the position list to direction list
+        ///     converts the position list to direction list
         /// </summary>
         /// <param name="sol">The sol.</param>
         /// <returns></returns>

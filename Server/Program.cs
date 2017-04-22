@@ -1,12 +1,16 @@
-﻿namespace Server
+﻿using Server.ClientHandlers;
+using Server.Controllers;
+using Server.Models;
+
+namespace Server
 {
     /// <summary>
-    /// main method class of the server
+    ///     main method class of the server
     /// </summary>
-    class Program
+    internal class Program
     {
         /// <summary>
-        /// Main.
+        ///     Main.
         /// </summary>
         /// <param name="args">The arguments for the main.</param>
         private static void Main(string[] args)

@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 
-namespace SearchAlgorithmsLib
+namespace SearchAlgorithmsLib.Algorithms
 {
     public class DepthFirstSearch<T> : Searcher<T>
     {
         /// <summary>
-        /// the implement of the serach method forDFS algorithm.
+        ///     the implement of the serach method forDFS algorithm.
         /// </summary>
         /// <param name="searchable">The searchable.</param>
         /// <returns>
-        /// return stack of the solution type
+        ///     return stack of the solution type
         /// </returns>
         public override ISolution<T> Search(ISearchable<T> searchable)
         {
@@ -17,7 +17,6 @@ namespace SearchAlgorithmsLib
             // get the first state and the goal state.
             State<T> root = searchable.GetInintialState();
             State<T> goal = searchable.GetGoalState();
-            State<T> current = null;
             root.Cost = 0;
             // push the first state
             Push(root, -root.Cost);
@@ -26,7 +25,7 @@ namespace SearchAlgorithmsLib
             while (!IsEmpty())
             {
                 // get one state
-                current = Pop();
+                State<T> current = Pop();
                 // if it's the goal state return the solution
                 if (current.Equals(goal)) return BackTrace(current);
 

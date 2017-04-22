@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 
-namespace SearchAlgorithmsLib
+namespace SearchAlgorithmsLib.Algorithms
 {
     /// <summary>
-    /// encapsulate the BFS algorithm
+    ///     encapsulate the BFS algorithm
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <seealso cref="SearchAlgorithmsLib.Searcher{T}" />
+    /// <seealso cref="Searcher{T}" />
     public class BestFirstSearch<T> : Searcher<T>
     {
         /// <summary>
-        /// the main search method.
+        ///     the main search method.
         /// </summary>
         /// <param name="searchable">The searchable.</param>
         /// <returns>
-        /// return the search path in a ISolution data structure
+        ///     return the search path in a ISolution data structure
         /// </returns>
         public override ISolution<T> Search(ISearchable<T> searchable)
         {
@@ -49,14 +48,12 @@ namespace SearchAlgorithmsLib
                     {
                         State<T> lastPath;
                         if (states.TryGetValue(s.GetHashCode(), out lastPath))
-                        {
                             if (s.Cost < lastPath.Cost)
                             {
                                 lastPath.Cost = s.Cost;
                                 lastPath.CameFrom = s.CameFrom;
                                 Update(lastPath);
                             }
-                        }
                     }
             }
             return null;

@@ -1,18 +1,18 @@
 ﻿namespace Client
 {
     /// <summary>
-    /// main method class of the client
+    ///     main method class of the client
     /// </summary>
-    class Program
+    internal class Program
     {
         /// <summary>
-        /// Mains.
+        ///     Mains.
         /// </summary>
         /// <param name="args">The arguments for the main.</param>
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             Client client = new Client();
-            client.start();
+            client.Start();
         }
     }
 }

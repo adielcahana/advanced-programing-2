@@ -3,45 +3,45 @@ using System.Linq;
 using System.Net.Sockets;
 using Server.Commands;
 
-namespace Server
+namespace Server.Controllers
 {
     /// <summary>
-    /// class of base controller
+    ///     class of base controller
     /// </summary>
-    /// <seealso cref="Server.IController" />
-    class Controller : IController
+    /// <seealso cref="IController" />
+    internal class Controller : IController
     {
         /// <summary>
-        /// dicitonary of name and command class
+        ///     dicitonary of name and command class
         /// </summary>
-        protected Dictionary<string, ICommand> commands;
+        protected Dictionary<string, ICommand> Commands;
 
         /// <summary>
-        /// constructor of the <see cref="Controller"/> class.
+        ///     constructor of the <see cref="Controller" /> class.
         /// </summary>
-        public Controller()
+        protected Controller()
         {
-            commands = new Dictionary<string, ICommand>();
+            Commands = new Dictionary<string, ICommand>();
         }
 
         /// <summary>
-        /// exectue command according the arguments.
+        ///     exectue command according the arguments.
         /// </summary>
         /// <param name="commandLine"></param>
         /// <param name="client">The client that send the command.</param>
         /// <returns>
-        /// the answer of the execute
+        ///     the answer of the execute
         /// </returns>
         public virtual string ExecuteCommand(string commandLine, TcpClient client = null)
         {
             // get the command name
             string[] arr = commandLine.Split(' ');
             string commandKey = arr[0];
-            if (!commands.ContainsKey(commandKey))
+            if (!Commands.ContainsKey(commandKey))
                 return "Command not found\n";
             // get the args for the command
             string[] args = arr.Skip(1).ToArray();
-            ICommand command = commands[commandKey];
+            ICommand command = Commands[commandKey];
             // execute the command
             return command.Execute(args, client);
         }

@@ -1,121 +1,112 @@
 ﻿using Priority_Queue;
 
-namespace SearchAlgorithmsLib
+namespace SearchAlgorithmsLib.Algorithms
 {
     /// <summary>
-    /// abstract class of the isearcher algorithms
+    ///     abstract class of the isearcher algorithms
     /// </summary>
     /// <typeparam name="T"> generic type</typeparam>
-    /// <seealso cref="SearchAlgorithmsLib.ISearcher{T}" />
+    /// <seealso cref="ISearcher{T}" />
     public abstract class Searcher<T> : ISearcher<T>
     {
         /// <summary>
-        /// The evaluated nodes
-        /// </summary>
-        private int _evaluatedNodes;
-        /// <summary>
-        /// The priority queue that contain the generic states
+        ///     The priority queue that contain the generic states
         /// </summary>
         private readonly SimplePriorityQueue<State<T>> _openList;
 
         /// <summary>
-        /// constructor of the <see cref="Searcher{T}"/> class.
+        ///     The evaluated nodes
         /// </summary>
-        public Searcher()
+        private int _evaluatedNodes;
+
+        /// <summary>
+        ///     constructor of the <see cref="Searcher{T}" /> class.
+        /// </summary>
+        protected Searcher()
         {
             _openList = new SimplePriorityQueue<State<T>>();
             _evaluatedNodes = 0;
         }
 
         /// <summary>
-        /// Gets the number of types that evaluated until the solution has returned.
+        ///     Gets the number of types that evaluated until the solution has returned.
         /// </summary>
         /// <returns>
-        /// return the number of nodes that evalueted</returns>
+        ///     return the number of nodes that evalueted
+        /// </returns>
         public int GetNumberOfNodesEvaluated()
         {
             return _evaluatedNodes;
         }
 
         /// <summary>
-        /// the main search method (abstract).
+        ///     the main search method (abstract).
         /// </summary>
         /// <param name="searchable">The searchable.</param>
         /// <returns>
-        /// return some data structure of the solution type</returns>
+        ///     return some data structure of the solution type
+        /// </returns>
         public abstract ISolution<T> Search(ISearchable<T> searchable);
 
         /// <summary>
-        /// Pops state from the priority queue.
+        ///     Pops state from the priority queue.
         /// </summary>
         /// <returns> return the state that pulled</returns>
-        public State<T> Pop()
+        protected State<T> Pop()
         {
             _evaluatedNodes++;
             return _openList.Dequeue();
         }
 
         /// <summary>
-        /// Pushes state from the priority queue.
+        ///     Pushes state from the priority queue.
         /// </summary>
         /// <param name="state">The state.</param>
         /// <param name="priority">The priority in the queue</param>
-        public void Push(State<T> state, float priority)
+        protected void Push(State<T> state, float priority)
         {
             _openList.Enqueue(state, priority);
         }
 
         /// <summary>
-        /// check if the priority queue is empty.
+        ///     check if the priority queue is empty.
         /// </summary>
         /// <returns>
-        ///   <c>true</c> if the priority queue is empty; otherwise, <c>false</c>.
+        ///     <c>true</c> if the priority queue is empty; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsEmpty()
+        protected bool IsEmpty()
         {
             return _openList.Count == 0;
         }
 
         /// <summary>
-        /// Updates priority of a given state.
+        ///     Updates priority of a given state.
         /// </summary>
         /// <param name="state">The state.</param>
-        public void Update(State<T> state)
+        protected void Update(State<T> state)
         {
             _openList.UpdatePriority(state, state.Cost);
         }
 
         /// <summary>
-        /// check if priority queue contains a given state.
+        ///     check if priority queue contains a given state.
         /// </summary>
         /// <param name="state">The state.</param>
         /// <returns>
-        ///   <c>true</c> if contains the state; otherwise, <c>false</c>.
+        ///     <c>true</c> if contains the state; otherwise, <c>false</c>.
         /// </returns>
-        public bool Contains(State<T> state)
+        protected bool Contains(State<T> state)
         {
             return _openList.Contains(state);
         }
 
         /// <summary>
-        /// Get state from the priority queue.
-        /// </summary>
-        /// <param name="state">The state.</param>
-        /// <returns>
-        /// if the state in the queue return it, else reutrn null</returns>
-        public State<T> Get(State<T> state)
-        {
-            foreach (State<T> s in _openList)
-                if (s.Equals(state)) return s;
-            return null;
-        }
-
-        /// <summary>
-        /// create a data structure that contain the algorithm solution.
+        ///     create a data structure that contain the algorithm solution.
         /// </summary>
         /// <param name="state">The last state.</param>
         /// <returns>
-        /// return the data structure with the solution</returns>
+        ///     return the data structure with the solution
+        /// </returns>
         protected ISolution<T> BackTrace(State<T> state)
         {
             ISolution<T> solution = new StackSolution<T>();
@@ -129,7 +120,7 @@ namespace SearchAlgorithmsLib
         }
 
         /// <summary>
-        /// Reset the searcher.
+        ///     Reset the searcher.
         /// </summary>
         protected void Reset()
         {

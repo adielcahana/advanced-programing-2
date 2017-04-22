@@ -2,65 +2,67 @@
 using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
+using Server.ClientHandlers;
 
 namespace Server
 {
     /// <summary>
-    /// the server class, manage all the tcp connection
+    ///     the server class, manage all the tcp connection
     /// </summary>
-    class Server
+    internal class Server
     {
         /// <summary>
-        /// The tcp listener
+        ///     The client handler type
         /// </summary>
-        private TcpListener listener;
-        /// <summary>
-        /// The client handler type
-        /// </summary>
-        private IClientHandler ch;
+        private readonly IClientHandler _ch;
 
         /// <summary>
-        /// constructor of the <see cref="Server"/> class.
+        ///     The tcp listener
         /// </summary>
-        /// <param name="port">The port.</param>
+        private TcpListener _listener;
+
+        /// <summary>
+        ///     constructor of the <see cref="Server" /> class.
+        /// </summary>
         /// <param name="ch">The client handler.</param>
         public Server(IClientHandler ch)
         {
-            this.ch = ch;
+            _ch = ch;
         }
 
         /// <summary>
-        /// Start the server.
+        ///     Start the server.
         /// </summary>
         public void Start()
         {
             // initialize
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),
-                Int32.Parse(ConfigurationManager.AppSettings[1]));
-            listener = new TcpListener(ep);
-            listener.Start();
+                int.Parse(ConfigurationManager.AppSettings[1]));
+            _listener = new TcpListener(ep);
+            _listener.Start();
             while (true)
             {
                 try
                 {
                     // get new connection with client
-                    TcpClient client = listener.AcceptTcpClient();
+                    TcpClient client = _listener.AcceptTcpClient();
                     Console.WriteLine("Got new connection");
                     // give to the client handler to maanage the communication with the client
-                    ch.HandleClient(client);
+                    _ch.HandleClient(client);
                 }
                 catch (SocketException)
-                { }
+                {
+                }
                 Console.WriteLine("Connection Handeld");
             }
         }
 
         /// <summary>
-        /// Stop the server.
+        ///     Stop the server.
         /// </summary>
         public void Stop()
         {
-            listener.Stop();
+            _listener.Stop();
         }
     }
 }
