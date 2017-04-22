@@ -11,10 +11,6 @@ namespace Server
     class Server
     {
         /// <summary>
-        /// The port to listen
-        /// </summary>
-        private int port;
-        /// <summary>
         /// The tcp listener
         /// </summary>
         private TcpListener listener;
@@ -28,9 +24,8 @@ namespace Server
         /// </summary>
         /// <param name="port">The port.</param>
         /// <param name="ch">The client handler.</param>
-        public Server(int port, IClientHandler ch)
+        public Server(IClientHandler ch)
         {
-            this.port = port;
             this.ch = ch;
         }
 
