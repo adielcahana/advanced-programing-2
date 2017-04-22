@@ -7,23 +7,41 @@ using Server.Commands;
 
 namespace Server
 {
+    /// <summary>
+    /// game controller with the relevant ICommands
+    /// </summary>
+    /// <seealso cref="Server.Controller" />
     class GameController : Controller
     {
         private MazeModel _model;
 
         private List<TcpClient> _players;
         private List<Position> _positions;
+        /// <summary>
+        /// The input moves
+        /// </summary>
         private ConcurrentQueue<Move> _moves;
+        /// <summary>
+        /// The output changes that have been made in the game
+        /// </summary>
         private ConcurrentQueue<Move> _changes;
         public static Dictionary<string, Direction> directions;
-
         private bool _gameFinished;
-        private bool _canContinue;
+        private bool _isPlayer2Connected;
+        /// <summary>
+        /// The last client who read rhe changes
+        /// </summary>
         private int lastReaderIndex;
 
         private string _name;
         public Maze Maze { get; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameController"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="maze">The maze.</param>
+        /// <param name="model">The model.</param>
         public GameController(string name, Maze maze, MazeModel model)
         {
             directions = new Dictionary<string, Direction>();
@@ -45,25 +63,33 @@ namespace Server
             commands.Add("play", new Play(_name, this));
             commands.Add("close", new Close(model));
 
-            _canContinue = false;
+            _isPlayer2Connected = false;
             _gameFinished = false;
             lastReaderIndex = -1;
         }
 
+        /// <summary>
+        /// Adds the player.
+        /// </summary>
+        /// <param name="client">The client.</param>
         public void AddPlayer(TcpClient client)
         {
             _players.Add(client);
             _positions.Add(Maze.InitialPos);
             if (_players.Count == 2)
             {
-                _canContinue = true;
+                _isPlayer2Connected = true;
             }
         }
 
+        /// <summary>
+        /// Initializes the game.
+        /// waiting for the next player to connect
+        /// </summary>
         public void initialize()
         {
             PlayerHandler player = new PlayerHandler(this);
-            while (!_canContinue)
+            while (!_isPlayer2Connected)
             {
                 System.Threading.Thread.Sleep(10);
             }
@@ -71,6 +97,12 @@ namespace Server
             player.HandleClient(_players[1]);
         }
 
+
+        /// <summary>
+        /// Adds a move from a client.
+        /// </summary>
+        /// <param name="direction">The direction.</param>
+        /// <param name="client">The client.</param>
         public void addMove(string direction, TcpClient client)
         {
             Direction dir = new Direction();
@@ -101,9 +133,18 @@ namespace Server
             _moves.Enqueue(new Move(dir, _name, clientID));
         }
 
+        /// <summary>
+        /// Gets the next game state.
+        /// responsible for passing the current state for both players before disposing it
+        /// </summary>
+        /// <param name="playerClient">The player client.</param>
+        /// <returns>
+        /// string represantation of the game state
+        /// </returns>
         public string getState(TcpClient playerClient)
         {
             int indexOfClient = _players.IndexOf(playerClient);
+            //sleep while the client already read the next state, ot rhe state hasn't changed
             while (_changes.Count == 0 || lastReaderIndex == indexOfClient)
             {
                 System.Threading.Thread.Sleep(10);
@@ -112,18 +153,20 @@ namespace Server
             Move move;
             lock (this)
             {
+                // if the next state wasn't already read by one the players
                 if (lastReaderIndex == -1)
                 {
                     _changes.TryPeek(out move);
                     lastReaderIndex = indexOfClient;
                 }
-                else
+                else // if the next state was already read by one the players, dispose it
                 {
                     _changes.TryDequeue(out move);
                     lastReaderIndex = -1;
                 }
             }
 
+            //case of closing state represented by irrelevant move
             if (move.ClientId == -1)
             {
                 return "close";
@@ -132,11 +175,19 @@ namespace Server
             return move.ToJSON();
         }
 
+        /// <summary>
+        /// Finishes the game.
+        /// </summary>
+        /// <param name="player">The player.</param>
         public void Finish(TcpClient player)
         {
             _gameFinished = true;
         }
 
+        /// <summary>
+        /// Starts the game.
+        /// update the game state according to players movements
+        /// </summary>
         public void Start()
         {
             new Task(() =>
@@ -170,6 +221,7 @@ namespace Server
                         _changes.Enqueue(move);
                     }
                 }
+                //update _changes with an irelevant Move that closes the game
                 _changes.Enqueue(new Move(Direction.Up, null, -1));
             }).Start();
         }

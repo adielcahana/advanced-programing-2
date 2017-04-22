@@ -9,19 +9,34 @@ using Newtonsoft.Json;
 
 namespace Server
 {
+    /// <summary>
+    /// algorithm enum according to the exercise specs
+    /// </summary>
     internal enum Algorithm
     {
         BFS,
         DFS
     }
 
+    /// <summary>
+    /// encasulates all the logic of maze gaming
+    /// </summary>
+    /// <seealso cref="Server.IModel" />
     internal class MazeModel : IModel
     {
         private readonly ISearcher<Position>[] _algorithms;
         private readonly DFSMazeGenerator _generator;
+        /// <summary>
+        /// The mazes cache
+        /// </summary>
         private readonly Dictionary<string, Maze> _mazes;
+        /// <summary>
+        /// The multiplayer games cache
+        /// </summary>
         private Dictionary<string, GameController> _games;
-
+        /// <summary>
+        /// The solutions cache
+        /// </summary>
         private readonly Dictionary<string, MazeSolution> _solutions;
 
         public MazeModel()
@@ -35,6 +50,15 @@ namespace Server
             _algorithms[1] = new DepthFirstSearch<Position>();
         }
 
+        /// <summary>
+        /// Generates the maze.
+        /// </summary>
+        /// <param name="name">The maze name.</param>
+        /// <param name="row">number of rows.</param>
+        /// <param name="col">number of cols.</param>
+        /// <returns>
+        /// maze
+        /// </returns>
         public Maze GenerateMaze(string name, int row, int col)
         {
             if (_mazes.ContainsKey(name))
@@ -42,13 +66,23 @@ namespace Server
             Maze maze;
             maze = _generator.Generate(col, row);
             maze.Name = name;
+            //save the maze
             _mazes.Add(name, maze);
             return maze;
         }
 
+        /// <summary>
+        /// Solves the maze.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="algorithm">The algorithm.</param>
+        /// <returns>
+        /// the maze solution
+        /// </returns>
         public MazeSolution SolveMaze(string name, Algorithm algorithm)
         {
             MazeSolution solution;
+            // try searching the solution in the cache
             if (_solutions.TryGetValue(name, out solution))
                 return solution;
             Maze maze;
@@ -65,6 +99,12 @@ namespace Server
             return null;
         }
 
+        /// <summary>
+        /// Creates list of active game.
+        /// </summary>
+        /// <returns>
+        /// list of games names
+        /// </returns>
         public string CreateList()
         {
             if(_games.Count == 0)
@@ -79,6 +119,16 @@ namespace Server
             return JsonConvert.SerializeObject(names, Formatting.Indented);
         }
 
+        /// <summary>
+        /// create new game.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="rows">The rows.</param>
+        /// <param name="cols">The cols.</param>
+        /// <param name="player1">client.</param>
+        /// <returns>
+        /// the maze detailes
+        /// </returns>
         public string NewGame(String name, int rows, int cols, TcpClient player1)
         {
             Maze maze = _generator.Generate(rows, cols);
@@ -93,6 +143,14 @@ namespace Server
             return maze.ToJSON();
         }
 
+        /// <summary>
+        /// player 2 join the game.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="player2">The player2.</param>
+        /// <returns>
+        /// the maze detailes
+        /// </returns>
         public string JoinGame(String name, TcpClient player2)
         {
             GameController game;
@@ -104,6 +162,11 @@ namespace Server
             return "the name: " + name + "does not exist";
         }
 
+        /// <summary>
+        /// notify the game to finish.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="client">The client.</param>
         public void finishGame(string name, TcpClient client)
         {
             _games[name].Finish(client);

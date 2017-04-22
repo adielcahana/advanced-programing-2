@@ -61,6 +61,18 @@ namespace Client
             string answer = "";
             string command = null;
             Console.WriteLine("start multiple game");
+
+            Task write = new Task(() =>
+            {
+                do
+                {
+                    command = Console.ReadLine();
+                    writer.WriteLine(command);
+                    writer.Flush();
+                    // Get result from server
+                } while (!answer.Equals("close"));
+            });
+
             Task read = new Task(() =>
             {
                 do
@@ -82,30 +94,20 @@ namespace Client
                         }
                     }
                 } while (!answer.Equals("close"));
-                Console.WriteLine("Game ended!");
             });
             
-            Task write = new Task(() =>
-            {
-                do
-                {
-                    command = Console.ReadLine();
-                    writer.WriteLine(command);
-                    writer.Flush();
-                    // Get result from server
-                } while (!answer.Equals("close"));
-            });
-
             read.Start();
             write.Start();
 
             read.Wait();
-            write.Wait();
+            //write.Wait();
 
             stream.Close();
             reader.Close();
             writer.Close();
             client.Close();
+
+            Console.WriteLine("Game ended!");
         }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Server
 {
+    /// <summary>
+    /// encapsulate a player handeling
+    /// </summary>
+    /// <seealso cref="IClientHandler" />
     class PlayerHandler : IClientHandler
     {
         private GameController _gameController;
@@ -14,6 +17,11 @@ namespace Server
         {
             _gameController = game;
         }
+
+        /// <summary>
+        /// Handles the player.
+        /// </summary>
+        /// <param name="client">The client.</param>
         public void HandleClient(TcpClient client)
         {
             string output = "";
@@ -21,8 +29,8 @@ namespace Server
             NetworkStream stream = client.GetStream();
             StreamReader reader = new StreamReader(stream);
             StreamWriter writer = new StreamWriter(stream);
-
-            Task read = new Task(() => //get moves
+            // read requsets from the client and procces them
+            Task read = new Task(() => 
             {
                 string input = "";
                 string execute = "";
@@ -34,10 +42,12 @@ namespace Server
                         execute = _gameController.ExecuteCommand(input, client);
                     }
                     catch (Exception e) { }
+                    // while the requst isn't closing request
                 } while (!execute.Equals("close"));
             });
 
-            Task write = new Task(() => // send moves
+            // send the client the game state until a closing state is reached
+            Task write = new Task(() =>
             {
                 {
                     do

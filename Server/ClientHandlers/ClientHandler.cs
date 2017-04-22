@@ -5,15 +5,27 @@ using System.Threading.Tasks;
 
 namespace Server
 {
+    /// <summary>
+    /// the server main client handler
+    /// </summary>
+    /// <seealso cref="Server.IClientHandler" />
     class ClientHandler : IClientHandler
     {
         private IController controller;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClientHandler"/> class.
+        /// </summary>
+        /// <param name="controller">The controller.</param>
         public ClientHandler(IController controller)
         {
             this.controller = controller;
         }
 
+        /// <summary>
+        /// Handles the client by answering a single request and closing the connection.
+        /// </summary>
+        /// <param name="client">The client.</param>
         public void HandleClient(TcpClient client)
         {
             new Task(() =>
@@ -27,7 +39,12 @@ namespace Server
                     string result = controller.ExecuteCommand(commandLine, client);
                     writer.WriteLine(result);
                     writer.Flush();
-                    if(!(commandLine.Contains("start") ||commandLine.Contains("join")))
+                    /*if the requset was for a new game,
+                     * than the client handeling responsability goes to the game,
+                     * therefore the connection isb't closed.
+                     */
+
+                    if (!(commandLine.Contains("start") ||commandLine.Contains("join")))
                     {
                         client.Close();
                         stream.Close();

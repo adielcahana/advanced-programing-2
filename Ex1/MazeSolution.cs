@@ -7,6 +7,11 @@ using SearchAlgorithmsLib;
 
 namespace Ex1
 {
+    /// <summary>
+    /// adapter for the maze soltion.
+    /// enables the conversion of the original ISolution<Position>,
+    /// into direction list, and enables serialization
+    /// </summary>
     public class MazeSolution
     {
         private readonly string _name;
@@ -14,6 +19,12 @@ namespace Ex1
         private readonly Stack<Direction> _solution;
 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MazeSolution"/> class.
+        /// </summary>
+        /// <param name="name">The maze name.</param>
+        /// <param name="sol">The original solution.</param>
+        /// <param name="nodesEvaluated">number of nodes evaluated.</param>
         public MazeSolution(string name, ISolution<Position> sol, int nodesEvaluated)
         {
             _name = name;
@@ -28,8 +39,13 @@ namespace Ex1
             _nodesEvaluated = nodesEvaluated;
         }
 
-        public float Cost { get; set; }
-
+        /// <summary>
+        /// deserialize MazeSolution From json string.
+        /// </summary>
+        /// <param name="str">json represantation of MazeSolution.</param>
+        /// <returns>
+        /// MazeSolution object
+        /// </returns>
         public static MazeSolution FromJSON(string str)
         {
             JObject mazeSolution = JObject.Parse(str);
@@ -56,6 +72,12 @@ namespace Ex1
             return new MazeSolution(name, new Stack<Direction>(sol), nodesEvaluated);
         }
 
+        /// <summary>
+        /// serialize MazeSolution to json string.
+        /// </summary>
+        /// <returns>
+        /// json represantation of MazeSolution.
+        /// </returns>
         public string ToJSON()
         {
             JObject mazeSolution = new JObject();
@@ -68,6 +90,11 @@ namespace Ex1
             return mazeSolution.ToString();
         }
 
+        /// <summary>
+        /// converts the position list to direction list
+        /// </summary>
+        /// <param name="sol">The sol.</param>
+        /// <returns></returns>
         private Stack<Direction> ToDirections(ISolution<Position> sol)
         {
             List<Direction> directions = new List<Direction>(sol.Count() - 1);

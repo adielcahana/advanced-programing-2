@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{12367745-207B-4C95-915E-B85FAAB8D452}</ProjectGuid>
+    <ProjectGuid>{95F9EE3E-05B6-486C-83A0-9A41E076F136}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SearchAlgorithmsLib</RootNamespace>
-    <AssemblyName>SearchAlgorithmsLib</AssemblyName>
+    <RootNamespace>MessagingLib</RootNamespace>
+    <AssemblyName>MessagingLib</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,26 +33,23 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Priority Queue, Version=4.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OptimizedPriorityQueue.4.0.3\lib\net45\Priority Queue.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\BestFirstSearch.cs" />
-    <Compile Include="Algorithms\DepthFirstSearch.cs" />
-    <Compile Include="StackSolution.cs" />
-    <Compile Include="ISolution.cs" />
-    <Compile Include="Algorithms\Searcher.cs" />
-    <Compile Include="State.cs" />
-    <Compile Include="Algorithms\Isearcher.cs" />
-    <Compile Include="Isearchable.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="MessageReader.cs" />
+    <Compile Include="MessageWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

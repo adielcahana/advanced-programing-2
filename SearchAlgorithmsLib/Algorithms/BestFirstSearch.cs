@@ -3,13 +3,27 @@ using System.Diagnostics;
 
 namespace SearchAlgorithmsLib
 {
+    /// <summary>
+    /// encapsulate the BFS algorithm
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <seealso cref="SearchAlgorithmsLib.Searcher{T}" />
     public class BestFirstSearch<T> : Searcher<T>
     {
+        /// <summary>
+        /// the main search method.
+        /// </summary>
+        /// <param name="searchable">The searchable.</param>
+        /// <returns>
+        /// return the search path in a ISolution data structure
+        /// </returns>
         public override ISolution<T> Search(ISearchable<T> searchable)
         {
             Reset();
+            //quick acsses states pool for the states in the open queue
             Dictionary<int, State<T>> states = new Dictionary<int, State<T>>();
             HashSet<State<T>> closed = new HashSet<State<T>>();
+
             State<T> current = searchable.GetInintialState();
             State<T> goal = searchable.GetGoalState();
 
