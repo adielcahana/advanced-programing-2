@@ -44,7 +44,7 @@ namespace Server.Commands
             // craete new maze
             Maze maze = _model.GenerateMaze(name, rows, cols);
             if (maze == null)
-                return "name: " + name + " already taken\n";
+                return "name: " + name + " already taken";
             // return the maze details
             return maze.ToJSON();
         }

@@ -36,11 +36,13 @@ namespace Server.ClientHandlers
                 {
                     try
                     {
+                        // try get input from client
                         string input = reader.ReadLine();
                         execute = _gameController.ExecuteCommand(input, client);
                     }
                     catch (Exception e)
                     {
+                        // close the connection
                         execute = "close";
                     }
                     // while the requst isn't closing request

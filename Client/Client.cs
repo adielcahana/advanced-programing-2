@@ -15,41 +15,84 @@ namespace Client
         private StreamReader _reader;
         private NetworkStream _stream;
         private StreamWriter _writer;
-
+        private int clientId = -1;
         /// <summary>
         ///     Starts this session
         /// </summary>
         public void Start()
         {
+            // initilaize the tcp end point
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),
                 int.Parse(ConfigurationManager.AppSettings[1]));
+            string answer = "";
+            string msg;
+            string commandLine = "";
             while (true)
             {
+                // connect to the server
                 TcpClient client = new TcpClient();
                 client.Connect(ep);
                 Console.WriteLine("You are connected");
                 _stream = client.GetStream();
                 _reader = new StreamReader(_stream);
                 _writer = new StreamWriter(_stream);
-                string answer;
-                string command;
+                Task write = null;
+                // task for read answers from the server
+                Task read = new Task(() =>
                 {
-                    answer = "";
-                    Console.Write("Please enter a command: ");
-                    command = Console.ReadLine();
-                    _writer.WriteLine(command);
-                    _writer.Flush();
-                    // Get result from server
                     do
                     {
-                        msg = _reader.ReadLine();
-                        answer += msg;
-                    } while (!msg.Equals("}") && !msg.Equals("]"));
-                    Console.Write(answer);
-                }
-                if (command.Contains("start") || command.Contains("join"))
-                    if (!answer.Contains("does not exist") && !answer.Contains("wrong arguments"))
-                        StartMultipleGame(client, command);
+                        answer = "";
+                        do
+                        {
+                            // read 1 answer
+                            msg = _reader.ReadLine();
+                            answer += msg;
+                            if (msg != null && !msg.EndsWith("\n"))
+                            {
+                                answer += '\n';
+                            }
+                        } while (msg != null && !msg.Equals("}") && !msg.Equals("]"));
+                        try
+                        {
+                            // check if it's a move
+                            Move move = Move.FromJson(answer);
+                            if (move.ClientId != clientId)
+                                Console.WriteLine(move.ToString());
+                        }
+                        catch
+                        {
+                            if (!answer.Contains("close"))
+                            {
+                                Console.Write(answer);
+                            }
+                            // if game end
+                            else
+                            {
+                                Console.WriteLine("Game ended!");
+                            }
+                            // if it's not multiple game break
+                            if (!CheckIfMultiple(commandLine, answer))
+                            {
+                                break;
+                            }
+                        }
+                    } while (!answer.Contains("close"));
+                });
+                // task for write a command to the server
+                write = new Task(() =>
+                {
+                    while (true)
+                    {
+                        commandLine = Console.ReadLine();
+                        _writer.WriteLine(commandLine);
+                        _writer.Flush();
+                    }
+                });
+                write.Start();
+                read.Start();
+                // wait to answer from server
+                read.Wait();
                 _stream.Close();
                 _reader.Close();
                 _writer.Close();
@@ -58,61 +101,29 @@ namespace Client
         }
 
         /// <summary>
-        ///     starts a multiple game.
+        /// Check if start multiple game.
         /// </summary>
-        /// <param name="client">The client.</param>
-        /// <param name="state">The state - the command that started the game.</param>
-        private void StartMultipleGame(TcpClient client, string state)
+        /// <param name="command">The command.</param>
+        /// <param name="answer">The answer.</param>
+        /// <returns> return true if it's multiple game, otherwise return false</returns>
+        public bool CheckIfMultiple(string command, string answer)
         {
-            //define the client number
-            int clientId = state.Contains("start") ? 0 : 1;
-            string answer = "";
-            string command;
-            Console.WriteLine("start multiple game");
-            //read and send next move/close from user
-            Task write = new Task(() =>
-            {
-                do
+            if (command.Contains("start") || command.Contains("join"))
+                if (!answer.Contains("does not exist") && !answer.Contains("wrong arguments"))
                 {
-                    command = Console.ReadLine();
-                    _writer.WriteLine(command);
-                    _writer.Flush();
-                    // Get result from server
-                } while (!answer.Equals("close"));
-            });
-            //read the next state from the server and procces it
-            Task read = new Task(() =>
-            {
-                do
-                {
-                    answer = "";
-                    string msg;
-                    do
+                    if (command.Contains("start"))
                     {
-                        msg = _reader.ReadLine();
-                        answer += msg;
-                    } while (!msg.Equals("}") && !msg.Equals("close"));
-                    //print the second player last move
-                    if (!answer.Equals("close"))
-                    {
-                        Move move = Move.FromJson(answer);
-                        if (move.ClientId != clientId)
-                            Console.WriteLine(move.ToString());
+                        // if it's the first playar
+                        clientId = 0;
                     }
-                } while (!answer.Equals("close"));
-                _stream.Close();
-                _reader.Close();
-                _writer.Close();
-                client.Close();
-            });
-
-            read.Start();
-            write.Start();
-
-            //wait for the last msg from server
-            read.Wait();
-
-            Console.WriteLine("Game ended!");
+                    else
+                    {
+                        // second player
+                        clientId = 1;
+                    }
+                    return true;
+                }
+            return false;
         }
     }
 }

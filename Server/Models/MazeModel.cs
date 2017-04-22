@@ -98,7 +98,7 @@ namespace Server.Models
                 _solutions.Add(name, solution);
                 return solution;
             }
-            Console.WriteLine("the maze: " + name + "does not exist.");
+            Console.WriteLine("the maze: " + name + "does not exist");
             //TODO: handle a case when the maze does not exist
             return null;
         }
@@ -112,7 +112,7 @@ namespace Server.Models
         public string CreateList()
         {
             if (_games.Count == 0)
-                return "no games avaliable\n";
+                return "no games avaliable";
             List<string> names = new List<string>(_games.Keys.Count);
             foreach (string name in _games.Keys)
                 names.Add(name);
@@ -156,6 +156,10 @@ namespace Server.Models
             GameController game;
             if (_games.TryGetValue(name, out game))
             {
+                if (game.IsStarted())
+                {
+                    return "game" + name + "is full";
+                }
                 game.AddPlayer(player2);
                 return game.Maze.ToJSON();
             }
