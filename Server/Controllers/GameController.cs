@@ -110,7 +110,7 @@ namespace Server.Controllers
         /// </summary>
         /// <param name="direction">The direction.</param>
         /// <param name="client">The client.</param>
-        public void AddMove(string direction, TcpClient client)
+        public string AddMove(string direction, TcpClient client)
         {
             Direction dir = new Direction();
             switch (direction)
@@ -129,7 +129,9 @@ namespace Server.Controllers
                     break;
             }
             int clientId = client == _players[0] ? 0 : 1;
-            _moves.Enqueue(new Move(dir, _name, clientId));
+            Move move = new Move(dir, _name, clientId);
+            _moves.Enqueue(move);
+            return move.ToJson();
         }
 
         /// <summary>

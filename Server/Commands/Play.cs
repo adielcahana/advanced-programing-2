@@ -33,8 +33,7 @@ namespace Server.Commands
         public string Execute(string[] args, TcpClient client = null)
         {
             Direction = args[0];
-            _gameController.AddMove(Direction, client);
-            return null;
+            return _gameController.AddMove(Direction, client);
         }
     }
 }

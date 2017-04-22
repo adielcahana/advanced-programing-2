@@ -41,9 +41,10 @@ namespace Server.ClientHandlers
                     }
                     catch (Exception e)
                     {
+                        execute = "close";
                     }
                     // while the requst isn't closing request
-                } while (execute != null && !execute.Equals("close"));
+                } while (!execute.Equals("close"));
             });
 
             // send the client the game state until a closing state is reached
@@ -57,7 +58,6 @@ namespace Server.ClientHandlers
                         writer.WriteLine(output);
                         writer.Flush();
                     } while (!output.Equals("close"));
-
                     stream.Close();
                     reader.Close();
                     writer.Close();

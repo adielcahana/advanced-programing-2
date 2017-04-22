@@ -40,11 +40,11 @@ namespace Client
                     _writer.WriteLine(command);
                     _writer.Flush();
                     // Get result from server
-                    while (_reader.Peek() >= 0)
+                    do
                     {
-                        answer += _reader.ReadLine();
-                        answer += "\n";
-                    }
+                        msg = _reader.ReadLine();
+                        answer += msg;
+                    } while (!msg.Equals("}") && !msg.Equals("]"));
                     Console.Write(answer);
                 }
                 if (command.Contains("start") || command.Contains("join"))
@@ -100,6 +100,10 @@ namespace Client
                             Console.WriteLine(move.ToString());
                     }
                 } while (!answer.Equals("close"));
+                _stream.Close();
+                _reader.Close();
+                _writer.Close();
+                client.Close();
             });
 
             read.Start();
@@ -107,11 +111,6 @@ namespace Client
 
             //wait for the last msg from server
             read.Wait();
-
-            _stream.Close();
-            _reader.Close();
-            _writer.Close();
-            client.Close();
 
             Console.WriteLine("Game ended!");
         }
