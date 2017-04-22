@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
 
@@ -9,10 +10,6 @@ namespace Server
     /// </summary>
     class Server
     {
-        /// <summary>
-        /// The port to listen
-        /// </summary>
-        private int port;
         /// <summary>
         /// The tcp listener
         /// </summary>
@@ -27,9 +24,8 @@ namespace Server
         /// </summary>
         /// <param name="port">The port.</param>
         /// <param name="ch">The client handler.</param>
-        public Server(int port, IClientHandler ch)
+        public Server(IClientHandler ch)
         {
-            this.port = port;
             this.ch = ch;
         }
 
@@ -39,8 +35,8 @@ namespace Server
         public void Start()
         {
             // initialize
-            IPEndPoint ep = new
-            IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),
+                Int32.Parse(ConfigurationManager.AppSettings[1]));
             listener = new TcpListener(ep);
             listener.Start();
             while (true)
