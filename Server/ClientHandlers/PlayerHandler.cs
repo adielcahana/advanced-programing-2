@@ -13,9 +13,9 @@ namespace Server.ClientHandlers
     /// <seealso cref="IClientHandler" />
     internal class PlayerHandler : IClientHandler
     {
-        private readonly GameController _gameController;
+        private readonly IController _gameController;
 
-        public PlayerHandler(GameController game)
+        public PlayerHandler(IController game)
         {
             _gameController = game;
         }
@@ -57,7 +57,7 @@ namespace Server.ClientHandlers
                 {
                     do
                     {
-                        output = _gameController.GetState(client);
+                        output = _gameController.ExecuteCommand("getState", client);
                         writer.WriteMessage(output);
                     } while (!output.Equals("close"));
                     stream.Close();

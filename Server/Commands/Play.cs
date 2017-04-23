@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using Server.Controllers;
+using Server.Models;
 
 namespace Server.Commands
 {
@@ -9,18 +10,16 @@ namespace Server.Commands
     /// <seealso cref="ICommand" />
     internal class Play : ICommand
     {
-        private readonly GameController _gameController;
+        private readonly IModel _model;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Play" /> class.
         /// </summary>
         /// <param name="gameController">The game controller.</param>
-        public Play(GameController gameController)
+        public Play(IModel model)
         {
-            _gameController = gameController;
+            _model = model;
         }
-
-        private string Direction { set; get; }
 
         /// <summary>
         ///     exectue the command according the arguments.
@@ -32,8 +31,9 @@ namespace Server.Commands
         /// </returns>
         public string Execute(string[] args, TcpClient client = null)
         {
-            Direction = args[0];
-            return _gameController.AddMove(Direction, client);
+            string name = args[1];
+            string direction = args[0];
+            return _model.AddMove(name, direction, client);
         }
     }
 }

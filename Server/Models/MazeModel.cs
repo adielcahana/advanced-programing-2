@@ -7,6 +7,7 @@ using MazeLib;
 using Newtonsoft.Json;
 using SearchAlgorithmsLib;
 using SearchAlgorithmsLib.Algorithms;
+using Server.ClientHandlers;
 using Server.Controllers;
 
 namespace Server.Models
@@ -42,12 +43,12 @@ namespace Server.Models
         /// <summary>
         ///     The multiplayer games cache
         /// </summary>
-        private readonly Dictionary<string, GameController> _games;
+        private readonly Dictionary<string, Game> _games;
 
         public MazeModel()
         {
             _mazes = new Dictionary<string, Maze>();
-            _games = new Dictionary<string, GameController>();
+            _games = new Dictionary<string, Game>();
             _solutions = new Dictionary<string, MazeSolution>();
             _generator = new DFSMazeGenerator();
             _algorithms = new ISearcher<Position>[2];
@@ -133,13 +134,13 @@ namespace Server.Models
         {
             Maze maze = _generator.Generate(rows, cols);
             maze.Name = name;
-            GameController game = new GameController(name, maze, this);
-            game.AddPlayer(player1);
+            GameController controller = new GameController(this, name);
+            PlayerHandler playerHandler = new PlayerHandler(controller);
+            Game game = new Game(maze, this);
             _games.Add(name, game);
-
-            game.Initialize();
+            game.AddPlayer(player1);
+            game.Initialize(playerHandler);
             game.Start();
-
             return maze.ToJSON();
         }
 
@@ -153,7 +154,7 @@ namespace Server.Models
         /// </returns>
         public string JoinGame(string name, TcpClient player2)
         {
-            GameController game;
+            Game game;
             if (_games.TryGetValue(name, out game))
             {
                 if (game.IsStarted())
@@ -175,6 +176,16 @@ namespace Server.Models
         {
             _games[name].Finish();
             _games.Remove(name);
+        }
+
+        public string AddMove(string name, string direction, TcpClient client)
+        {
+            return _games[name].AddMove(direction, client);
+        }
+
+        public string GetState(string name, TcpClient client)
+        {
+            return _games[name].GetState(client);
         }
     }
 }

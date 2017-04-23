@@ -26,7 +26,6 @@ namespace Client
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),
                 int.Parse(ConfigurationManager.AppSettings[1]));
             string answer = "";
-            string msg;
             string commandLine = "";
             while (true)
             {

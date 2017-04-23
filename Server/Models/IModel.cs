@@ -58,5 +58,20 @@ namespace Server.Models
         /// <param name="name">The name.</param>
         /// <param name="client">The client.</param>
         void FinishGame(string name, TcpClient client);
+
+        /// <summary>
+        /// Adds move to a specific game
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="direction">The direction.</param>
+        /// <param name="client">The client.</param>
+        string AddMove(string name, string direction, TcpClient client);
+
+        /// <summary>
+        /// Gets the state of a specifc game
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="client">The client.</param>
+        string GetState(string name, TcpClient client);
     }
 }
