@@ -4,7 +4,7 @@ using Server.Controllers;
 namespace Server.Commands
 {
     /// <summary>
-    ///     play command
+    ///     implement play command
     /// </summary>
     /// <seealso cref="ICommand" />
     internal class Play : ICommand

@@ -92,6 +92,17 @@ namespace Server.Controllers
         }
 
         /// <summary>
+        /// check if the alredy started.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if the game started; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsStarted()
+        {
+            return _players.Count == 2;
+        }
+
+        /// <summary>
         ///     Initializes the game.
         ///     waiting for the next player to connect
         /// </summary>
