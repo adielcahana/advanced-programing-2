@@ -22,8 +22,7 @@ namespace Ex1
             Maze maze = generator.Generate(col, row);
 
             // print the maze
-            string mazeString = maze.ToString();
-            Console.WriteLine(mazeString);
+            Console.Write(maze.ToString());
 
             // adapt the maze and solve it with BFS
             ISearchable<Position> adapter = new MazeAdapter(maze);

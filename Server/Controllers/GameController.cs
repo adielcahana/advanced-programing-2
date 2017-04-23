@@ -138,6 +138,8 @@ namespace Server.Controllers
                 case "left":
                     dir = Direction.Left;
                     break;
+                default:
+                    return "no direction";
             }
             int clientId = client == _players[0] ? 0 : 1;
             Move move = new Move(dir, _name, clientId);

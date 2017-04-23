@@ -32,6 +32,8 @@ namespace Server.Commands
         /// </returns>
         public string Execute(string[] args, TcpClient client = null)
         {
+            if (args.Length != 1)
+                return "wrong arguments";
             Direction = args[0];
             return _gameController.AddMove(Direction, client);
         }

@@ -40,20 +40,19 @@ namespace Server
                 int.Parse(ConfigurationManager.AppSettings[1]));
             _listener = new TcpListener(ep);
             _listener.Start();
+            Console.WriteLine("start get connections");
             while (true)
             {
                 try
                 {
                     // get new connection with client
                     TcpClient client = _listener.AcceptTcpClient();
-                    Console.WriteLine("Got new connection");
                     // give to the client handler to maanage the communication with the client
                     _ch.HandleClient(client);
                 }
                 catch (SocketException)
                 {
                 }
-                Console.WriteLine("Connection Handeld");
             }
         }
 

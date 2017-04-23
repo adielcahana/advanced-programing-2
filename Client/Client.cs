@@ -16,6 +16,7 @@ namespace Client
         private NetworkStream _stream;
         private StreamWriter _writer;
         private int clientId = -1;
+        private bool alreadyWrite = false;
         /// <summary>
         ///     Starts this session
         /// </summary>
@@ -32,7 +33,6 @@ namespace Client
                 // connect to the server
                 TcpClient client = new TcpClient();
                 client.Connect(ep);
-                Console.WriteLine("You are connected");
                 _stream = client.GetStream();
                 _reader = new StreamReader(_stream);
                 _writer = new StreamWriter(_stream);
@@ -80,16 +80,20 @@ namespace Client
                     } while (!answer.Contains("close"));
                 });
                 // task for write a command to the server
-                write = new Task(() =>
+                if (!alreadyWrite)
                 {
-                    while (true)
+                    alreadyWrite = true;
+                    write = new Task(() =>
                     {
-                        commandLine = Console.ReadLine();
-                        _writer.WriteLine(commandLine);
-                        _writer.Flush();
-                    }
-                });
-                write.Start();
+                        while (true)
+                        {
+                            commandLine = Console.ReadLine();
+                            _writer.WriteLine(commandLine);
+                            _writer.Flush();
+                        }
+                    });
+                    write.Start();
+                }
                 read.Start();
                 // wait to answer from server
                 read.Wait();
