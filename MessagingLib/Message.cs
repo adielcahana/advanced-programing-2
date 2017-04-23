@@ -2,39 +2,53 @@
 
 namespace MessagingLib
 {
+    /// <summary>
+    /// tcp messege class with size header
+    /// </summary>
     public class Message
     {
-        private readonly int _msgSize;
+        private string data;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Message"/> class.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
         public Message(string msg)
         {
-            _msgSize = msg.Length;
-            Msg = msg;
+            data = msg;
         }
 
-        public string Msg { get; }
-
-        public string ToJson()
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
         {
-            JObject msg = new JObject
-            {
-                ["size"] = _msgSize,
-                ["message"] = Msg
-            };
-            return msg.ToString();
+            return "size: " + data.Length + "," + data;
         }
 
-        public static Message FromJson(string msg)
+        /// <summary>
+        /// Parses the size of the message to be read.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        /// <returns></returns>
+        public static int ParseMessageSize(string msg)
         {
-            JObject msgJson = JObject.Parse(msg);
-            string massege = (string) msgJson["message"];
-            return new Message(massege);
+            string[] parts = msg.Split(':');
+            return int.Parse(parts[1]);
         }
     }
 
+    /// <summary>
+    /// Message constants
+    /// </summary>
     internal static class Constants
     {
-        public const int StartSize = 12;
-        public const int EndSize = 12;
+        /// <summary>
+        /// The delimiter for the size header
+        /// </summary>
+        public const char delim = ',';
     }
 }
