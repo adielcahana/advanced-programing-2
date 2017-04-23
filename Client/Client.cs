@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using MessagingLib;
 
 namespace Client
 {
@@ -12,11 +13,10 @@ namespace Client
     /// </summary>
     internal class Client
     {
-        private StreamReader _reader;
         private NetworkStream _stream;
-        private StreamWriter _writer;
+        private MessageReader _reader;
+        private MessageWriter _writer;
         private int clientId = -1;
-        private bool alreadyWrite = false;
         /// <summary>
         ///     Starts this session
         /// </summary>
@@ -33,26 +33,17 @@ namespace Client
                 // connect to the server
                 TcpClient client = new TcpClient();
                 client.Connect(ep);
+                Console.WriteLine("You are connected");
                 _stream = client.GetStream();
-                _reader = new StreamReader(_stream);
-                _writer = new StreamWriter(_stream);
+                _reader = new MessageReader(new StreamReader(_stream));
+                _writer = new MessageWriter(new StreamWriter(_stream));
                 Task write = null;
                 // task for read answers from the server
                 Task read = new Task(() =>
                 {
                     do
                     {
-                        answer = "";
-                        do
-                        {
-                            // read 1 answer
-                            msg = _reader.ReadLine();
-                            answer += msg;
-                            if (msg != null && !msg.EndsWith("\n"))
-                            {
-                                answer += '\n';
-                            }
-                        } while (msg != null && !msg.Equals("}") && !msg.Equals("]"));
+                        answer = _reader.ReadMessage();
                         try
                         {
                             // check if it's a move
@@ -64,7 +55,7 @@ namespace Client
                         {
                             if (!answer.Contains("close"))
                             {
-                                Console.Write(answer);
+                                Console.WriteLine(answer);
                             }
                             // if game end
                             else
@@ -80,20 +71,15 @@ namespace Client
                     } while (!answer.Contains("close"));
                 });
                 // task for write a command to the server
-                if (!alreadyWrite)
+                write = new Task(() =>
                 {
-                    alreadyWrite = true;
-                    write = new Task(() =>
+                    while (true)
                     {
-                        while (true)
-                        {
-                            commandLine = Console.ReadLine();
-                            _writer.WriteLine(commandLine);
-                            _writer.Flush();
-                        }
-                    });
-                    write.Start();
-                }
+                        commandLine = Console.ReadLine();
+                        _writer.WriteMessage(commandLine);
+                    }
+                });
+                write.Start();
                 read.Start();
                 // wait to answer from server
                 read.Wait();

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using MessagingLib;
 using Server.Controllers;
 
 namespace Server.ClientHandlers
@@ -26,8 +27,8 @@ namespace Server.ClientHandlers
         public void HandleClient(TcpClient client)
         {
             NetworkStream stream = client.GetStream();
-            StreamReader reader = new StreamReader(stream);
-            StreamWriter writer = new StreamWriter(stream);
+            MessageReader reader = new MessageReader(new StreamReader(stream));
+            MessageWriter writer = new MessageWriter(new StreamWriter(stream));
             // read requsets from the client and procces them
             Task read = new Task(() =>
             {
@@ -37,7 +38,7 @@ namespace Server.ClientHandlers
                     try
                     {
                         // try get input from client
-                        string input = reader.ReadLine();
+                        string input = reader.ReadMessage();
                         execute = _gameController.ExecuteCommand(input, client);
                     }
                     catch (Exception e)
@@ -57,8 +58,7 @@ namespace Server.ClientHandlers
                     do
                     {
                         output = _gameController.GetState(client);
-                        writer.WriteLine(output);
-                        writer.Flush();
+                        writer.WriteMessage(output);
                     } while (!output.Equals("close"));
                     stream.Close();
                     reader.Close();

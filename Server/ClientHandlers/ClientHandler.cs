@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using MessagingLib;
 using Server.Controllers;
 
 namespace Server.ClientHandlers
@@ -32,14 +33,13 @@ namespace Server.ClientHandlers
             new Task(() =>
             {
                 NetworkStream stream = client.GetStream();
-                StreamReader reader = new StreamReader(stream);
-                StreamWriter writer = new StreamWriter(stream);
+                MessageReader reader = new MessageReader(new StreamReader(stream));
+                MessageWriter writer = new MessageWriter(new StreamWriter(stream));
                 {
-                    string commandLine = reader.ReadLine();
+                    string commandLine = reader.ReadMessage();
                     Console.WriteLine(commandLine);
                     string result = _controller.ExecuteCommand(commandLine, client);
-                    writer.WriteLine(result);
-                    writer.Flush();
+                    writer.WriteMessage(result);
                     /*if the requset was for a new game,
                      * than the client handeling responsability goes to the game,
                      * therefore the connection isb't closed.

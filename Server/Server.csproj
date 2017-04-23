@@ -80,8 +80,6 @@
     <Compile Include="ClientHandlers\IClientHandler.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Controllers\IController.cs" />
-    <Compile Include="MazeAdapter.cs" />
-    <Compile Include="MazeSolution.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\MazeModel.cs" />
     <Compile Include="Move.cs" />
@@ -96,6 +94,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ex1\Ex1.csproj">
+      <Project>{ba4b82f4-4704-475f-bf3a-e66639700b3d}</Project>
+      <Name>Ex1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MessagingLib\MessagingLib.csproj">
+      <Project>{95F9EE3E-05B6-486C-83A0-9A41E076F136}</Project>
+      <Name>MessagingLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SearchAlgorithmsLib\SearchAlgorithmsLib.csproj">
       <Project>{12367745-207B-4C95-915E-B85FAAB8D452}</Project>
       <Name>SearchAlgorithmsLib</Name>
