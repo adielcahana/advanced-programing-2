@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace ex2
+namespace ClientGui
 {
     /// <summary>
     /// Interaction logic for MultiPlayerMenu.xaml
