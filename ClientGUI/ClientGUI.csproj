@@ -59,8 +59,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Error.xaml.cs">
+      <DependentUpon>Error.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Game.xaml.cs">
       <DependentUpon>Game.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsMenu.xaml.cs">
+      <DependentUpon>SettingsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SinglePlayerMenu.xaml.cs">
+      <DependentUpon>SinglePlayerMenu.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +110,10 @@
     <Resource Include="resources\the maze.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Error.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Game.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -112,6 +125,14 @@
     <Page Include="MultiPlayerMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingsMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SinglePlayerMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

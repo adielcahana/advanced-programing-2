@@ -15,13 +15,18 @@ using System.Windows.Shapes;
 namespace ClientGUI
 {
     /// <summary>
-    /// Interaction logic for Game.xaml
+    /// Interaction logic for SettingsMenu.xaml
     /// </summary>
-    public partial class Game : Window
+    public partial class SettingsMenu : Window
     {
-        public Game()
+        public SettingsMenu()
         {
             InitializeComponent();
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

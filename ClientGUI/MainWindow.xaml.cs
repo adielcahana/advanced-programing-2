@@ -1,28 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace ex2
+namespace ClientGUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly SinglePlayerMenu _singlePlayer;
+        private readonly MultiPlayerMenu _multiPlayer;
+        private readonly SettingsMenu _settings;
         public MainWindow()
         {
+            _singlePlayer = new SinglePlayerMenu();
+            _multiPlayer = new MultiPlayerMenu();
+            _settings = new SettingsMenu();
             InitializeComponent();
+        }
+
+        private void SinglePlayerClick(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            _singlePlayer.Show();
+        }
+
+        private void MultiPlayerClick(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            _multiPlayer.Show();
+        }
+
+        private void SettingsClick(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            _settings.Show();
+        }
+
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+            Environment.Exit(0);
         }
     }
 }

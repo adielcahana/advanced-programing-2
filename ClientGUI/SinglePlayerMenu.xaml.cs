@@ -3,11 +3,11 @@
 namespace ClientGUI
 {
     /// <summary>
-    /// Interaction logic for MultiPlayerMenu.xaml
+    /// Interaction logic for SinglePlayer.xaml
     /// </summary>
-    public partial class MultiPlayerMenu : Window
+    public partial class SinglePlayerMenu : Window
     {
-        public MultiPlayerMenu()
+        public SinglePlayerMenu()
         {
             InitializeComponent();
         }

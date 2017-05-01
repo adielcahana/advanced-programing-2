@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace ClientGUI
 {
     /// <summary>
-    /// Interaction logic for Game.xaml
+    /// Interaction logic for Error.xaml
     /// </summary>
-    public partial class Game : Window
+    public partial class Error : Window
     {
-        public Game()
+        public Error()
         {
             InitializeComponent();
         }
