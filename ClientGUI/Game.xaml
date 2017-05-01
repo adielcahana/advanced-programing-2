@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGui"
+        xmlns:clientGui="clr-namespace:ClientGUI"
         mc:Ignorable="d"
         Title="Game" Height="1000" Width="1000">
-    <Canvas HorizontalAlignment="Left" Height="386" Margin="107,106,0,0" VerticalAlignment="Top" Width="790" RenderTransformOrigin="1.199,0.815">
+    <Canvas x:Name="Canvas"  HorizontalAlignment="Left" Height="386" Margin="107,106,0,0" VerticalAlignment="Top" Width="790" RenderTransformOrigin="1.199,0.815">
         <Button x:Name="Restart_game" Content="Restart game" FontSize="22" Canvas.Top="-95" Width="140" Height="40" Canvas.Left="130"/>
         <Button x:Name="Solve_maze" Content="Solve maze" FontSize="22" Canvas.Left="315" Canvas.Top="-95" Width="140" Height="40"/>
         <Button x:Name="Menu" Content="Main menu" FontSize="22" Canvas.Left="515" Canvas.Top="-95" Width="140" Height="40"/>
