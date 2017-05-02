@@ -7,9 +7,12 @@
         xmlns:clientGui="clr-namespace:ClientGUI"
         mc:Ignorable="d"
         Title="Game" Height="1000" Width="1000">
-    <Canvas x:Name="Canvas"  HorizontalAlignment="Left" Height="386" Margin="107,106,0,0" VerticalAlignment="Top" Width="790" RenderTransformOrigin="1.199,0.815">
-        <Button x:Name="Restart_game" Content="Restart game" FontSize="22" Canvas.Top="-95" Width="140" Height="40" Canvas.Left="130"/>
-        <Button x:Name="Solve_maze" Content="Solve maze" FontSize="22" Canvas.Left="315" Canvas.Top="-95" Width="140" Height="40"/>
-        <Button x:Name="Menu" Content="Main menu" FontSize="22" Canvas.Left="515" Canvas.Top="-95" Width="140" Height="40"/>
-    </Canvas>
+    <DockPanel x:Name="Dock" RenderTransformOrigin="1.199,0.815">
+        <StackPanel Height="100"  DockPanel.Dock="Top" Orientation="Horizontal" >
+            <Button x:Name="Solve_maze" Content="Solve maze" FontSize="22" Width="140" Margin="250,30,50,30"/>
+            <Button x:Name="Restart_game" Content="Restart game" FontSize="22" Width="140" Margin="0,30,50,30"/>
+            <Button x:Name="Menu" Content="Main menu" FontSize="22" Width="140" Margin="0,30,250,30"/>
+        </StackPanel>
+        <Canvas x:Name="Canvas" DockPanel.Dock= "Bottom"></Canvas>
+    </DockPanel>
 </Window>

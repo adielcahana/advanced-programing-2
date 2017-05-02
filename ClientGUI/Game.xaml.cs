@@ -37,7 +37,7 @@ namespace ClientGui
             string mazeSrl = _client.Recieve();
             _client.Close();
             _maze = Maze.FromJSON(mazeSrl);
-            _board = new MazeBoard(_maze);
+            _board = new MazeBoard(_maze, Canvas);
             
         }
     }
