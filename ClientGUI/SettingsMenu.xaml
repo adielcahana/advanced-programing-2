@@ -20,7 +20,7 @@
         <TextBox x:Name="InsertIp" HorizontalAlignment="Left" Height="30" Margin="5,115,0,0" TextWrapping="Wrap" Text="" FontSize="15" VerticalAlignment="Top" Width="200" Grid.Column="1"/>
         <TextBox x:Name="InsertSize" HorizontalAlignment="Left" Height="30" Margin="5,165,0,0" TextWrapping="Wrap" Text="" FontSize="15" VerticalAlignment="Top" Width="200" Grid.Column="1"/>
         <TextBox x:Name="InsertAlgo" HorizontalAlignment="Left" Height="30" Margin="5,205,0,0" TextWrapping="Wrap" Text="" FontSize="15" VerticalAlignment="Top" Width="200" Grid.Column="1"/>
-        <Button x:Name="OkButton" Content="OK" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,255,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353"/>
+        <Button x:Name="Save" Content="Save Settngs" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,255,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353"/>
         <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,255,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="button_Click"/>
         <Grid.Background>
             <ImageBrush ImageSource="resources/background maze.jpg"/>
