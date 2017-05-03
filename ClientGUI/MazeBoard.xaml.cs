@@ -15,9 +15,10 @@ namespace ClientGUI
         public static readonly DependencyProperty MazeProperty = DependencyProperty.Register("Maze", typeof(Maze),
             typeof(MazeBoard), new UIPropertyMetadata(mazeChanged));
 
-        public MazeBoard()
+        public MazeBoard(Maze maze)
         {
-            InitializeComponent();    
+            InitializeComponent();
+            _maze = maze;
         }
 
         private static void mazeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -31,7 +32,6 @@ namespace ClientGUI
             Rectangle rect;
             int left = 0;
             int top = 0;
-            int i = 0;
             for (int row = 0; row < _maze.Rows; row++)
             {
                 for (int col = 0; col < _maze.Cols; col++)
@@ -52,7 +52,7 @@ namespace ClientGUI
                     Canvas.SetTop(rect, top);
                     left += 21;
                 }
-                top += 21;
+                top -= 21;
             }
         }
     }

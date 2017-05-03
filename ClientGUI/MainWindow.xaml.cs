@@ -8,12 +8,10 @@ namespace ClientGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly SinglePlayerMenu _singlePlayer;
         private readonly MultiPlayerMenu _multiPlayer;
         private readonly SettingsMenu _settings;
         public MainWindow()
         {
-            _singlePlayer = new SinglePlayerMenu();
             _multiPlayer = new MultiPlayerMenu();
             _settings = new SettingsMenu();
             InitializeComponent();
@@ -22,7 +20,8 @@ namespace ClientGUI
         private void SinglePlayerClick(object sender, RoutedEventArgs e)
         {
             Hide();
-            _singlePlayer.Show();
+            SinglePlayerMenu singlePlayer = new SinglePlayerMenu(this);
+            singlePlayer.Show();
         }
 
         private void MultiPlayerClick(object sender, RoutedEventArgs e)

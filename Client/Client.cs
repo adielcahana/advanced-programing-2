@@ -11,16 +11,17 @@ namespace Client
     /// <summary>
     ///     encapsulate the client capabilities
     /// </summary>
-    internal class Client
+    public class Client
     {
         private NetworkStream _stream;
         private MessageReader _reader;
         private MessageWriter _writer;
-        private int clientId = -1;
+        private TcpClient _client;
+        //private int clientId = -1;
         /// <summary>
         ///     Starts this session
         /// </summary>
-        public void Start()
+        /*public void Start()
         {
             // initilaize the tcp end point
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),
@@ -87,7 +88,7 @@ namespace Client
                 _writer.Close();
                 client.Close();
             }
-        }
+        }*/
 
         /// <summary>
         /// Check if start multiple game.
@@ -95,7 +96,7 @@ namespace Client
         /// <param name="command">The command.</param>
         /// <param name="answer">The answer.</param>
         /// <returns> return true if it's multiple game, otherwise return false</returns>
-        public bool CheckIfMultiple(string command, string answer)
+        /*public bool CheckIfMultiple(string command, string answer)
         {
             if (command.Contains("start") || command.Contains("join"))
                 if (!answer.Contains("does not exist") && !answer.Contains("wrong arguments"))
@@ -113,6 +114,35 @@ namespace Client
                     return true;
                 }
             return false;
+        }*/
+
+        public void Initialize()
+        {
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),
+                int.Parse(ConfigurationManager.AppSettings[1]));
+            _client = new TcpClient();
+            _client.Connect(ep);
+            _stream = _client.GetStream();
+            _reader = new MessageReader(new StreamReader(_stream));
+            _writer = new MessageWriter(new StreamWriter(_stream));
+        }
+
+        public void Close()
+        {
+            _stream.Close();
+            _reader.Close();
+            _writer.Close();
+            _client.Close();
+        }
+
+        public void Send(string msg)
+        {
+            _writer.WriteMessage(msg);
+        }
+
+        public string Recieve()
+        {
+            return _reader.ReadMessage();
         }
     }
 }
