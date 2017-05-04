@@ -40,7 +40,7 @@ namespace ClientGUI
             board.DrawMaze();
         }
 
-        private void DrawMaze()
+        public void DrawMaze()
         {
             Rectangle rect;
             int left = 0;

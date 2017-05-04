@@ -6,9 +6,4 @@
              xmlns:local="clr-namespace:ClientGUI"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Viewbox>
-        <Border BorderBrush="Black" BorderThickness="3">
-            <Canvas x:Name="Board" Width="300" Height="300"/>
-        </Border>
-    </Viewbox>
 </UserControl>

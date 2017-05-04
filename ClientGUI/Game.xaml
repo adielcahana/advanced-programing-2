@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ClientGui"
         xmlns:clientGui="clr-namespace:ClientGUI"
         mc:Ignorable="d"
-        Title="Game" Height="1000" Width="1000">
+        Title="Game" Height="1000" Width="1000" KeyDown="Window_KeyDown">
     <DockPanel x:Name="Dock" RenderTransformOrigin="1.199,0.815">
         <StackPanel Height="100"  DockPanel.Dock="Top" Orientation="Horizontal" >
             <Button x:Name="Solve_maze" Content="Solve maze" FontSize="22" Width="140" Margin="250,30,50,30"/>
