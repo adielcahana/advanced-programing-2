@@ -5,21 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGUI"
         mc:Ignorable="d"
-        Title="SettingsMenu" Height="350" Width="350">
+        Title="SettingsMenu" Height="350" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" >
+    <Window.Resources>
+        <Style x:Key="TextBox">
+            <Setter Property="TextBox.Text" Value=""  />
+            <Setter Property="TextBox.Height" Value="30"  />
+            <Setter Property="TextBox.Width" Value="200" />
+            <Setter Property="TextBox.FontSize" Value="15" />
+            <Setter Property="TextBox.TextWrapping" Value="Wrap" />
+            <Setter Property="TextBox.VerticalAlignment" Value="Top" />
+            <Setter Property="TextBox.HorizontalAlignment" Value ="Left"/>
+        </Style>
+        <Style x:Key="TextBlock">
+            <Setter Property="TextBlock.Foreground" Value ="White"/>
+            <Setter Property="TextBlock.FontSize" Value ="15"/>
+            <Setter Property="TextBlock.TextWrapping" Value ="Wrap"/>
+            <Setter Property="TextBlock.Height" Value ="30"/>
+            <Setter Property="TextBlock.Width" Value ="125"/>
+            <Setter Property="TextBlock.HorizontalAlignment" Value ="Left"/>
+        </Style>    
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="125*"/>
             <ColumnDefinition Width="217*"/>
         </Grid.ColumnDefinitions>
         <Label x:Name="Title" Content="Settings" FontSize="15" Foreground="Gold" Grid.Column="1" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="98" Height="30"/>
-        <TextBlock x:Name="Port" HorizontalAlignment="Left" Foreground="White" FontSize="15" Margin="0,70,0,0" TextWrapping="Wrap" Text="Port Number" VerticalAlignment="Top" Width="104" Height="30"/>
-        <TextBlock x:Name="IpAddress" Foreground="White" HorizontalAlignment="Left" Margin="0,115,0,0" TextWrapping="Wrap" Text="I.P Address" FontSize="15" VerticalAlignment="Top" Height="30" Width="105"/>
-        <TextBlock x:Name="DefaultSize" Foreground="White" HorizontalAlignment="Left" Margin="0,165,0,0" TextWrapping="Wrap" Text="Default Size" FontSize="15" VerticalAlignment="Top" Width="105" Height="30"/>
-        <TextBlock x:Name="DefaultAlgo" Foreground="White" HorizontalAlignment="Left" Margin="0,205,0,0" TextWrapping="Wrap" Text="Default Algorithm:" FontSize="15" VerticalAlignment="Top" Width="124" Height="30"/>
-        <TextBox x:Name="InsertPort" HorizontalAlignment="Left" Height="30" Margin="5,70,0,0" TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" Width="200" Grid.Column="1"/>
-        <TextBox x:Name="InsertIp" HorizontalAlignment="Left" Height="30" Margin="5,115,0,0" TextWrapping="Wrap" Text="" FontSize="15" VerticalAlignment="Top" Width="200" Grid.Column="1"/>
-        <TextBox x:Name="InsertSize" HorizontalAlignment="Left" Height="30" Margin="5,165,0,0" TextWrapping="Wrap" Text="" FontSize="15" VerticalAlignment="Top" Width="200" Grid.Column="1"/>
-        <TextBox x:Name="InsertAlgo" HorizontalAlignment="Left" Height="30" Margin="5,205,0,0" TextWrapping="Wrap" Text="" FontSize="15" VerticalAlignment="Top" Width="200" Grid.Column="1"/>
+        <TextBlock x:Name="Port" Style="{StaticResource TextBlock}" Margin="0,70,0,0" Text="Port Number:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="IpAddress" Style="{StaticResource TextBlock}" Margin="0,115,0,0" Text="I.P Address:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="DefaultSize" Style="{StaticResource TextBlock}" Margin="0,160,0,0" Text="Default Size:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="DefaultAlgo" Style="{StaticResource TextBlock}" Margin="0,205,0,0" Text="Default Algorithm:" VerticalAlignment="Top"/>
+        <TextBox x:Name="InsertPort" Style="{StaticResource TextBox}" Margin="5,70,0,0" Grid.Column="1"/>
+        <TextBox x:Name="InsertIp" Style="{StaticResource TextBox}" Margin="5,115,0,0" Grid.Column="1"/>
+        <TextBox x:Name="InsertSize" Style="{StaticResource TextBox}" Margin="5,160,0,0" Grid.Column="1"/>
+        <TextBox x:Name="InsertAlgo" Style="{StaticResource TextBox}" Margin="5,205,0,0" Grid.Column="1"/>
         <Button x:Name="Save" Content="Save Settngs" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,255,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353"/>
         <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,255,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="Return_Click"/>
         <Grid.Background>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGUI"
         mc:Ignorable="d"
-        Title="MultiPlayerMenu" Height="350" Width="350" ResizeMode="NoResize">
+        Title="MultiPlayerMenu" Height="350" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <Grid.RowDefinitions>

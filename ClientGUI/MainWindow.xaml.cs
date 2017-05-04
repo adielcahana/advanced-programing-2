@@ -10,6 +10,7 @@ namespace ClientGUI
     {
         public MainWindow()
         {
+            this.ResizeMode = ResizeMode.CanMinimize;
             InitializeComponent();
         }
 

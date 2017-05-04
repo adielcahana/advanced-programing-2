@@ -5,7 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="300" ResizeMode="NoResize">
+        Title="MainWindow" Height="350" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="button">
+            <Setter Property="Button.Height" Value="30"  />
+            <Setter Property="Button.Width" Value="100" />
+            <Setter Property="Button.FontSize" Value="15" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -17,11 +24,11 @@
             <ColumnDefinition Width="95*"/>
             <ColumnDefinition Width="38*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="SinglePlayer" Content="Single player" FontSize="15" Grid.Column="2" HorizontalAlignment="Left" Height="30" Margin="16,85,0,0" VerticalAlignment="Top" Width="107" Click="SinglePlayerClick"/>
-        <Button x:Name="MultiPlayer" Content="Multi player" FontSize="15" Grid.Column="2" HorizontalAlignment="Left" Height="30" Margin="16,130,0,0" VerticalAlignment="Top" Width="107" Click="MultiPlayerClick"/>
-        <Button x:Name="Settings" Content="Settings" FontSize="15" Grid.Column="2" HorizontalAlignment="Left" Height="30" Margin="16,180,0,0" VerticalAlignment="Top" Width="107" Click="SettingsClick"/>
-        <Button x:Name="Return" Content="Exit" HorizontalAlignment="Left" FontSize="15" Margin="16,225,0,0" VerticalAlignment="Top" Width="107" Height="30" Click="ExitClick" RenderTransformOrigin="-1,0.7" Grid.Column="2"/>
-        <Image x:Name="TheMaze" Source="resources/the maze.jpg" Grid.Column="2" HorizontalAlignment="Left" Height="45" Margin="16,25,0,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.494,0.45"/>
+        <Image x:Name="TheMaze" Source="resources/the maze.jpg" Grid.Column="2" HorizontalAlignment="Left" Height="45" Margin="39,25,0,0" VerticalAlignment="Top" Width="107" RenderTransformOrigin="0.494,0.45"/>
+        <Button Content="Single player" Style="{StaticResource button}" Grid.Column="2" HorizontalAlignment="Left" Margin="39,90,0,0" VerticalAlignment="Top" Click="SinglePlayerClick"/>
+        <Button Content="Multi player" Style="{StaticResource button}" Grid.Column="2" HorizontalAlignment="Left" Margin="39,140,0,0" VerticalAlignment="Top" Click="MultiPlayerClick"/>
+        <Button Content="Settings" Style="{StaticResource button}" Grid.Column="2" HorizontalAlignment="Left" Margin="39,190,0,0" VerticalAlignment="Top" Click="SettingsClick"/>
+        <Button Content="Exit" Style="{StaticResource button}" HorizontalAlignment="Left" Margin="39,240,0,0" VerticalAlignment="Top" Click="ExitClick" RenderTransformOrigin="-1,0.7" Grid.Column="2"/>
         <Grid.Background>
             <ImageBrush ImageSource="resources/background maze.jpg"/>
         </Grid.Background>

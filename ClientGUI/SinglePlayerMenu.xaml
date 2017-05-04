@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGUI"
         mc:Ignorable="d"
-    Title="SinglePlayerMenu" Height="350" Width="350" ResizeMode="NoResize" Closed="Window_Closed">
+    Title="SinglePlayerMenu" Height="350" Width="350" ResizeMode="CanMinimize" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
