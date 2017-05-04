@@ -7,14 +7,17 @@ namespace ClientGUI
     /// </summary>
     public partial class MultiPlayerMenu : Window
     {
-        public MultiPlayerMenu()
+        private readonly MainWindow _main;
+        public MultiPlayerMenu(MainWindow main)
         {
+            _main = main;
             InitializeComponent();
         }
 
         private void Back(object sender, RoutedEventArgs e)
         {
             Close();
+            _main.Show();
         }
     }
 }
