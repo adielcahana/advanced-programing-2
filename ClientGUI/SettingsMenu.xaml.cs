@@ -19,14 +19,18 @@ namespace ClientGUI
     /// </summary>
     public partial class SettingsMenu : Window
     {
-        public SettingsMenu()
+        private readonly MainWindow _main;
+
+        public SettingsMenu(MainWindow main)
         {
             InitializeComponent();
+            _main = main;
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void Return_Click(object sender, RoutedEventArgs e)
         {
-            
+            Close();
+            _main.Show();
         }
     }
 }

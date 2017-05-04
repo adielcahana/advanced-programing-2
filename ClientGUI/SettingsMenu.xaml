@@ -11,7 +11,7 @@
             <ColumnDefinition Width="125*"/>
             <ColumnDefinition Width="217*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="Title" Content="Settings" FontSize="15" Foreground="Gold" Grid.Column="1" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Width="98" Height="30"/>
+        <Label x:Name="Title" Content="Settings" FontSize="15" Foreground="Gold" Grid.Column="1" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="98" Height="30"/>
         <TextBlock x:Name="Port" HorizontalAlignment="Left" Foreground="White" FontSize="15" Margin="0,70,0,0" TextWrapping="Wrap" Text="Port Number" VerticalAlignment="Top" Width="104" Height="30"/>
         <TextBlock x:Name="IpAddress" Foreground="White" HorizontalAlignment="Left" Margin="0,115,0,0" TextWrapping="Wrap" Text="I.P Address" FontSize="15" VerticalAlignment="Top" Height="30" Width="105"/>
         <TextBlock x:Name="DefaultSize" Foreground="White" HorizontalAlignment="Left" Margin="0,165,0,0" TextWrapping="Wrap" Text="Default Size" FontSize="15" VerticalAlignment="Top" Width="105" Height="30"/>
@@ -21,7 +21,7 @@
         <TextBox x:Name="InsertSize" HorizontalAlignment="Left" Height="30" Margin="5,165,0,0" TextWrapping="Wrap" Text="" FontSize="15" VerticalAlignment="Top" Width="200" Grid.Column="1"/>
         <TextBox x:Name="InsertAlgo" HorizontalAlignment="Left" Height="30" Margin="5,205,0,0" TextWrapping="Wrap" Text="" FontSize="15" VerticalAlignment="Top" Width="200" Grid.Column="1"/>
         <Button x:Name="Save" Content="Save Settngs" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,255,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353"/>
-        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,255,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="button_Click"/>
+        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,255,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="Return_Click"/>
         <Grid.Background>
             <ImageBrush ImageSource="resources/background maze.jpg"/>
         </Grid.Background>

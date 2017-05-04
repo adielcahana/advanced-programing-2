@@ -10,11 +10,13 @@ namespace ClientGUI
     {
         private MainWindow _main;
         private bool _gameStarted;
+        private Error _error;
         public SinglePlayerMenu(MainWindow main)
         {
             InitializeComponent();
             _main = main;
             _gameStarted = false;
+            _error = new Error();
         }
 
         private void Back(object sender, RoutedEventArgs e)

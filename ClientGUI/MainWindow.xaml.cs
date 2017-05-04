@@ -8,32 +8,30 @@ namespace ClientGUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly MultiPlayerMenu _multiPlayer;
-        private readonly SettingsMenu _settings;
         public MainWindow()
         {
-            _multiPlayer = new MultiPlayerMenu();
-            _settings = new SettingsMenu();
             InitializeComponent();
         }
 
         private void SinglePlayerClick(object sender, RoutedEventArgs e)
         {
-            Hide();
             SinglePlayerMenu singlePlayer = new SinglePlayerMenu(this);
+            Hide();
             singlePlayer.Show();
         }
 
         private void MultiPlayerClick(object sender, RoutedEventArgs e)
         {
+            MultiPlayerMenu multiPlayer = new MultiPlayerMenu(this);
             Hide();
-            _multiPlayer.Show();
+            multiPlayer.Show();
         }
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
+            SettingsMenu settings = new SettingsMenu(this);
             Hide();
-            _settings.Show();
+            settings.Show();
         }
 
         private void ExitClick(object sender, RoutedEventArgs e)

@@ -23,5 +23,10 @@ namespace ClientGUI
         {
             InitializeComponent();
         }
+
+        private void Return_Click(object sender, RoutedEventArgs e)
+        {
+            return;
+        }
     }
 }
