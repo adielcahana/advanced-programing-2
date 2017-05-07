@@ -23,7 +23,7 @@
             <Setter Property="TextBlock.Height" Value ="30"/>
             <Setter Property="TextBlock.Width" Value ="125"/>
             <Setter Property="TextBlock.HorizontalAlignment" Value ="Left"/>
-        </Style>    
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -32,15 +32,20 @@
         </Grid.ColumnDefinitions>
         <Label x:Name="Title" Content="Settings" FontSize="15" Foreground="Gold" Grid.Column="1" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="98" Height="30"/>
         <TextBlock x:Name="Port" Style="{StaticResource TextBlock}" Margin="0,70,0,0" Text="Port Number:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="IpAddress" Style="{StaticResource TextBlock}" Margin="0,115,0,0" Text="I.P Address:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="DefaultSize" Style="{StaticResource TextBlock}" Margin="0,160,0,0" Text="Default Size:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="DefaultAlgo" Style="{StaticResource TextBlock}" Margin="0,205,0,0" Text="Default Algorithm:" VerticalAlignment="Top"/>
-        <TextBox x:Name="InsertPort" Style="{StaticResource TextBox}" Margin="5,70,0,0" Grid.Column="1"/>
-        <TextBox x:Name="InsertIp" Style="{StaticResource TextBox}" Margin="5,115,0,0" Grid.Column="1"/>
-        <TextBox x:Name="InsertSize" Style="{StaticResource TextBox}" Margin="5,160,0,0" Grid.Column="1"/>
-        <TextBox x:Name="InsertAlgo" Style="{StaticResource TextBox}" Margin="5,205,0,0" Grid.Column="1"/>
-        <Button x:Name="Save" Content="Save Settngs" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,255,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353"/>
-        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,255,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="Return_Click"/>
+        <TextBlock x:Name="IpAddress" Style="{StaticResource TextBlock}" Margin="0,110,0,0" Text="I.P Address:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="DefaultRows" Style="{StaticResource TextBlock}" Margin="0,150,0,0" Text="Default Size:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="DefaultCols" Style="{StaticResource TextBlock}" Margin="0,190,0,0" Text="Default Size:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="DefaultAlgo" Style="{StaticResource TextBlock}" Margin="0,230,0,0" Text="Default Algorithm:" VerticalAlignment="Top"/>
+        <TextBox x:Name="InsertPort" Style="{StaticResource TextBox}" Text="{Binding ServerPort}" Margin="5,70,0,0" Grid.Column="1"/>
+        <TextBox x:Name="InsertIp" Style="{StaticResource TextBox}" Text="{Binding ServerIP}" Margin="5,110,0,0" Grid.Column="1"/>
+        <TextBox x:Name="InsertRows" Style="{StaticResource TextBox}" Text="{Binding MazeRows}" Margin="5,150,0,0" Grid.Column="1"/>
+        <TextBox x:Name="InsertCols" Style="{StaticResource TextBox}" Text="{Binding MazeCols}" Margin="5,190,0,0" Grid.Column="1"/>
+        <ComboBox x:Name="Algorithm" Grid.Column="1" HorizontalAlignment="Left" Margin="5,230,0,0" VerticalAlignment="Top" Width="200" SelectedIndex="{Binding SearchAlgorithm}" IsEditable="False">
+            <ComboBoxItem>BFS</ComboBoxItem>
+            <ComboBoxItem>DFS</ComboBoxItem>
+        </ComboBox>
+        <Button x:Name="Save" Content="Save Settngs" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,276,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353" Click="Save_Click"/>
+        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="0,276,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="Return_Click"/>
         <Grid.Background>
             <ImageBrush ImageSource="resources/background maze.jpg"/>
         </Grid.Background>

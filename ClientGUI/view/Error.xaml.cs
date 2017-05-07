@@ -22,10 +22,12 @@ namespace ClientGUI
         public Error()
         {
             InitializeComponent();
+            ShowDialog();
         }
 
         private void Return_Click(object sender, RoutedEventArgs e)
         {
+            Close();
             return;
         }
     }

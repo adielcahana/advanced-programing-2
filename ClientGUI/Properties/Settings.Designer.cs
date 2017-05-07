@@ -10,15 +10,17 @@
 
 namespace ClientGUI.Properties
 {
-
-
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
     {
 
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
+        public int ServerPort { get; set; }
+        public int MazeRows { get; set; }
+        public string ServerIP { get; set; }
+        public int MazeCols { get; set; }
+        public int SearchAlgorithm { get; set; }
         public static Settings Default
         {
             get
@@ -26,5 +28,6 @@ namespace ClientGUI.Properties
                 return defaultInstance;
             }
         }
+
     }
 }

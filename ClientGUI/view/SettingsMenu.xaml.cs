@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using ClientGUI.view_model;
 
 namespace ClientGUI
 {
@@ -20,9 +9,11 @@ namespace ClientGUI
     public partial class SettingsMenu : Window
     {
         private readonly MainWindow _main;
+        private SettingViewModel _vm;
 
         public SettingsMenu(MainWindow main)
         {
+            _vm = new SettingViewModel(new ApplicationSettingsModel()); 
             InitializeComponent();
             _main = main;
         }
@@ -31,6 +22,11 @@ namespace ClientGUI
         {
             Close();
             _main.Show();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            _vm.SaveSetting();
         }
     }
 }
