@@ -1,8 +1,10 @@
-﻿using MazeLib;
+﻿using System.Data.Common;
+using MazeLib;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using ClientGui;
 
 namespace ClientGUI
 {
@@ -11,48 +13,92 @@ namespace ClientGUI
     /// </summary>
     public partial class MazeBoard : UserControl
     {
-        private Maze _maze;
-        private Canvas _canvas;
-        public static readonly DependencyProperty MazeProperty = DependencyProperty.Register("Maze", typeof(Maze),
-            typeof(MazeBoard), new UIPropertyMetadata(mazeChanged));
-
-        public MazeBoard(Maze maze, Canvas c)
+        public Game Game { get; set; }
+        public Maze Maze
         {
-            InitializeComponent();
-            _maze = maze;
-            _canvas = c;
-            DrawMaze();
+            get { return (Maze)GetValue(MazeProperty); }
+            set { SetValue(MazeProperty, value); }
         }
 
-        private static void mazeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        // Using a DependencyProperty as the backing store for Maze.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MazeProperty =
+            DependencyProperty.Register("Maze", typeof(Maze), typeof(MazeBoard), new PropertyMetadata(0));
+
+        private int Rows
+        {
+            get { return (int)GetValue(RowsProperty); }
+            set { SetValue(RowsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Rows.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RowsProperty =
+            DependencyProperty.Register("Rows", typeof(int), typeof(MazeBoard), new PropertyMetadata(0));
+
+        public int Cols
+        {
+            get { return (int)GetValue(ColsProperty); }
+            set { SetValue(ColsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Cols.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ColsProperty =
+            DependencyProperty.Register("Cols", typeof(int), typeof(MazeBoard), new PropertyMetadata(0));
+
+        public Position PlayerPos
+        {
+            get { return (Position)GetValue(PlayerPosProperty); }
+            set { SetValue(PlayerPosProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PlayerPos.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PlayerPosProperty =
+            DependencyProperty.Register("PlayerPos", typeof(Position), typeof(MazeBoard), new PropertyMetadata(PlayerMoved));
+
+        public Position GoalPos
+        {
+            get { return (Position)GetValue(GoalPosProperty); }
+            set { SetValue(GoalPosProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for GoalPos.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty GoalPosProperty =
+            DependencyProperty.Register("GoalPos", typeof(Position), typeof(MazeBoard), new PropertyMetadata(0));
+
+
+        public MazeBoard()
+        {
+            InitializeComponent();
+            DataContext = Game;
+        }
+
+        private static void PlayerMoved(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             MazeBoard board = (MazeBoard)d;
             board.DrawMaze();
         }
 
-        public void DrawMaze()
+        private void DrawMaze()
         {
-            Rectangle rect;
+            Canvas.Children.Clear();
             int left = 0;
             int top = 100;
-            
-            for (int row = 0; row < _maze.Rows; row++)
+            for (int row = 0; row < Rows; row++)
             {
-                for (int col = 0; col < _maze.Cols; col++)
+                for (int col = 0; col < Cols; col++)
                 {
-                    rect = new Rectangle();
+                    Rectangle rect = new Rectangle();
                     rect.Height = 20;
                     rect.Width = 20;
                     rect.Stroke = Brushes.Black;
-                    if (row == _maze.InitialPos.Row && col == _maze.InitialPos.Col)
+                    if (row == PlayerPos.Row && col == PlayerPos.Col)
                     {
-                        rect.Fill = Brushes.Lime;
+                        rect.Fill = Brushes.Blue;
                     }
-                    else if (row == _maze.GoalPos.Row && col == _maze.GoalPos.Col)
+                    else if (row == GoalPos.Row && col == GoalPos.Col)
                     {
                         rect.Fill = Brushes.Red;
                     }
-                    else if (_maze[row, col] == CellType.Free)
+                    else if (Maze[row, col] == CellType.Free)
                     {
                         rect.Fill = Brushes.Black;
                     }
@@ -62,7 +108,7 @@ namespace ClientGUI
                     }
                     Canvas.SetLeft(rect, left);
                     Canvas.SetTop(rect, top);
-                    _canvas.Children.Add(rect);
+                    Canvas.Children.Add(rect);
                     left += 21;
                 }
                 left = 0;

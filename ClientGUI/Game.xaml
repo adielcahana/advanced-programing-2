@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ClientGui"
         xmlns:clientGui="clr-namespace:ClientGUI"
         mc:Ignorable="d"
         Title="Game" Height="1000" Width="1000" KeyDown="Window_KeyDown">
@@ -13,6 +12,7 @@
             <Button x:Name="Restart_game" Content="Restart game" FontSize="22" Width="140" Margin="0,30,50,30"/>
             <Button x:Name="Menu" Content="Main menu" FontSize="22" Width="140" Margin="0,30,250,30"/>
         </StackPanel>
-        <Canvas x:Name="Canvas" DockPanel.Dock= "Bottom"></Canvas>
+        <clientGui:MazeBoard x:Name="Board" DockPanel.Dock="Bottom"></clientGui:MazeBoard>
     </DockPanel>
 </Window>
+

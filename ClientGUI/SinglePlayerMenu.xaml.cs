@@ -35,7 +35,7 @@ namespace ClientGUI
 
         private void StartGame_Click(object sender, RoutedEventArgs e)
         {
-            Game game = new Game(InsertName.Text, int.Parse(InsertRows.Text), int.Parse(InsertCols.Text), _main);
+            Game game = new Game();
             _gameStarted = true;
             game.Show();
             Close();
