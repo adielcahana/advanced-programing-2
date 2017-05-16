@@ -17,7 +17,7 @@ namespace Client
         private MessageReader _reader;
         private MessageWriter _writer;
         private TcpClient _client;
-        //private int clientId = -1;
+        private int clientId = -1;
         /// <summary>
         ///     Starts this session
         /// </summary>
@@ -88,7 +88,7 @@ namespace Client
                 _writer.Close();
                 client.Close();
             }
-        }*/
+        }
 
         /// <summary>
         /// Check if start multiple game.
@@ -96,7 +96,7 @@ namespace Client
         /// <param name="command">The command.</param>
         /// <param name="answer">The answer.</param>
         /// <returns> return true if it's multiple game, otherwise return false</returns>
-        /*public bool CheckIfMultiple(string command, string answer)
+        public bool CheckIfMultiple(string command, string answer)
         {
             if (command.Contains("start") || command.Contains("join"))
                 if (!answer.Contains("does not exist") && !answer.Contains("wrong arguments"))
@@ -114,8 +114,8 @@ namespace Client
                     return true;
                 }
             return false;
-        }*/
-
+        }
+        */
         public void Initialize()
         {
             IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),

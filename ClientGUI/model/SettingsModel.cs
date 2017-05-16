@@ -2,9 +2,9 @@
 
 namespace ClientGUI
 {
-    class ApplicationSettingsModel : ISettingModel
+    class SettingsModel : ISettingModel
     {
-        public ApplicationSettingsModel()
+        public SettingsModel()
         {}
         public string ServerIP
         {

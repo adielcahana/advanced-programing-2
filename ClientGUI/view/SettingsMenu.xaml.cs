@@ -13,7 +13,7 @@ namespace ClientGUI
 
         public SettingsMenu(MainWindow main)
         {
-            _vm = new SettingViewModel(new ApplicationSettingsModel()); 
+            _vm = new SettingViewModel(new SettingsModel()); 
             InitializeComponent();
             _main = main;
         }

@@ -64,8 +64,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="model\ApplicationSettingsModel.cs" />
+    <Compile Include="model\SettingsModel.cs" />
+    <Compile Include="model\SinglePlayerModel.cs" />
     <Compile Include="view-model\ClientViewModel.cs" />
+    <Compile Include="view-model\SinglePlayerViewModel.cs" />
     <Compile Include="view\Error.xaml.cs">
       <DependentUpon>Error.xaml</DependentUpon>
     </Compile>
@@ -119,8 +121,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\background maze.jpg" />
-    <Resource Include="resources\the maze.jpg" />
+    <Resource Include="view\resources\background maze.jpg" />
+    <Resource Include="view\resources\the maze.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="view\Error.xaml">

@@ -10,8 +10,8 @@ namespace ClientGUI
     {
         public MainWindow()
         {
-            this.ResizeMode = ResizeMode.CanMinimize;
             InitializeComponent();
+            ResizeMode = ResizeMode.CanMinimize;
         }
 
         private void SinglePlayerClick(object sender, RoutedEventArgs e)
