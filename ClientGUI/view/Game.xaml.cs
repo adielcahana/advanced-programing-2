@@ -18,16 +18,11 @@ namespace ClientGui
         private Maze _maze;
         private MazeBoard _board;
         private Position _playerPos;
-        public Game(string name, int row, int col, MainWindow main)
+        public Game(Maze maze, MainWindow main)
         {
             InitializeComponent();
             _main = main;
-            _client = new Client.Client();
-            _client.Initialize();
-            _client.Send("generate " + name + " " + row + " " + col);
-            string mazeSrl = _client.Recieve();
-            _client.Close();
-            _maze = Maze.FromJSON(mazeSrl);
+            _maze = maze;
             _board = new MazeBoard(_maze, Canvas);
             _playerPos = _maze.InitialPos;
 
@@ -83,6 +78,19 @@ namespace ClientGui
             Canvas.SetLeft(rect,_playerPos.Row * 21);
             Canvas.SetTop(rect, 100 + _playerPos.Row * 21);
             Canvas.Children.Add(rect);
+        }
+
+        private void Restart_game_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+            Game game = new Game(_maze, _main);
+            game.Show();
+        }
+
+        private void Return_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+            _main.Show();
         }
     }
 }

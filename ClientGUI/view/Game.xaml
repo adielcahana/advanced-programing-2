@@ -9,9 +9,9 @@
         Title="Game" Height="1000" Width="1000" KeyDown="Window_KeyDown">
     <DockPanel x:Name="Dock" RenderTransformOrigin="1.199,0.815">
         <StackPanel Height="100"  DockPanel.Dock="Top" Orientation="Horizontal" >
-            <Button x:Name="Solve_maze" Content="Solve maze" FontSize="22" Width="140" Margin="250,30,50,30"/>
-            <Button x:Name="Restart_game" Content="Restart game" FontSize="22" Width="140" Margin="0,30,50,30"/>
-            <Button x:Name="Menu" Content="Main menu" FontSize="22" Width="140" Margin="0,30,250,30"/>
+            <Button x:Name="Solve_maze" Content="Solve maze" FontSize="22" Width="140" Margin="250,30,50,0" Height="40" VerticalAlignment="Top"/>
+            <Button x:Name="Restart_game" Content="Restart game" FontSize="22" Width="140" Margin="0,30,50,30" Click="Restart_game_Click"/>
+            <Button x:Name="Menu" Content="Main menu" FontSize="22" Width="140" Margin="0,30,250,30" Click="Return_Click"/>
         </StackPanel>
         <Canvas x:Name="Canvas" DockPanel.Dock= "Bottom"></Canvas>
     </DockPanel>

@@ -13,8 +13,9 @@ namespace ClientGUI
 
         public SettingsMenu(MainWindow main)
         {
-            _vm = new SettingViewModel(new SettingsModel()); 
             InitializeComponent();
+            _vm = new SettingViewModel(new SettingsModel());
+            DataContext = _vm;
             _main = main;
         }
 
@@ -27,6 +28,8 @@ namespace ClientGUI
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             _vm.SaveSetting();
+            Close();
+            _main.Show();
         }
     }
 }

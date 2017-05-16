@@ -19,9 +19,10 @@ namespace ClientGUI
         {
             InitializeComponent();
             _viewModel = new SinglePlayerViewModel(new SinglePlayerModel());
+            this.DataContext = _viewModel;
             _main = main;
             _gameStarted = false;
-            _error = new Error();
+//            _error = new Error();
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -41,7 +42,7 @@ namespace ClientGUI
         private void StartGame_Click(object sender, RoutedEventArgs e)
         {
             Maze maze = _viewModel.GenerateMaze();
-            Game game = new Game(maze, _main);
+            Game game = new Game(maze,_main);
             _gameStarted = true;
             game.Show();
             Close();

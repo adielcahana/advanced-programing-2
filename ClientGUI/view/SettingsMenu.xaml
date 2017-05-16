@@ -33,8 +33,8 @@
         <Label x:Name="Title" Content="Settings" FontSize="15" Foreground="Gold" Grid.Column="1" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="98" Height="30"/>
         <TextBlock x:Name="Port" Style="{StaticResource TextBlock}" Margin="0,70,0,0" Text="Port Number:" VerticalAlignment="Top"/>
         <TextBlock x:Name="IpAddress" Style="{StaticResource TextBlock}" Margin="0,110,0,0" Text="I.P Address:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="DefaultRows" Style="{StaticResource TextBlock}" Margin="0,150,0,0" Text="Default Size:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="DefaultCols" Style="{StaticResource TextBlock}" Margin="0,190,0,0" Text="Default Size:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="DefaultRows" Style="{StaticResource TextBlock}" Margin="0,150,0,0" Text="Default Rows Size:" VerticalAlignment="Top"/>
+        <TextBlock x:Name="DefaultCols" Style="{StaticResource TextBlock}" Margin="0,190,0,0" Text="Default Cols Size:" VerticalAlignment="Top"/>
         <TextBlock x:Name="DefaultAlgo" Style="{StaticResource TextBlock}" Margin="0,230,0,0" Text="Default Algorithm:" VerticalAlignment="Top"/>
         <TextBox x:Name="InsertPort" Style="{StaticResource TextBox}" Text="{Binding ServerPort}" Margin="5,70,0,0" Grid.Column="1"/>
         <TextBox x:Name="InsertIp" Style="{StaticResource TextBox}" Text="{Binding ServerIP}" Margin="5,110,0,0" Grid.Column="1"/>

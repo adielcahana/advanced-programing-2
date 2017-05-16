@@ -19,5 +19,10 @@ namespace ClientGUI
             Close();
             _main.Show();
         }
+
+        private void ChooseGame_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
