@@ -8,7 +8,7 @@ using MazeLib;
 
 namespace ClientGUI.model
 {
-    class SinglePlayerModel
+    public class SinglePlayerModel
     {
         private string _mazeName;
         private int _rows;

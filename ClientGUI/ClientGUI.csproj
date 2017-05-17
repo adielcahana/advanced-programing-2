@@ -71,12 +71,15 @@
     <Compile Include="view\Error.xaml.cs">
       <DependentUpon>Error.xaml</DependentUpon>
     </Compile>
-    <Compile Include="view\Game.xaml.cs">
-      <DependentUpon>Game.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="view\MazeBoard.xaml.cs">
+      <DependentUpon>MazeBoard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="view\SettingsMenu.xaml.cs">
       <DependentUpon>SettingsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\SinglePlayerGame.xaml.cs">
+      <DependentUpon>SinglePlayerGame.xaml</DependentUpon>
     </Compile>
     <Compile Include="view\SinglePlayerMenu.xaml.cs">
       <DependentUpon>SinglePlayerMenu.xaml</DependentUpon>
@@ -87,9 +90,6 @@
   <ItemGroup>
     <Compile Include="view\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="view\MazeBoard.xaml.cs">
-      <DependentUpon>MazeBoard.xaml</DependentUpon>
     </Compile>
     <Compile Include="view\MultiPlayerMenu.xaml.cs">
       <DependentUpon>MultiPlayerMenu.xaml</DependentUpon>
@@ -129,10 +129,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="view\Game.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="view\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -146,6 +142,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="view\SettingsMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\SinglePlayerGame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

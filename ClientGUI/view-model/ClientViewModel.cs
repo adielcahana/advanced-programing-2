@@ -9,7 +9,7 @@ using ClientGUI.Annotations;
 
 namespace ClientGUI
 {
-    abstract class ClientViewModel : INotifyPropertyChanged
+    public abstract class ClientViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

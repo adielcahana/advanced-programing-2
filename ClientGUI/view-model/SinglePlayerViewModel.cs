@@ -9,27 +9,34 @@ using MazeLib;
 
 namespace ClientGUI.view_model
 {
-    class SinglePlayerViewModel : ClientViewModel
+    public class SinglePlayerViewModel : INotifyPropertyChanged
     {
-        private readonly SinglePlayerModel _model;
+        private SinglePlayerModel _model;
         private string _mazeName;
+        public string Maze { get; set; }
         private int _rows;
         private int _cols;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public SinglePlayerViewModel(SinglePlayerModel model)
         {
             _model = model;
         }
 
-        protected override void OnPropertyChanged(string name)
+        protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
+            {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         public Maze GenerateMaze()
         {
             return _model.GenerateMaze();
         }
+
 
         public string MazeName
         {
