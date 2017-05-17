@@ -15,6 +15,7 @@ namespace ClientGUI.model
         private string _mazeName;
         private int _rows;
         private int _cols;
+        public event EventHandler<Maze> newMaze;
 
         public SinglePlayerModel()
         {

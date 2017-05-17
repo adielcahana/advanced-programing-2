@@ -36,7 +36,7 @@
             <ColumnDefinition Width="51*"/>
             <ColumnDefinition Width="121*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="Title" Content="Multi Player Mode" FontSize="15" Foreground="Gold" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="135" Height="38"/>
+        <Label x:Name="Title" Content="Multi Player" FontSize="15" Foreground="Gold" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="135" Height="38"/>
         <TextBlock x:Name="ListOfGames" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,35,0,0" Text="List of games:" Grid.ColumnSpan="2"/>
         <Button x:Name="JoinGame" Content="Join Game" FontSize="15" Grid.Column="2" HorizontalAlignment="Left" Height="29" Margin="5,85,0,0" VerticalAlignment="Top" Width="120"/>
         <ComboBox x:Name="ChooseGame" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,35,0,0" SelectionChanged="ChooseGame_SelectionChanged"/>
