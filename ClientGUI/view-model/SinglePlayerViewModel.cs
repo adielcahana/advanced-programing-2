@@ -1,35 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using ClientGUI.model;
+using Ex1;
 using MazeLib;
 
 namespace ClientGUI.view_model
 {
-    public class SinglePlayerViewModel : INotifyPropertyChanged
+    class SinglePlayerViewModel : ClientViewModel
     {
-        private SinglePlayerModel _model;
-        private string _mazeName;
-        public string Maze { get; set; }
-        private int _rows;
-        private int _cols;
-
-        public event PropertyChangedEventHandler PropertyChanged;
+        private readonly SinglePlayerModel _model;
 
         public SinglePlayerViewModel(SinglePlayerModel model)
         {
             _model = model;
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         protected void OnPropertyChanged(string name)
         {
             if (PropertyChanged != null)
-            {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
         }
 
         public Maze GenerateMaze()
@@ -37,41 +27,45 @@ namespace ClientGUI.view_model
             return _model.GenerateMaze();
         }
 
+        public MazeSolution SolveMaze()
+        {
+            return _model.SolveMaze();
+        }
 
         public string MazeName
         {
-            get { return _mazeName; }
+            get { return _model.MazeName; }
             set
             {
-                if (_mazeName != value)
+                if (_model.MazeName != value)
                 {
-                    _mazeName = value;
+                    _model.MazeName = value;
                     OnPropertyChanged("MazeName");
                 }
             }
         }
 
-        public int rows
+        public int Rows
         {
-            get { return _rows; }
+            get { return _model.Rows; }
             set
             {
-                if (_rows != value)
+                if (_model.Rows != value)
                 {
-                    _rows = value;
+                    _model.Rows = value;
                     OnPropertyChanged("rows");
                 }
             }
         }
 
-        public int cols
+        public int Cols
         {
-            get { return _rows; }
+            get { return _model.Cols; }
             set
             {
-                if (_cols != value)
+                if (_model.Cols != value)
                 {
-                    _cols = value;
+                    _model.Cols = value;
                     OnPropertyChanged("cols");
                 }
             }

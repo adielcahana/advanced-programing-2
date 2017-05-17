@@ -17,7 +17,6 @@ namespace Client
         private MessageReader _reader;
         private MessageWriter _writer;
         private TcpClient _client;
-        private int clientId = -1;
         /// <summary>
         ///     Starts this session
         /// </summary>
