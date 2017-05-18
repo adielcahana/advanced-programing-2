@@ -6,7 +6,5 @@
              xmlns:local="clr-namespace:ClientGUI.view"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Viewbox>
-        <Canvas x:Name="Canvas"></Canvas>
-    </Viewbox>
+    <Canvas x:Name="Canvas" HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="300" Background="Yellow"/>
 </UserControl>

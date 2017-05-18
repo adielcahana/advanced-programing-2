@@ -40,9 +40,9 @@
         <TextBlock x:Name="MazeName" Style="{StaticResource TextBlock}" Grid.Column="1" Height="25" Margin="5,75,0,0" Text="Maze name:" />
         <TextBlock x:Name="Rows" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,125,0,0" Text="Maze rows:" />
         <TextBlock x:Name="Cols" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,175,0,0" Text="Maze columns:" />
-        <TextBox x:Name="InsertName" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,75,0,0" Text="{Binding Path = MazeName}"/>
-        <TextBox x:Name="InsertRows" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,125,0,0" Text="{Binding Path = Rows}"/>
-        <TextBox x:Name="InsertCols" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,175,0,0" Text="{Binding Path = Cols}"/>
+        <TextBox x:Name="InsertName" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,75,0,0" Text="{Binding MazeName}"/>
+        <TextBox x:Name="InsertRows" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,125,0,0" Text="{Binding Rows}"/>
+        <TextBox x:Name="InsertCols" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,175,0,0" Text="{Binding Cols}"/>
         <Button x:Name="StartGame" Content="OK" FontSize="15" Grid.Column="2" HorizontalAlignment="Left" Margin="25,240,0,0" VerticalAlignment="Top" Width="100" Height="35" RenderTransformOrigin="0.949,0.353" Click="StartGame_Click"/>
         <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,240,0,0" VerticalAlignment="Top" Width="65" Height="40" Click="Back" RenderTransformOrigin="-1,0.7" Grid.ColumnSpan="2"/>
         <Grid.Background>

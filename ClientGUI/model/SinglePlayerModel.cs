@@ -10,7 +10,7 @@ using MazeLib;
 
 namespace ClientGUI.model
 {
-    class SinglePlayerModel : INotifyPropertyChanged
+    public class SinglePlayerModel : INotifyPropertyChanged
     {
         private string _mazeName;
         private int _rows;
@@ -22,9 +22,8 @@ namespace ClientGUI.model
             _mazeName = "name";
             _rows = Properties.Settings.Default.MazeRows;
             _cols = Properties.Settings.Default.MazeCols;
-            _client = new Client.Client();
-            _client.Initialize();
         }
+
         public string MazeName
         {
             get
@@ -64,8 +63,6 @@ namespace ClientGUI.model
             }
         }
 
-        private readonly Client.Client _client;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         public void NotifyPropertyChanged(string propName)
@@ -75,27 +72,29 @@ namespace ClientGUI.model
 
         public Maze GenerateMaze()
         {
-            string msg = CreateGenerateMessage();
-            _client.Send(msg);
-            string answer = _client.Recieve();
+			Client.Client client = new Client.Client();
+			client.Initialize();
+			string msg = CreateGenerateMessage();
+            client.Send(msg);
+            string answer = client.Recieve();
+			client.Close();
             return Maze.FromJSON(answer);
         }
 
         public string CreateGenerateMessage()
         {
-            string msg = "generate";
-            msg += " " + _mazeName;
-            msg += " " + _rows.ToString();
-            msg += " " + _cols.ToString();
-            return msg;
-        }
+            return "generate " + _mazeName + " " + _rows.ToString() + " " + _cols.ToString();
+		}
 
         public MazeSolution SolveMaze()
         {
-            string msg = CreateSolveMessage();
-            _client.Send(msg);
-            string answer = _client.Recieve();
-            return MazeSolution.FromJson(answer);
+			Client.Client client = new Client.Client();
+			client.Initialize();
+			string msg = CreateSolveMessage();
+            client.Send(msg);
+            string answer = client.Recieve();
+			client.Close();
+			return MazeSolution.FromJson(answer);
         }
 
         public string CreateSolveMessage()

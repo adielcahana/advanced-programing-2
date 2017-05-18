@@ -22,14 +22,14 @@ namespace ClientGUI.view
     public partial class MazeBoard : UserControl
     {
 
-        public string MyMaze
+        public string Maze
         {
-            get { return (string)GetValue(MyMazeProperty); }
-            set { SetValue(MyMazeProperty, value); }
+            get { return (string)GetValue(MazeProperty); }
+            set { SetValue(MazeProperty, value); }
         }
          
-        public static readonly DependencyProperty MyMazeProperty =
-            DependencyProperty.Register("MyMaze", typeof(string), typeof(MazeBoard));
+        public static readonly DependencyProperty MazeProperty =
+            DependencyProperty.Register("Maze", typeof(string), typeof(MazeBoard));
 
         public int Rows
         {
@@ -38,7 +38,7 @@ namespace ClientGUI.view
         }
 
         public static readonly DependencyProperty RowsProperty =
-            DependencyProperty.Register("Rows", typeof(int), typeof(MazeBoard), new PropertyMetadata(0));
+            DependencyProperty.Register("Rows", typeof(int), typeof(MazeBoard));
 
         public int Cols
         {
@@ -48,57 +48,60 @@ namespace ClientGUI.view
 
         // Using a DependencyProperty as the backing store for Cols.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ColsProperty =
-            DependencyProperty.Register("Cols", typeof(int), typeof(MazeBoard), new PropertyMetadata(0));
+            DependencyProperty.Register("Cols", typeof(int), typeof(MazeBoard));
 
         public MazeBoard()
         {
             InitializeComponent();
         }
 
-        private static void mazeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            MazeBoard board = (MazeBoard)d;
-            board.DrawMaze();
-        }
-
         public void DrawMaze()
         {
-            //Rectangle rect;
-            //int left = 0;
-            //int top = 100;
-
-            //for (int row = 0; row < MyMaze.Rows; row++)
-            //{
-            //    for (int col = 0; col < MyMaze.Cols; col++)
-            //    {
-            //        rect = new Rectangle();
-            //        rect.Height = 20;
-            //        rect.Width = 20;
-            //        rect.Stroke = Brushes.Black;
-            //        if (row == MyMaze.InitialPos.Row && col == MyMaze.InitialPos.Col)
-            //        {
-            //            rect.Fill = Brushes.Lime;
-            //        }
-            //        else if (row == MyMaze.GoalPos.Row && col == MyMaze.GoalPos.Col)
-            //        {
-            //            rect.Fill = Brushes.Red;
-            //        }
-            //        else if (MyMaze[row, col] == CellType.Free)
-            //        {
-            //            rect.Fill = Brushes.Black;
-            //        }
-            //        else
-            //        {
-            //            rect.Fill = Brushes.White;
-            //        }
-            //        Canvas.SetLeft(rect, left);
-            //        Canvas.SetTop(rect, top);
-            //        Canvas.Children.Add(rect);
-            //        left += 21;
-            //    }
-            //    left = 0;
-            //    top += 21;
-            //}
+			Canvas.Children.Clear();
+            Rectangle rect;
+            int left = 0;
+            int top = 100;
+			bool newLine = false;
+			foreach (char c in Maze)
+			{
+				rect = new Rectangle();
+				rect.Height = 20;
+				rect.Width = 20;
+				rect.Stroke = Brushes.Black;
+				switch (c)
+				{
+					case '*':
+						rect.Fill = Brushes.Lime;
+						break;
+					case '#':
+						rect.Fill = Brushes.Red;
+						break;
+					case '0':
+						rect.Fill = Brushes.White;
+						break;
+					case '1':
+						rect.Fill = Brushes.Black;
+						break;
+					case '2':
+						rect.Fill = Brushes.Blue;
+						break;
+					default:
+						if (Char.IsWhiteSpace(c) && newLine == false)
+						{
+							newLine = true;
+							left = 0;
+							top += 21;
+						} else
+						{
+							newLine = false;
+						}
+						continue;
+				}
+				Canvas.SetLeft(rect, left);
+				Canvas.SetTop(rect, top);
+				Canvas.Children.Add(rect);
+				left += 21;
+			}
         }
     }
 }

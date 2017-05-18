@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using ClientGUI.model;
+using ClientGUI.view;
 using ClientGUI.view_model;
 using MazeLib;
 
@@ -12,15 +13,14 @@ namespace ClientGUI
     {
         private MainWindow _main;
         private bool _gameStarted;
-        private Error _error;
         private SinglePlayerViewModel _viewModel;
         public SinglePlayerMenu(MainWindow main)
         {
             InitializeComponent();
             _viewModel = new SinglePlayerViewModel(new SinglePlayerModel());
+			DataContext = _viewModel;
             _main = main;
             _gameStarted = false;
-            _error = new Error();
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -39,10 +39,10 @@ namespace ClientGUI
 
         private void StartGame_Click(object sender, RoutedEventArgs e)
         {
-            Maze maze = _viewModel.GenerateMaze();
-            /*Game game = new Game();*/
-            _gameStarted = true;
-            /*game.Show();*/
+			SinglePlayerGame game = new SinglePlayerGame(_viewModel);
+			_viewModel.GenerateMaze();
+			game.Show();
+			_gameStarted = true;
             Close();
         }
     }
