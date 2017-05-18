@@ -31,7 +31,7 @@ namespace ClientGUI.view
         public static readonly DependencyProperty MazeProperty =
             DependencyProperty.Register("Maze", typeof(string), typeof(MazeBoard));
 
-        public int Rows
+		public int Rows
         {
             get { return (int)GetValue(RowsProperty); }
             set { SetValue(RowsProperty, value); }

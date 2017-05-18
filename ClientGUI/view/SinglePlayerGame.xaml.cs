@@ -30,45 +30,32 @@ namespace ClientGUI.view
 			InitializeComponent();
 			_vm = vm;
 			DataContext = _vm;
-			_vm.NewMaze += NewMaze;
 			Board.DataContext = _vm;
 		}
 
-		private void NewMaze(object obj, PropertyChangedEventArgs args){
-			Maze = (obj as SinglePlayerViewModel).Maze;
+		public void Start()
+		{
+			Board.DrawMaze();
 		}
 
 		private void Window_KeyDown(object sender, KeyEventArgs e)
 		{
-			int row = _vm.PlayerPos.Row;
-			int col = _vm.PlayerPos.Col;
+			
 			if (e.Key == Key.Down)
-			{ 
-				if (Maze.Rows > row + 1 && Maze[row + 1, col] == CellType.Free)
-				{
-					_vm.PlayerPos = new Position(row + 1, col);
-				}
+			{
+				_vm.Move("down");
 			}
 			else if (e.Key == Key.Up)
 			{
-				if (row - 1 >= 0 && Maze[row - 1, col] == CellType.Free)
-				{
-					_vm.PlayerPos = new Position(row - 1, col);
-				}
+				_vm.Move("up");
 			}
 			else if (e.Key == Key.Right)
 			{
-				if (Maze.Cols > col + 1 && Maze[row, col + 1] == CellType.Free)
-				{
-					_vm.PlayerPos = new Position(row, col + 1);
-				}
+				_vm.Move("right");
 			}
 			else if (e.Key == Key.Left)
 			{
-				if (col - 1 >= 0 && Maze[row, col - 1] == CellType.Free)
-				{
-					_vm.PlayerPos = new Position(row, col - 1);
-				}
+				_vm.Move("left");
 			}
 			Board.DrawMaze();
 		}

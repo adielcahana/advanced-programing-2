@@ -42,6 +42,7 @@ namespace ClientGUI
 			SinglePlayerGame game = new SinglePlayerGame(_viewModel);
 			_viewModel.GenerateMaze();
 			game.Show();
+			game.Start();
 			_gameStarted = true;
             Close();
         }

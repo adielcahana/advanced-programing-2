@@ -4,38 +4,23 @@ using Ex1;
 using MazeLib;
 using System.Threading.Tasks;
 using System.Text;
+using System;
 
 namespace ClientGUI.view_model
 {
-    public class SinglePlayerViewModel : ClientViewModel
+    public class SinglePlayerViewModel : ClientViewModel, INotifyPropertyChanged
     {
-		public event PropertyChangedEventHandler NewMaze;
+		public event PropertyChangedEventHandler PropertyChanged;
 		private readonly SinglePlayerModel _model;
-		private Maze _maze;
-		public Maze Maze
-		{
-			get
-			{
-				return _maze;
-			}
-			private set
-			{
-				_maze = value;
-			}
-		}
+		public Maze Maze { get; set; }
 
-		private string _mazeSrl;
 		public string MazeSrl
 		{
 			get
 			{
-				return _mazeSrl;
-			}
-			set
-			{
 				StringBuilder mazeSrl = new StringBuilder(Maze.ToString());
 				mazeSrl[PlayerPos.Row * Maze.Cols + PlayerPos.Col + 2 * PlayerPos.Row] = '2';
-				_mazeSrl = mazeSrl.ToString();
+				return mazeSrl.ToString();
 			}
 		}
 
@@ -49,7 +34,7 @@ namespace ClientGUI.view_model
 			set
 			{
 				_playerPos = value;
-				MazeSrl = "defualt";
+				OnPropertyChanged("MazeSrl");
 			}
 		}
 
@@ -61,7 +46,7 @@ namespace ClientGUI.view_model
 				if (_model.MazeName != value)
 				{
 					_model.MazeName = value;
-					//OnPropertyChanged("MazeName");
+					OnPropertyChanged("MazeName");
 				}
 			}
 		}
@@ -74,7 +59,7 @@ namespace ClientGUI.view_model
 				if (_model.Rows != value)
 				{
 					_model.Rows = value;
-					//OnPropertyChanged("rows");
+					OnPropertyChanged("Rows");
 				}
 			}
 		}
@@ -87,7 +72,7 @@ namespace ClientGUI.view_model
 				if (_model.Cols != value)
 				{
 					_model.Cols = value;
-					//OnPropertyChanged("cols");
+					OnPropertyChanged("Cols");
 				}
 			}
 		}
@@ -97,19 +82,62 @@ namespace ClientGUI.view_model
             _model = model;
         }
 
+
 		protected void OnPropertyChanged(string name)
 		{
-			NewMaze?.Invoke(this, new PropertyChangedEventArgs(name));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+		}
+
+		public void Move(string direction)
+		{
+			int row = PlayerPos.Row;
+			int col = PlayerPos.Col;
+			if (direction.Equals("down"))
+			{
+				if (IsValidMove(row + 1, col))
+				{
+					PlayerPos = new Position(row + 1, col);
+				}
+			}
+			else if (direction.Equals("up"))
+			{
+				if (IsValidMove(row - 1, col))
+				{
+					PlayerPos = new Position(row - 1, col);
+				}
+			}
+			else if (direction.Equals("right"))
+			{
+				if (IsValidMove(row, col + 1))
+				{
+					PlayerPos = new Position(row, col + 1);
+				}
+			}
+			else if (direction.Equals("left"))
+			{
+				if (IsValidMove(row, col - 1))
+				{
+					PlayerPos = new Position(row, col - 1);
+				}
+			}
+		}
+
+		private bool IsValidMove(int row, int col)
+		{
+			try
+			{
+				return Maze[row, col] == CellType.Free;
+			}
+			catch (IndexOutOfRangeException e)
+			{
+				return false;
+			}
 		}
 
 		public void GenerateMaze()
         {
-			//new Task(() =>
-			//{
-				Maze = _model.GenerateMaze();
-				PlayerPos = Maze.InitialPos;
-				OnPropertyChanged("maze");
-			//}).Start();
+			Maze = _model.GenerateMaze();
+			PlayerPos = Maze.InitialPos;
         }
 
         public MazeSolution SolveMaze()
