@@ -21,7 +21,6 @@ namespace ClientGUI.view
     /// </summary>
     public partial class MazeBoard : UserControl
     {
-
         public string Maze
         {
             get { return (string)GetValue(MazeProperty); }
@@ -46,7 +45,6 @@ namespace ClientGUI.view
             set { SetValue(ColsProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Cols.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ColsProperty =
             DependencyProperty.Register("Cols", typeof(int), typeof(MazeBoard));
 
@@ -54,6 +52,16 @@ namespace ClientGUI.view
         {
             InitializeComponent();
         }
+
+		//public void Draw()
+		//{
+		//	Canvas.Children.Remove(player);
+		//	player.Height = Canvas.Height / Rows;
+		//	player.Width = Canvas.Width / Cols;
+		//	Canvas.SetLeft(player, left);
+		//	Canvas.SetTop(player, top);
+		//	Canvas.Children.Add(player);
+		//}
 
         public void DrawMaze()
         {
