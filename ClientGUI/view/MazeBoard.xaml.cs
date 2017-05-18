@@ -59,14 +59,14 @@ namespace ClientGUI.view
         {
 			Canvas.Children.Clear();
             Rectangle rect;
-            int left = 0;
-            int top = 100;
+            double left = 0;
+            double top = 0;
 			bool newLine = false;
 			foreach (char c in Maze)
 			{
 				rect = new Rectangle();
-				rect.Height = 20;
-				rect.Width = 20;
+				rect.Height = Canvas.Height/Rows;
+				rect.Width = Canvas.Width/Cols;
 				rect.Stroke = Brushes.Black;
 				switch (c)
 				{
@@ -90,7 +90,7 @@ namespace ClientGUI.view
 						{
 							newLine = true;
 							left = 0;
-							top += 21;
+							top += rect.Height + 1;
 						} else
 						{
 							newLine = false;
@@ -100,7 +100,7 @@ namespace ClientGUI.view
 				Canvas.SetLeft(rect, left);
 				Canvas.SetTop(rect, top);
 				Canvas.Children.Add(rect);
-				left += 21;
+				left += rect.Width + 1;
 			}
         }
     }

@@ -6,5 +6,7 @@
              xmlns:local="clr-namespace:ClientGUI.view"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Canvas x:Name="Canvas" HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="300"/>
+    <Canvas x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+            Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl, AncestorLevel=1}, Path=ActualHeight}" 
+            Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl, AncestorLevel=1}, Path=ActualWidth}"/>
 </UserControl>
