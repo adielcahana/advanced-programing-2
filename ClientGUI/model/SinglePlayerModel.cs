@@ -10,7 +10,7 @@ using MazeLib;
 
 namespace ClientGUI.model
 {
-    public class SinglePlayerModel : INotifyPropertyChanged
+    class SinglePlayerModel : INotifyPropertyChanged
     {
         private string _mazeName;
         private int _rows;
