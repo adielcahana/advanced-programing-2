@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGUI"
         mc:Ignorable="d"
+        xmlns:controls="clr-namespace:ClientGUI.view"
         Title="MultiPlayerMenu" Height="350" Width="350" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="TextBox">
@@ -34,20 +35,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="51*"/>
-            <ColumnDefinition Width="121*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="Title" Content="Multi Player" FontSize="15" Foreground="Gold" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="135" Height="38"/>
+        <Label x:Name="Title" Content="Multi Player" FontSize="15" Foreground="Gold" Grid.Column="1" HorizontalAlignment="Left" Margin="115,0,0,0" VerticalAlignment="Top" Width="135" Height="38"/>
         <TextBlock x:Name="ListOfGames" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,35,0,0" Text="List of games:" Grid.ColumnSpan="2"/>
-        <Button x:Name="JoinGame" Content="Join Game" FontSize="15" Grid.Column="2" HorizontalAlignment="Left" Height="29" Margin="5,85,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="ChooseGame" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,35,0,0" SelectionChanged="ChooseGame_SelectionChanged"/>
-        <TextBlock x:Name="MazeName" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,130,0,0" Text="Maze name:" Grid.ColumnSpan="2"/>
-        <TextBlock x:Name="Rows" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,180,0,0" Text="Maze rows:" Grid.ColumnSpan="2"/>
-        <TextBlock x:Name="Cols" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,230,0,0" Text="Maze columns:" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="InsertName" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,130,0,0"/>
-        <TextBox x:Name="InsertRows" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,180,0,0"/>
-        <TextBox x:Name="InsertCols" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,230,0,0"/>
-        <Button x:Name="StartGame" Content="Start Game" FontSize="15" Grid.Column="2" HorizontalAlignment="Left" Margin="5,275,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353"/>
+        <Button x:Name="JoinGame" Content="Join Game" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Height="29" Margin="115,80,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="ChooseGame" Style="{StaticResource TextBox}" Grid.Column="1" Margin="115,35,0,0" SelectionChanged="ChooseGame_SelectionChanged"/>
+                <Button x:Name="StartGame" Content="Start Game" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="115,275,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353"/>
         <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,275,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="Back" Grid.ColumnSpan="2"/>
+        <controls:MenuUserControl x:Name="Menu" Margin="0,130,0,50" Grid.ColumnSpan="2"/>
         <Grid.Background>
             <ImageBrush ImageSource="resources/background maze.jpg"/>
         </Grid.Background>

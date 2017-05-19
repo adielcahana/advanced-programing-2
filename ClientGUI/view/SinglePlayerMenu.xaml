@@ -4,28 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGUI"
+        xmlns:controls="clr-namespace:ClientGUI.view"
         mc:Ignorable="d"
         Title="SinglePlayerMenu" Height="350" Width="350" ResizeMode="CanMinimize" Closed="Window_Closed" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <Style x:Key="TextBox">
-            <Setter Property="TextBox.Text" Value=""  />
-            <Setter Property="TextBox.Height" Value="30"  />
-            <Setter Property="TextBox.Width" Value="200" />
-            <Setter Property="TextBox.FontSize" Value="15" />
-            <Setter Property="TextBox.TextWrapping" Value="Wrap" />
-            <Setter Property="TextBox.VerticalAlignment" Value="Top" />
-            <Setter Property="TextBox.HorizontalAlignment" Value ="Left"/>
-        </Style>
-        <Style x:Key="TextBlock">
-            <Setter Property="TextBlock.Foreground" Value ="White"/>
-            <Setter Property="TextBlock.FontSize" Value ="15"/>
-            <Setter Property="TextBlock.TextWrapping" Value ="Wrap"/>
-            <Setter Property="TextBlock.Height" Value ="30"/>
-            <Setter Property="TextBlock.Width" Value ="105"/>
-            <Setter Property="TextBlock.VerticalAlignment" Value ="Top"/>
-            <Setter Property="TextBlock.HorizontalAlignment" Value ="Left"/>
-        </Style>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -34,17 +15,11 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="55*"/>
-            <ColumnDefinition Width="117*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="Title" Content="Single Player" FontSize="15" Foreground="Gold" Grid.Column="2" HorizontalAlignment="Left" Margin="25,25,0,0" VerticalAlignment="Top" Width="100" Height="30"/>
-        <TextBlock x:Name="MazeName" Style="{StaticResource TextBlock}" Grid.Column="1" Height="25" Margin="5,75,0,0" Text="Maze name:" />
-        <TextBlock x:Name="Rows" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,125,0,0" Text="Maze rows:" />
-        <TextBlock x:Name="Cols" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,175,0,0" Text="Maze columns:" />
-        <TextBox x:Name="InsertName" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,75,0,0" Text="{Binding Path = MazeName}"/>
-        <TextBox x:Name="InsertRows" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,125,0,0" Text="{Binding Path = Rows}"/>
-        <TextBox x:Name="InsertCols" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,175,0,0" Text="{Binding Path = Cols}"/>
-        <Button x:Name="StartGame" Content="OK" FontSize="15" Grid.Column="2" HorizontalAlignment="Left" Margin="25,240,0,0" VerticalAlignment="Top" Width="100" Height="35" RenderTransformOrigin="0.949,0.353" Click="StartGame_Click"/>
-        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,240,0,0" VerticalAlignment="Top" Width="65" Height="40" Click="Back" RenderTransformOrigin="-1,0.7" Grid.ColumnSpan="2"/>
+        <Label x:Name="Title" Content="Single Player" FontSize="15" Foreground="Gold" Grid.Column="1" HorizontalAlignment="Left" Margin="125,25,0,0" VerticalAlignment="Top" Width="100" Height="30"/>
+        <Button x:Name="StartGame" Content="OK" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="115,270,0,0" VerticalAlignment="Top" Width="100" Height="30" RenderTransformOrigin="0.949,0.353" Click="StartGame_Click"/>
+        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,270,0,0" VerticalAlignment="Top" Width="65" Height="30" Click="Back" RenderTransformOrigin="-1,0.7" Grid.ColumnSpan="2"/>
+        <controls:MenuUserControl x:Name="Menu" Margin="0,100,0,80" Grid.ColumnSpan="2"/>
         <Grid.Background>
             <ImageBrush ImageSource="resources/background maze.jpg"/>
         </Grid.Background>

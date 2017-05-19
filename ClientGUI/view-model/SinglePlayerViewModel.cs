@@ -5,7 +5,7 @@ using MazeLib;
 
 namespace ClientGUI.view_model
 {
-    class SinglePlayerViewModel : ClientViewModel
+    public class SinglePlayerViewModel : ClientViewModel
     {
         private readonly SinglePlayerModel _model;
 

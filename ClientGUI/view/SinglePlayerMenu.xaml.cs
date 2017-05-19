@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using ClientGUI.model;
 using ClientGUI.view_model;
 using MazeLib;
@@ -16,8 +17,9 @@ namespace ClientGUI
         private SinglePlayerViewModel _viewModel;
         public SinglePlayerMenu(MainWindow main)
         {
-            InitializeComponent();
             _viewModel = new SinglePlayerViewModel(new SinglePlayerModel());
+            DataContext = _viewModel;
+            InitializeComponent();
             _main = main;
             _gameStarted = false;
             _error = new Error();
@@ -31,10 +33,7 @@ namespace ClientGUI
 
         private void Window_Closed(object sender, System.EventArgs e)
         {
-            if (!_gameStarted)
-            {
-                _main.Show();
-            }
+            Environment.Exit(0);
         }
 
         private void StartGame_Click(object sender, RoutedEventArgs e)
