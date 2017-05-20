@@ -28,7 +28,12 @@ namespace ClientGUI.view
 		}
 
 		public static readonly DependencyProperty MazeProperty =
-			DependencyProperty.Register("Maze", typeof(string), typeof(MazeBoard));
+			DependencyProperty.Register("Maze", typeof(string), typeof(MazeBoard), new PropertyMetadata(onMazePropertyChanged));
+
+		private static void onMazePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		{
+			((MazeBoard)d).DrawMaze();
+		}
 
 		public int Rows
 		{
@@ -82,7 +87,7 @@ namespace ClientGUI.view
 						rect.Fill = Brushes.Black;
 						break;
 					case '#':
-						rect.Fill = (ImageBrush) Resources["Goal"];
+						rect.Fill = (ImageBrush)Resources["Goal"];
 						break;
 					case '0':
 						rect.Fill = Brushes.Black;

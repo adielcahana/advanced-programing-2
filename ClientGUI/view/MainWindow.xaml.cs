@@ -16,21 +16,21 @@ namespace ClientGUI
 
         private void SinglePlayerClick(object sender, RoutedEventArgs e)
         {
-            SinglePlayerMenu singlePlayer = new SinglePlayerMenu(this);
+            SinglePlayerMenu singlePlayer = new SinglePlayerMenu();
             Hide();
             singlePlayer.Show();
         }
 
         private void MultiPlayerClick(object sender, RoutedEventArgs e)
         {
-            MultiPlayerMenu multiPlayer = new MultiPlayerMenu(this);
+            MultiPlayerMenu multiPlayer = new MultiPlayerMenu();
             Hide();
             multiPlayer.Show();
         }
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            SettingsMenu settings = new SettingsMenu(this);
+            SettingsMenu settings = new SettingsMenu();
             Hide();
             settings.Show();
         }

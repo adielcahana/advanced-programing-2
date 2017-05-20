@@ -24,8 +24,7 @@ namespace ClientGUI.view
 	public partial class SinglePlayerGame : Window
 	{
 		public SinglePlayerViewModel _vm;
-		private Maze Maze { get; set; }
-
+		
 		public SinglePlayerGame(SinglePlayerViewModel vm)
 		{
 			InitializeComponent();
@@ -56,7 +55,7 @@ namespace ClientGUI.view
 					_vm.Move(Direction.Left);
 					break;
 			}
-			Board.DrawMaze();
+			//Board.DrawMaze();
 		}
 
 		private void RestartGame_Click(object sender, RoutedEventArgs e)
@@ -122,7 +121,6 @@ namespace ClientGUI.view
 							_vm.Move(Direction.Left);
 							break;
 					}
-					Board.DrawMaze();
 				} 
 				else
 				{
@@ -130,8 +128,6 @@ namespace ClientGUI.view
 					KeyDown += Window_KeyDown;
 				}
 			};
-			_vm.RestartGame();
-			Board.DrawMaze();
 			timer.Start();
 		}
 	}

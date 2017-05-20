@@ -1,12 +1,15 @@
 ﻿using ClientGUI.view_model;
+using System.ComponentModel;
 
 namespace ClientGUI
 {
-    class SettingViewModel : ClientViewModel
-    {
+    class SettingViewModel : INotifyPropertyChanged
+	{
         private readonly ISettingModel _model;
 
-        public SettingViewModel(ISettingModel model)
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public SettingViewModel(ISettingModel model)
         {
             _model = model;
         }
@@ -16,7 +19,7 @@ namespace ClientGUI
             set
             {
                _model.ServerIP = value;
-                NotifyPropertyChanged("ServerIP");
+                OnPropertyChanged("ServerIP");
             }
         }
 
@@ -26,7 +29,7 @@ namespace ClientGUI
             set
             {
                 _model.ServerPort = value;
-                NotifyPropertyChanged("ServerPort");
+                OnPropertyChanged("ServerPort");
             }
         }
 
@@ -36,7 +39,7 @@ namespace ClientGUI
             set
             {
                 _model.MazeRows = value;
-                NotifyPropertyChanged("MazeRows");
+                OnPropertyChanged("MazeRows");
             }
         }
 
@@ -46,7 +49,7 @@ namespace ClientGUI
             set
             {
                 _model.MazeCols = value;
-                NotifyPropertyChanged("MazeCols");
+                OnPropertyChanged("MazeCols");
             }
         }
 
@@ -56,15 +59,17 @@ namespace ClientGUI
             set
             {
                 _model.SearchAlgorithm = value;
-                NotifyPropertyChanged("SearchAlgorithm");
+                OnPropertyChanged("SearchAlgorithm");
             }
         }
-        private void NotifyPropertyChanged(string note)
-        {
 
-        }
+		protected void OnPropertyChanged(string name)
+		{
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(name));
+		}
 
-        public void SaveSetting()
+		public void SaveSetting()
         {
             _model.SaveSettings();
         }
