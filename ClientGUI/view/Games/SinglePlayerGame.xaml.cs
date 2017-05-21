@@ -70,7 +70,6 @@ namespace ClientGUI.view
 			msg.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
 			{
 				_vm.RestartGame();
-				//Board.DrawMaze();
 				msg.Close();
 				Show();
 			};

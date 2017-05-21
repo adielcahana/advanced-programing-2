@@ -17,9 +17,8 @@ namespace ClientGUI
         private void SinglePlayerClick(object sender, RoutedEventArgs e)
         {
             SinglePlayerMenu singlePlayer = new SinglePlayerMenu();
-			Close();
+            Close();
 			singlePlayer.Show();
-			
 		}
 
         private void MultiPlayerClick(object sender, RoutedEventArgs e)

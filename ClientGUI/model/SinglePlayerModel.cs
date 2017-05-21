@@ -10,7 +10,7 @@ namespace ClientGUI.model
 		private string _mazeName;
         private int _rows;
         private int _cols;
-		public event EventHandler<Maze> newMaze;
+		public event EventHandler<Maze> NewMaze;
 		public event EventHandler<Position> PlayerMoved;
 
 		public SinglePlayerModel()
@@ -107,7 +107,6 @@ namespace ClientGUI.model
 			{
 				PlayerPos = PlayerPos;
 			}
-			
 		}
 
 		public void RestartGame()
@@ -151,7 +150,7 @@ namespace ClientGUI.model
 			client.Close();
 			_maze = MazeLib.Maze.FromJSON(answer);
 			_playerPos = _maze.InitialPos;
-			newMaze(this, _maze);
+			NewMaze(this, _maze);
 		}
 
         public string CreateGenerateMessage()
@@ -173,7 +172,7 @@ namespace ClientGUI.model
         public string CreateSolveMessage()
         {
             int algorithm = Properties.Settings.Default.SearchAlgorithm;
-            return "solve" + _mazeName + algorithm.ToString();
+            return "solve " + _mazeName + " " + algorithm.ToString();
         }
     }
 }

@@ -38,6 +38,10 @@
     <Reference Include="MazeLib">
       <HintPath>..\Ex1\MazeLib.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -70,16 +74,26 @@
     <Compile Include="controls\MenuUserControl.xaml.cs">
       <DependentUpon>MenuUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="model\MultiPlayerModel.cs" />
+    <Compile Include="model\PlayerModel.cs" />
     <Compile Include="model\SettingsModel.cs" />
     <Compile Include="model\SinglePlayerModel.cs" />
+    <Compile Include="Move.cs" />
     <Compile Include="view-model\ClientViewModel.cs" />
+    <Compile Include="view-model\MultiPlayerViewModel.cs" />
+    <Compile Include="view-model\PlayerViewModel.cs" />
     <Compile Include="view-model\SinglePlayerViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="model\ISettingModel.cs" />
+    <Compile Include="view-model\SettingViewModel.cs" />
     <Compile Include="view\Games\MultiPlayerGame.xaml.cs">
       <DependentUpon>MultiPlayerGame.xaml</DependentUpon>
     </Compile>
     <Compile Include="view\Games\SinglePlayerGame.xaml.cs">
       <DependentUpon>SinglePlayerGame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="view\Menus\MultiPlayerMenu.xaml.cs">
       <DependentUpon>MultiPlayerMenu.xaml</DependentUpon>
@@ -93,13 +107,8 @@
     <Compile Include="view\MessageWindow.xaml.cs">
       <DependentUpon>MessageWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="model\ISettingModel.cs" />
-    <Compile Include="view-model\SettingViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="view\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -122,13 +131,10 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Include="view\resources\Thumbs.db" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="view\resources\background maze.jpg" />
-    <Resource Include="view\resources\the maze.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="controls\MazeBoard.xaml">
@@ -140,8 +146,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="view\Games\MultiPlayerGame.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="view\Games\SinglePlayerGame.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -179,10 +185,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="view\resources\background maze.jpg" />
     <Resource Include="view\resources\dave_left.png" />
     <Resource Include="view\resources\dave_right.png" />
     <Resource Include="view\resources\error icon.png" />
     <Resource Include="view\resources\goal.png" />
+    <Resource Include="view\resources\the maze.jpg" />
     <Resource Include="view\resources\wall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

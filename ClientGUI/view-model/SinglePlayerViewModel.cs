@@ -60,7 +60,7 @@ namespace ClientGUI.view_model
         {
             _model = model;
 			_lastMove = Direction.Right;
-			_model.newMaze += new EventHandler<Maze>(delegate (Object sender, Maze e) {
+			_model.NewMaze += new EventHandler<Maze>(delegate (Object sender, Maze e) {
 				_mazeSrl = new StringBuilder(e.ToString());
 				_mazeSrl[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2';
 				OnPropertyChanged("MazeSrl");

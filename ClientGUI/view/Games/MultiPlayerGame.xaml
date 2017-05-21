@@ -3,15 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ClientGUI.view.Games"
-        xmlns:view="clr-namespace:ClientGUI.view"
+        xmlns:local="clr-namespace:ClientGUI.view"
         mc:Ignorable="d"
         Title="{Binding MazeName}" Height="700" Width="1000" KeyDown="Window_KeyDown" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen">
-    <DockPanel x:Name="Dock" RenderTransformOrigin="1.199,0.815" HorizontalAlignment="Center">
+    <DockPanel x:Name="Dock" HorizontalAlignment="Center" Margin="0,0,0,0" Width="990">
         <StackPanel Height="100"  DockPanel.Dock="Top" Orientation="Horizontal" >
-            <Button x:Name="Menu" Content="Back to main menu" HorizontalAlignment="Right" FontSize="22" Width="235" Click="Menu_Click" Margin="0,0,0,45" RenderTransformOrigin="1.979,0.818"/>
+            <Label x:Name="MyBoardName" Foreground="Blue" Content="My board" Margin="5,50,0,0" FontSize="25"/>
+            <Button x:Name="Menu" Content="Back to main menu" Margin="250,0,0,40" HorizontalAlignment="Center" FontSize="25" Width="250" Click="Menu_Click" RenderTransformOrigin="1.979,0.818"/>
+            <Label x:Name="OtherBoardName" Foreground="Green" Content="Other player board" Margin="10,50,0,0" FontSize="25"/>
         </StackPanel>
-        <view:MazeBoard x:Name="Board1" DockPanel.Dock="Left" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="50,10,50,50"/>
-        <view:MazeBoard x:Name="Board2" DockPanel.Dock="Left" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="50,10,50,50"/>
+        <local:MazeBoard x:Name="MyBoard" DockPanel.Dock="Left" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20,10,10,50" Width="460"/>
+        <GridSplitter x:Name="Splitter" Background="Black" Height="509" Margin="0,10,0,0" VerticalAlignment="Top" Width="10"/>
+        <local:MazeBoard x:Name="OtherBoard" DockPanel.Dock="Right" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,10,30,50" Width="460"/>
     </DockPanel>
 </Window>
