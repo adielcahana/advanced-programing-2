@@ -23,8 +23,8 @@ namespace ClientGUI.model
 		public SinglePlayerModel()
         {
             _mazeName = "name";
-            _rows = Properties.Settings.Default.MazeRows;
-            _cols = Properties.Settings.Default.MazeCols;
+            Rows = Properties.Settings.Default.MazeRows;
+            Cols = Properties.Settings.Default.MazeCols;
         }
 
 		private Position _playerPos;
@@ -165,8 +165,9 @@ namespace ClientGUI.model
             string answer = client.Recieve();
 			client.Close();
 			_maze = MazeLib.Maze.FromJSON(answer);
+			_playerPos = _maze.InitialPos;
 			newMaze(this, _maze);
-        }
+		}
 
         public string CreateGenerateMessage()
         {

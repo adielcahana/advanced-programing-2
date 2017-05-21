@@ -17,22 +17,23 @@ namespace ClientGUI
         private void SinglePlayerClick(object sender, RoutedEventArgs e)
         {
             SinglePlayerMenu singlePlayer = new SinglePlayerMenu();
-            Hide();
-            singlePlayer.Show();
-        }
+			Close();
+			singlePlayer.Show();
+			
+		}
 
         private void MultiPlayerClick(object sender, RoutedEventArgs e)
         {
             MultiPlayerMenu multiPlayer = new MultiPlayerMenu();
-            Hide();
-            multiPlayer.Show();
-        }
+			Close();
+			multiPlayer.Show();
+		}
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
             SettingsMenu settings = new SettingsMenu();
-            Hide();
-            settings.Show();
+			Close();
+			settings.Show();
         }
 
         private void ExitClick(object sender, RoutedEventArgs e)

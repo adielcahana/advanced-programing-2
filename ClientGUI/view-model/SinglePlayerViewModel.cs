@@ -36,24 +36,22 @@ namespace ClientGUI.view_model
 			}
 		}
 
-		private int _rows;
 		public int Rows
 		{
-			get { return _rows; }
+			get { return _model.Rows; }
 			set
 			{
-				_rows = value;
+				_model.Rows = value;
 				OnPropertyChanged("Rows");
 			}
 		}
 
-		private int _cols;
 		public int Cols
 		{
-			get { return _cols; }
+			get { return _model.Cols; }
 			set
 			{
-				_cols = value;
+				_model.Cols = value;
 				OnPropertyChanged("Cols");
 			}
 		}
@@ -81,16 +79,14 @@ namespace ClientGUI.view_model
 						_mazeSrl[e.Row * (Cols + 2) + e.Col] = '3';
 						break;
 				}
-				
 				OnPropertyChanged("MazeSrl");
 			});
 		}
 
         protected void OnPropertyChanged(string name)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+		}
 
         public void GenerateMaze()
         {
