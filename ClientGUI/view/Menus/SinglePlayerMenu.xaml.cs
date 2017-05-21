@@ -13,18 +13,19 @@ namespace ClientGUI
 	{
 		private bool _gameStarted;
 		private SinglePlayerViewModel _viewModel;
-		public SinglePlayerMenu()
+	    private MainWindow _main;
+		public SinglePlayerMenu(MainWindow main)
 		{
 			InitializeComponent();
+		    _main = main;
 			_viewModel = new SinglePlayerViewModel(new SinglePlayerModel());
 			DataContext = _viewModel;
 			_gameStarted = false;
 		}
-
 		private void Back(object sender, RoutedEventArgs e)
 		{
-			Close();
-			new MainWindow().Show();
+		    new MainWindow().Show();
+            Close();
 		}
 
 		private void Window_Closed(object sender, System.EventArgs e)
@@ -43,6 +44,7 @@ namespace ClientGUI
 			game.Start();
 			_gameStarted = true;
 			Close();
-		}
+		    _main.Show();
+        }
 	}
 }

@@ -7,7 +7,6 @@ namespace ClientGUI
     /// </summary>
     public partial class MultiPlayerMenu : Window
     {
-        private readonly MainWindow _main;
         public MultiPlayerMenu()
         {
             InitializeComponent();

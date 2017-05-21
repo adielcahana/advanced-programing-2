@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MazeLib;
@@ -12,7 +13,7 @@ namespace Ex1
     ///     enables the conversion of the original ISolution
     ///     into direction list, and enables serialization
     /// </summary>
-    public class MazeSolution
+    public class MazeSolution : IEnumerable<Direction>
     {
         private readonly string _name;
         private readonly int _nodesEvaluated;
@@ -72,13 +73,18 @@ namespace Ex1
             return new MazeSolution(name, new Stack<Direction>(sol), nodesEvaluated);
         }
 
-        /// <summary>
-        ///     serialize MazeSolution to json string.
-        /// </summary>
-        /// <returns>
-        ///     json represantation of MazeSolution.
-        /// </returns>
-        public string ToJson()
+		public IEnumerator<Direction> GetEnumerator()
+		{
+			return ((IEnumerable<Direction>)_solution).GetEnumerator();
+		}
+
+		/// <summary>
+		///     serialize MazeSolution to json string.
+		/// </summary>
+		/// <returns>
+		///     json represantation of MazeSolution.
+		/// </returns>
+		public string ToJson()
         {
             JObject mazeSolution = new JObject
             {
@@ -93,12 +99,17 @@ namespace Ex1
             return mazeSolution.ToString();
         }
 
-        /// <summary>
-        ///     converts the position list to direction list
-        /// </summary>
-        /// <param name="sol">The sol.</param>
-        /// <returns></returns>
-        private Stack<Direction> ToDirections(ISolution<Position> sol)
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return ((IEnumerable<Direction>)_solution).GetEnumerator();
+		}
+
+		/// <summary>
+		///     converts the position list to direction list
+		/// </summary>
+		/// <param name="sol">The sol.</param>
+		/// <returns></returns>
+		private Stack<Direction> ToDirections(ISolution<Position> sol)
         {
             List<Direction> directions = new List<Direction>(sol.Count() - 1);
             Position last = sol.Get().Data;

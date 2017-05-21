@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4173723C-BBF8-4E5E-B5B7-0099339426DD}</ProjectGuid>
+    <ProjectGuid>{24D5A2CB-9706-4CCF-886B-9FBEB4D3BA48}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ClientGUI</RootNamespace>
@@ -64,25 +64,34 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="controls\MazeBoard.xaml.cs">
+      <DependentUpon>MazeBoard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="controls\MenuUserControl.xaml.cs">
+      <DependentUpon>MenuUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="model\SettingsModel.cs" />
     <Compile Include="model\SinglePlayerModel.cs" />
     <Compile Include="view-model\ClientViewModel.cs" />
     <Compile Include="view-model\SinglePlayerViewModel.cs" />
-    <Compile Include="view\Error.xaml.cs">
-      <DependentUpon>Error.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="view\MazeBoard.xaml.cs">
-      <DependentUpon>MazeBoard.xaml</DependentUpon>
+    <Compile Include="view\Games\MultiPlayerGame.xaml.cs">
+      <DependentUpon>MultiPlayerGame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="view\SettingsMenu.xaml.cs">
-      <DependentUpon>SettingsMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="view\SinglePlayerGame.xaml.cs">
+    <Compile Include="view\Games\SinglePlayerGame.xaml.cs">
       <DependentUpon>SinglePlayerGame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="view\SinglePlayerMenu.xaml.cs">
+    <Compile Include="view\Menus\MultiPlayerMenu.xaml.cs">
+      <DependentUpon>MultiPlayerMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\Menus\SettingsMenu.xaml.cs">
+      <DependentUpon>SettingsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\Menus\SinglePlayerMenu.xaml.cs">
       <DependentUpon>SinglePlayerMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="view\MessageWindow.xaml.cs">
+      <DependentUpon>MessageWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="model\ISettingModel.cs" />
     <Compile Include="view-model\SettingViewModel.cs" />
@@ -90,9 +99,6 @@
   <ItemGroup>
     <Compile Include="view\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="view\MultiPlayerMenu.xaml.cs">
-      <DependentUpon>MultiPlayerMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -125,33 +131,41 @@
     <Resource Include="view\resources\the maze.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="view\Error.xaml">
+    <Page Include="controls\MazeBoard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="controls\MenuUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="view\Games\MultiPlayerGame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="view\Games\SinglePlayerGame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="view\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="view\MazeBoard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="view\MultiPlayerMenu.xaml">
+    <Page Include="view\Menus\MultiPlayerMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="view\SettingsMenu.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="view\Menus\SettingsMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="view\SinglePlayerGame.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="view\Menus\SinglePlayerMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="view\SinglePlayerMenu.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="view\MessageWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -164,7 +178,13 @@
       <Name>Ex1</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="view\resources\dave_left.png" />
+    <Resource Include="view\resources\dave_right.png" />
+    <Resource Include="view\resources\error icon.png" />
+    <Resource Include="view\resources\goal.png" />
+    <Resource Include="view\resources\wall.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

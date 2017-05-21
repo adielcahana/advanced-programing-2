@@ -47,8 +47,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MazeSolution.cs" />
     <Compile Include="MazeAdapter.cs" />
+    <Compile Include="MazeSolution.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

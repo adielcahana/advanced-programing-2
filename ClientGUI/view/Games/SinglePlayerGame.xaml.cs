@@ -24,12 +24,13 @@ namespace ClientGUI.view
 	public partial class SinglePlayerGame : Window
 	{
 		public SinglePlayerViewModel _vm;
-		private Maze Maze { get; set; }
-
+		private DispatcherTimer _timer;
+		
 		public SinglePlayerGame(SinglePlayerViewModel vm)
 		{
 			InitializeComponent();
 			_vm = vm;
+			_timer = null;
 			DataContext = _vm;
 			Board.DataContext = _vm;
 		}
@@ -56,16 +57,20 @@ namespace ClientGUI.view
 					_vm.Move(Direction.Left);
 					break;
 			}
-			Board.DrawMaze();
 		}
 
 		private void RestartGame_Click(object sender, RoutedEventArgs e)
 		{
 			MessageWindow msg = new MessageWindow("are you sure you want to restart the game?");
+			if (_timer != null && _timer.IsEnabled)
+			{
+				_timer.Stop();
+			    KeyDown += Window_KeyDown;
+			}
 			msg.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
 			{
 				_vm.RestartGame();
-				Board.DrawMaze();
+				//Board.DrawMaze();
 				msg.Close();
 				Show();
 			};
@@ -73,7 +78,12 @@ namespace ClientGUI.view
 			{
 				msg.Close();
 				Show();
-			};
+			    if (_timer != null)
+			    {
+			        KeyDown -= Window_KeyDown;
+                    _timer.Start();
+			    }
+            };
 			Hide();
 			msg.Show();
 		}
@@ -81,8 +91,14 @@ namespace ClientGUI.view
 		private void Menu_Click(object sender, RoutedEventArgs e)
 		{
 			MessageWindow msg = new MessageWindow("are you sure you want to go back to the main menu?");
-			msg.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
+		    if (_timer != null && _timer.IsEnabled)
+		    {
+		        _timer.Stop();
+		        KeyDown += Window_KeyDown;
+		    }
+            msg.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
 			{
+				
 				msg.Close();
 				Close();
 				new MainWindow().Show();
@@ -91,7 +107,12 @@ namespace ClientGUI.view
 			{
 				msg.Close();
 				Show();
-			};
+			    if (_timer != null)
+			    {
+			        KeyDown -= Window_KeyDown;
+                    _timer.Start();
+			    }
+            };
 			Hide();
 			msg.Show();
 		}
@@ -100,10 +121,11 @@ namespace ClientGUI.view
 		{
 			KeyDown -= Window_KeyDown;
 			MazeSolution solution = _vm.SolveMaze();
+			_vm.RestartGame();
 			IEnumerator<Direction> directions = solution.GetEnumerator();
-			DispatcherTimer timer = new DispatcherTimer();
-			timer.Interval = TimeSpan.FromSeconds(1/60);
-			timer.Tick += delegate(object sender1, EventArgs e1)
+			_timer = new DispatcherTimer();
+			_timer.Interval = TimeSpan.FromSeconds(0.1);
+			_timer.Tick += delegate(object sender1, EventArgs e1)
 			{
 				if (directions.MoveNext())
 				{
@@ -122,17 +144,20 @@ namespace ClientGUI.view
 							_vm.Move(Direction.Left);
 							break;
 					}
-					Board.DrawMaze();
 				} 
 				else
 				{
-					timer.Stop();
+					_timer.Stop();
 					KeyDown += Window_KeyDown;
+				    _timer = null;
 				}
 			};
-			_vm.RestartGame();
-			Board.DrawMaze();
-			timer.Start();
+			_timer.Start();
 		}
-	}
+
+        private void Menu_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Board.DrawMaze();
+        }
+    }
 }
