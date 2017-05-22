@@ -13,6 +13,6 @@
         <ImageBrush x:Key="Goal" ImageSource="/ClientGUI;component/view/resources/goal.png"/>
     </UserControl.Resources>
     <Canvas x:Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-            Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl, AncestorLevel=1}, Path=ActualHeight}" 
-            Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl, AncestorLevel=1}, Path=ActualWidth}"/>
+                Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl, AncestorLevel=1}, Path=ActualHeight}" 
+                Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl, AncestorLevel=1}, Path=ActualWidth}" SizeChanged="Canvas_SizeChanged"/>
 </UserControl>
