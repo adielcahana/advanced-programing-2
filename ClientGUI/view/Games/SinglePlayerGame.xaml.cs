@@ -29,7 +29,7 @@ namespace ClientGUI.view.Games
 		public void Start()
 		{
 			Board.DrawMaze();
-		    Board.RefreshMaze();
+			Board.RefreshMaze();
 		}
 
 		private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -145,10 +145,5 @@ namespace ClientGUI.view.Games
 			};
 			_timer.Start();
 		}
-
-        private void Menu_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            Board.DrawMaze();
-        }
-    }
+	}
 }

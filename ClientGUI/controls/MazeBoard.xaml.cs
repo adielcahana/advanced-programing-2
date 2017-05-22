@@ -102,8 +102,7 @@ namespace ClientGUI.controls
 
 		public void DrawMaze()
 		{
-			player.Height = Canvas.Height / Rows;
-			player.Width = Canvas.Width / Cols;
+			Canvas.Children.Clear();
 			double left = 0;
 			double top = 0;
 			bool newLine = false;
@@ -150,6 +149,15 @@ namespace ClientGUI.controls
 				Canvas.SetTop(rect, top);
 				Canvas.Children.Add(rect);
 				left += rect.Width;
+			}
+		}
+
+		private void Canvas_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (Maze != null)
+			{
+				DrawMaze();
+				RefreshMaze();
 			}
 		}
 	}

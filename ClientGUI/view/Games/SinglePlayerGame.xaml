@@ -11,7 +11,7 @@
         <StackPanel Height="100"  DockPanel.Dock="Top" Orientation="Horizontal" >
             <Button x:Name="SolveMaze" Content="Solve maze" FontSize="22" Width="140" Margin="250,30,50,30" Click="SolveMaze_Click"/>
             <Button x:Name="RestartGame" Content="Restart game" FontSize="22" Width="140" Margin="0,30,50,30" Click="RestartGame_Click"/>
-            <Button x:Name="Menu" Content="Main menu" FontSize="22" Width="140" Margin="0,30,250,30" Click="Menu_Click" SizeChanged="Menu_SizeChanged"/>
+            <Button x:Name="Menu" Content="Main menu" FontSize="22" Width="140" Margin="0,30,250,30" Click="Menu_Click"/>
         </StackPanel>
         <controls:MazeBoard x:Name="Board" DockPanel.Dock="Bottom" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="50,10,50,50"/>
     </DockPanel>
