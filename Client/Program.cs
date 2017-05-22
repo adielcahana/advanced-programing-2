@@ -11,7 +11,7 @@
         /// <param name="args">The arguments for the main.</param>
         private static void Main(string[] args)
         {
-            Client client = new Client();
+            Client client = new Client(8000,"127.0.0.1");
             /*client.Start();*/
         }
     }

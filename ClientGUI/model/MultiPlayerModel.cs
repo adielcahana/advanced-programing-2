@@ -10,6 +10,7 @@ namespace ClientGUI.model
     {
         public event EventHandler<Maze> NewMaze;
         public event EventHandler<Position> PlayerMoved;
+        public event EventHandler<Position> OtherPlayerMoved;
         private Client.Client _client;
         private int _clientId;
 
@@ -18,9 +19,8 @@ namespace ClientGUI.model
             _mazeName = "name";
             Rows = Properties.Settings.Default.MazeRows;
             Cols = Properties.Settings.Default.MazeCols;
-            _client = new Client.Client();
+            _client = new Client.Client(_port, _ip);
         }
-
 
         private Position _playerPos;
         private Position PlayerPos
@@ -46,7 +46,7 @@ namespace ClientGUI.model
             set
             {
                 _otherPlayerPos = value;
-                PlayerMoved(this, _otherPlayerPos);
+                OtherPlayerMoved(this, _otherPlayerPos);
             }
         }
 
@@ -110,7 +110,6 @@ namespace ClientGUI.model
             }
         }
 
-        
         public void StartGame()
         {
             _client.Initialize();
@@ -119,6 +118,7 @@ namespace ClientGUI.model
             string answer = _client.Recieve();
             _maze = MazeLib.Maze.FromJSON(answer);
             _playerPos = _maze.InitialPos;
+            _otherPlayerPos = _maze.InitialPos;
             _clientId = 0;
             new Task(() => Listen()).Start();
             NewMaze(this, _maze);
@@ -131,7 +131,10 @@ namespace ClientGUI.model
             _client.Send(msg);
             string answer = _client.Recieve();
             _maze = MazeLib.Maze.FromJSON(answer);
+            Rows = _maze.Rows;
+            Cols = _maze.Cols;
             _playerPos = _maze.InitialPos;
+            _otherPlayerPos = _maze.InitialPos;
             _clientId = 1;
             new Task(() => Listen()).Start();
             NewMaze(this, _maze);
@@ -180,7 +183,7 @@ namespace ClientGUI.model
 
         public ObservableCollection<string> CreateList()
         {
-            Client.Client client = new Client.Client();
+            Client.Client client = new Client.Client(_port, _ip);
             client.Initialize();
             client.Send("list");
             string answer = client.Recieve();

@@ -7,11 +7,12 @@ using MazeLib;
 
 namespace ClientGUI.view_model
 {
-    public class MultiPlayerViewModel
+    public class MultiPlayerViewModel : INotifyPropertyChanged
     {
         private readonly MultiPlayerModel _model;
         public event PropertyChangedEventHandler PropertyChanged;
         private Direction _lastMove;
+        private Direction _otherLastMove;
 
         private ObservableCollection<String> _gamesList;
         public ObservableCollection<String> GamesList
@@ -49,6 +50,15 @@ namespace ClientGUI.view_model
             }
         }
 
+        private StringBuilder _otherMazeSrl;
+        public string OtherMazeSrl
+        {
+            get
+            {
+                return _otherMazeSrl.ToString();
+            }
+        }
+
         public int Rows
         {
             get { return _model.Rows; }
@@ -74,9 +84,12 @@ namespace ClientGUI.view_model
             _model = model;
             _gamesList = _model.CreateList();
             _lastMove = Direction.Right;
+            _otherLastMove = Direction.Right;
             _model.NewMaze += new EventHandler<Maze>(delegate (Object sender, Maze e) {
 	            _mazeSrl = new StringBuilder(e.ToString()) {[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2'};
 	            OnPropertyChanged("MazeSrl");
+                _otherMazeSrl = new StringBuilder(e.ToString()) {[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2' };
+                OnPropertyChanged("OtherMazeSrl");
             });
 
             _model.PlayerMoved += new EventHandler<Position>(delegate (Object sender, Position e) {
@@ -92,6 +105,20 @@ namespace ClientGUI.view_model
                 }
                 OnPropertyChanged("MazeSrl");
             });
+            _model.OtherPlayerMoved += new EventHandler<Position>(delegate (Object sender, Position e) {
+                _otherMazeSrl = new StringBuilder(((MultiPlayerModel)sender).Maze);
+                switch (_otherLastMove)
+                {
+                    case Direction.Right:
+                        _otherMazeSrl[e.Row * (Cols + 2) + e.Col] = '2';
+                        break;
+                    case Direction.Left:
+                        _otherMazeSrl[e.Row * (Cols + 2) + e.Col] = '3';
+                        break;
+                }
+                OnPropertyChanged("OtherMazeSrl");
+            });
+
         }
 
         private void OnPropertyChanged(string name)

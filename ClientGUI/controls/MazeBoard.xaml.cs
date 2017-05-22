@@ -52,7 +52,7 @@ namespace ClientGUI.controls
 			player.Stroke = Brushes.Gray;
 		}
 
-		private void RefreshMaze()
+		public void RefreshMaze()
 		{
 			player.Height = Canvas.Height / Rows;
 			player.Width = Canvas.Width / Cols;

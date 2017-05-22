@@ -15,6 +15,14 @@ namespace Client
         private MessageReader _reader;
         private MessageWriter _writer;
         private TcpClient _client;
+        private int _port;
+        private string _ip;
+
+        public Client(int port, string ip)
+        {
+            _port = port;
+            _ip = ip;
+        }
         /// <summary>
         ///     Starts this session
         /// </summary>
@@ -115,8 +123,7 @@ namespace Client
         */
         public void Initialize()
         {
-            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(ConfigurationManager.AppSettings[0]),
-                int.Parse(ConfigurationManager.AppSettings[1]));
+            IPEndPoint ep = new IPEndPoint(IPAddress.Parse(_ip), _port);
             _client = new TcpClient();
             _client.Connect(ep);
             _stream = _client.GetStream();

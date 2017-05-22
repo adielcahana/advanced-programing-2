@@ -9,13 +9,6 @@ namespace ClientGUI.model
 		public event EventHandler<Maze> NewMaze;
 		public event EventHandler<Position> PlayerMoved;
 
-		public SinglePlayerModel()
-        {
-            _mazeName = "name";
-            Rows = Properties.Settings.Default.MazeRows;
-            Cols = Properties.Settings.Default.MazeCols;
-        }
-
         private Position _playerPos;
         private Position PlayerPos
         {
@@ -67,7 +60,7 @@ namespace ClientGUI.model
 
 		public void GenerateMaze()
         {
-			Client.Client client = new Client.Client();
+			Client.Client client = new Client.Client(_port, _ip);
 			client.Initialize();
 			string msg = CreateGenerateMessage();
             client.Send(msg);
@@ -85,7 +78,7 @@ namespace ClientGUI.model
 
         public MazeSolution SolveMaze()
         {
-			Client.Client client = new Client.Client();
+			Client.Client client = new Client.Client(_port, _ip);
 			client.Initialize();
 			string msg = CreateSolveMessage();
             client.Send(msg);

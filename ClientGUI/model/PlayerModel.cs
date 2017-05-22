@@ -13,6 +13,17 @@ namespace ClientGUI.model
         protected int _rows;
         protected int _cols;
         protected Maze _maze;
+        protected string _ip;
+        protected int _port;
+
+        public PlayerModel()
+        {
+            _ip = Properties.Settings.Default.ServerIP;
+            _port = Properties.Settings.Default.ServerPort;
+            _mazeName = "name";
+            Rows = Properties.Settings.Default.MazeRows;
+            Cols = Properties.Settings.Default.MazeCols;
+        }
 
         public string MazeName
         {

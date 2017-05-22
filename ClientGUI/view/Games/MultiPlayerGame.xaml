@@ -10,11 +10,11 @@
     <DockPanel x:Name="Dock" HorizontalAlignment="Center" Margin="0,0,0,0" Width="1190">
         <StackPanel Height="100"  DockPanel.Dock="Top" Orientation="Horizontal" >
             <Label x:Name="MyBoardName" Foreground="Blue" Content="My board" Margin="5,50,0,0" FontSize="25"/>
-            <Button x:Name="Menu" Content="Back to main menu" Margin="250,0,0,40" HorizontalAlignment="Center" FontSize="25" Width="250" Click="Menu_Click" RenderTransformOrigin="1.979,0.818"/>
-            <Label x:Name="OtherBoardName" Foreground="Green" Content="Other player board" Margin="150,50,0,0" FontSize="25"/>
+            <Button x:Name="Menu" Content="Back to main menu" Margin="350,0,0,50" HorizontalAlignment="Center" FontSize="25" Width="250" Click="Menu_Click" RenderTransformOrigin="1.979,0.818"/>
+            <Label x:Name="OtherBoardName" Foreground="Green" Content="Other player board" Margin="250,50,0,0" FontSize="25"/>
         </StackPanel>
         <controls:MazeBoard x:Name="MyBoard" DockPanel.Dock="Left" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,10,10,30" Width="560"/>
         <GridSplitter x:Name="Splitter" Background="Black" Height="530" Margin="10,10,0,0" VerticalAlignment="Top" Width="10"/>
-        <controls:MazeBoard x:Name="OtherBoard" DockPanel.Dock="Right" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,10,0,30" Width="560"/>
+        <controls:MazeBoard x:Name="OtherBoard" DockPanel.Dock="Right" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding OtherMazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,10,0,30" Width="560"/>
     </DockPanel>
 </Window>

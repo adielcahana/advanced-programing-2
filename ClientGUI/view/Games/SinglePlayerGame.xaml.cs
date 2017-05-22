@@ -29,6 +29,7 @@ namespace ClientGUI.view.Games
 		public void Start()
 		{
 			Board.DrawMaze();
+		    Board.RefreshMaze();
 		}
 
 		private void Window_KeyDown(object sender, KeyEventArgs e)

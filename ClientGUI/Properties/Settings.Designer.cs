@@ -37,7 +37,7 @@ namespace ClientGUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("8000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("56789")]
         public int ServerPort {
             get {
                 return ((int)(this["ServerPort"]));

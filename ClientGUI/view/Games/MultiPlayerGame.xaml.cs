@@ -25,7 +25,9 @@ namespace ClientGUI.view.Games
         public void Start()
         {
             MyBoard.DrawMaze();
+            MyBoard.RefreshMaze();
             OtherBoard.DrawMaze();
+            OtherBoard.RefreshMaze();
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
