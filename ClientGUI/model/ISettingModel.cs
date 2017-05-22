@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ClientGUI.view_model
+﻿namespace ClientGUI.model
 {
     interface ISettingModel
     {
-        string ServerIP { get; set; }
+        string ServerIp { get; set; }
         int ServerPort { get; set; }
         int MazeRows { get; set; }
         int MazeCols { get; set; }

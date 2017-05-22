@@ -36,11 +36,11 @@
             <ColumnDefinition Width="55*"/>
             <ColumnDefinition Width="117*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock x:Name="MazeName" Style="{StaticResource TextBlock}" Grid.Column="1" Height="25" Margin="5,0,0,0" Text="Maze name:" />
-        <TextBlock x:Name="Rows" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,50,0,0" Text="Maze rows:" />
-        <TextBlock x:Name="Cols" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,100,0,0" Text="Maze columns:" />
-        <TextBox x:Name="InsertName" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,0,0,0" Text="{Binding MazeName}"/>
-        <TextBox x:Name="InsertRows" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,50,0,0" Text="{Binding Rows}"/>
-        <TextBox x:Name="InsertCols" Style="{StaticResource TextBox}" Grid.Column="2" Margin="5,100,0,0" Text="{Binding Cols}"/>
+        <TextBlock x:Name="MazeName" Style="{StaticResource TextBlock}" Grid.Row="0" Grid.Column="1" Height="25" Margin="5,0,0,0" Text="Maze name:" />
+        <TextBlock x:Name="Rows" Style="{StaticResource TextBlock}" Grid.Row="0" Grid.Column="1" Margin="5,50,0,0" Text="Maze rows:" />
+        <TextBlock x:Name="Cols" Style="{StaticResource TextBlock}" Grid.Row="0" Grid.Column="1" Margin="5,100,0,0" Text="Maze columns:" />
+        <TextBox x:Name="InsertName" Style="{StaticResource TextBox}" Grid.Row="0" Grid.Column="2" Margin="5,0,0,0" Text="{Binding MazeName}"/>
+        <TextBox x:Name="InsertRows" Style="{StaticResource TextBox}" Grid.Row="0" Grid.Column="2" Margin="5,50,0,0" Text="{Binding Rows}"/>
+        <TextBox x:Name="InsertCols" Style="{StaticResource TextBox}" Grid.Row="0" Grid.Column="2" Margin="5,100,0,0" Text="{Binding Cols}"/>
     </Grid>
 </UserControl>

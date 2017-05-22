@@ -23,9 +23,9 @@ namespace Client
             Name = name;
         }
 
-        public Direction MoveDirection { get; set; }
-        public string Name { get; set; }
-        public int ClientId { get; set; }
+	    private Direction MoveDirection { get; set; }
+	    private string Name { get; set; }
+	    private int ClientId { get; set; }
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
@@ -35,10 +35,12 @@ namespace Client
         /// </returns>
         public override string ToString()
         {
-            JObject play = new JObject();
-            play["Name"] = Name;
-            play["Direction"] = MoveDirection.ToString();
-            return play.ToString();
+	        JObject play = new JObject
+	        {
+		        ["Name"] = Name,
+		        ["Direction"] = MoveDirection.ToString()
+	        };
+	        return play.ToString();
         }
 
         /// <summary>
@@ -49,11 +51,13 @@ namespace Client
         /// </returns>
         public string ToJson()
         {
-            JObject play = new JObject();
-            play["Name"] = Name;
-            play["Direction"] = MoveDirection.ToString();
-            play["Id"] = ClientId;
-            return play.ToString();
+	        JObject play = new JObject
+	        {
+		        ["Name"] = Name,
+		        ["Direction"] = MoveDirection.ToString(),
+		        ["Id"] = ClientId
+	        };
+	        return play.ToString();
         }
 
         /// <summary>

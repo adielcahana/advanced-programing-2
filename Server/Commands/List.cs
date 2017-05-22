@@ -20,7 +20,7 @@ namespace Server.Commands
         /// <param name="model">The model.</param>
         public List(IModel model)
         {
-            this._model = model;
+            _model = model;
         }
 
         /// <summary>

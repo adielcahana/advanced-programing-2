@@ -1,14 +1,13 @@
 ﻿using System.Windows;
-using ClientGUI.view_model;
+using ClientGUI.model;
 
-namespace ClientGUI
+namespace ClientGUI.view.Menus
 {
     /// <summary>
     /// Interaction logic for SettingsMenu.xaml
     /// </summary>
     public partial class SettingsMenu : Window
     {
-        private readonly MainWindow _main;
         private SettingViewModel _vm;
 
         public SettingsMenu()
@@ -21,14 +20,14 @@ namespace ClientGUI
         private void Return_Click(object sender, RoutedEventArgs e)
         {
             Close();
-			new MainWindow().Show();
+			new view.MainWindow().Show();
 		}
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             _vm.SaveSetting();
             Close();
-			new MainWindow().Show();
+			new view.MainWindow().Show();
 		}
     }
 }

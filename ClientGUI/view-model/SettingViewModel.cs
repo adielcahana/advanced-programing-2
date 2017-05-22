@@ -1,5 +1,6 @@
 ﻿using ClientGUI.view_model;
 using System.ComponentModel;
+using ClientGUI.model;
 
 namespace ClientGUI
 {
@@ -13,12 +14,12 @@ namespace ClientGUI
         {
             _model = model;
         }
-        public string ServerIP
+        public string ServerIp
         {
-            get { return _model.ServerIP; }
+            get { return _model.ServerIp; }
             set
             {
-               _model.ServerIP = value;
+               _model.ServerIp = value;
                 OnPropertyChanged("ServerIP");
             }
         }
@@ -63,10 +64,9 @@ namespace ClientGUI
             }
         }
 
-		protected void OnPropertyChanged(string name)
+		private void OnPropertyChanged(string name)
 		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(name));
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
 
 		public void SaveSetting()

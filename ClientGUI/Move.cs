@@ -36,10 +36,12 @@ namespace ClientGUI
         /// </returns>
         public override string ToString()
         {
-            JObject play = new JObject();
-            play["Name"] = Name;
-            play["Direction"] = MoveDirection.ToString();
-            return play.ToString();
+	        JObject play = new JObject
+	        {
+		        ["Name"] = Name,
+		        ["Direction"] = MoveDirection.ToString()
+	        };
+	        return play.ToString();
         }
 
         /// <summary>
@@ -50,11 +52,13 @@ namespace ClientGUI
         /// </returns>
         public string ToJson()
         {
-            JObject play = new JObject();
-            play["Name"] = Name;
-            play["Direction"] = MoveDirection.ToString();
-            play["Id"] = ClientId;
-            return play.ToString();
+	        JObject play = new JObject
+	        {
+		        ["Name"] = Name,
+		        ["Direction"] = MoveDirection.ToString(),
+		        ["Id"] = ClientId
+	        };
+	        return play.ToString();
         }
 
         /// <summary>
@@ -64,7 +68,7 @@ namespace ClientGUI
         /// <returns>
         ///     Move object
         /// </returns>
-        public static ClientGUI.Move FromJson(string str)
+        public static Move FromJson(string str)
         {
             Dictionary<string, Direction> moves = new Dictionary<string, Direction>
             {
@@ -76,7 +80,7 @@ namespace ClientGUI
             JObject json = JObject.Parse(str);
             string name = (string)json["Name"];
             int id = (int)json["Id"];
-            return new ClientGUI.Move(moves[(string)json["Direction"]], name, id);
+            return new Move(moves[(string)json["Direction"]], name, id);
         }
     }
 }

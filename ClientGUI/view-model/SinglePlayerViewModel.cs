@@ -1,12 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Text;
 using ClientGUI.model;
 using Ex1;
 using MazeLib;
-using System.Text;
-using System.Windows;
 
-namespace ClientGUI.view_model
+namespace ClientGUI
 {
     public class SinglePlayerViewModel :INotifyPropertyChanged
     {
@@ -81,7 +80,7 @@ namespace ClientGUI.view_model
 			});
 		}
 
-        protected void OnPropertyChanged(string name)
+        private void OnPropertyChanged(string name)
         {
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientGUI.view"
+        xmlns:controls="clr-namespace:ClientGUI.controls"
         mc:Ignorable="d"
         Title="{Binding MazeName}" Height="700" Width="1000" KeyDown="Window_KeyDown" ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen">
     <DockPanel x:Name="Dock" HorizontalAlignment="Center" Margin="0,0,0,0" Width="990">
@@ -12,8 +13,8 @@
             <Button x:Name="Menu" Content="Back to main menu" Margin="250,0,0,40" HorizontalAlignment="Center" FontSize="25" Width="250" Click="Menu_Click" RenderTransformOrigin="1.979,0.818"/>
             <Label x:Name="OtherBoardName" Foreground="Green" Content="Other player board" Margin="10,50,0,0" FontSize="25"/>
         </StackPanel>
-        <local:MazeBoard x:Name="MyBoard" DockPanel.Dock="Left" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20,10,10,50" Width="460"/>
+        <controls:MazeBoard x:Name="MyBoard" DockPanel.Dock="Left" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="20,10,10,50" Width="460"/>
         <GridSplitter x:Name="Splitter" Background="Black" Height="509" Margin="0,10,0,0" VerticalAlignment="Top" Width="10"/>
-        <local:MazeBoard x:Name="OtherBoard" DockPanel.Dock="Right" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,10,30,50" Width="460"/>
+        <controls:MazeBoard x:Name="OtherBoard" DockPanel.Dock="Right" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,10,30,50" Width="460"/>
     </DockPanel>
 </Window>

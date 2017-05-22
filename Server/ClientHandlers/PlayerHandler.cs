@@ -53,9 +53,9 @@ namespace Server.ClientHandlers
             // send the client the game state until a closing state is reached
             Task write = new Task(() =>
             {
-                string output;
-                {
-                    do
+	            {
+	                string output;
+	                do
                     {
                         output = _gameController.ExecuteCommand("getState", client);
                         writer.WriteMessage(output);

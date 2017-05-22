@@ -27,7 +27,7 @@ namespace MessagingLib
         public string ReadMessage()
         {
             string msg = "";
-            while (_reader.Peek() != Constants.delim)
+            while (_reader.Peek() != Constants.Delim)
                 msg += (char) _reader.Read();
             int size = Message.ParseMessageSize(msg);
             //clear the msg string and dispose of the delimiter in the stream

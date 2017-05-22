@@ -21,7 +21,7 @@ namespace ClientGUI.model
         }
 
 		private Position _playerPos;
-		public Position PlayerPos
+		private Position PlayerPos
 		{
 			get
 			{
@@ -153,7 +153,7 @@ namespace ClientGUI.model
 			NewMaze(this, _maze);
 		}
 
-        public string CreateGenerateMessage()
+        private string CreateGenerateMessage()
         {
             return "generate " + _mazeName + " " + _rows.ToString() + " " + _cols.ToString();
 		}
@@ -169,7 +169,7 @@ namespace ClientGUI.model
 			return MazeSolution.FromJson(answer);
         }
 
-        public string CreateSolveMessage()
+        private string CreateSolveMessage()
         {
             int algorithm = Properties.Settings.Default.SearchAlgorithm;
             return "solve " + _mazeName + " " + algorithm.ToString();

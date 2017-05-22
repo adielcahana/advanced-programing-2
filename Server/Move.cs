@@ -35,10 +35,12 @@ namespace Server
         /// </returns>
         public override string ToString()
         {
-            JObject play = new JObject();
-            play["Name"] = Name;
-            play["Direction"] = MoveDirection.ToString();
-            return play.ToString();
+	        JObject play = new JObject
+	        {
+		        ["Name"] = Name,
+		        ["Direction"] = MoveDirection.ToString()
+	        };
+	        return play.ToString();
         }
 
         /// <summary>
@@ -49,11 +51,13 @@ namespace Server
         /// </returns>
         public string ToJson()
         {
-            JObject play = new JObject();
-            play["Name"] = Name;
-            play["Direction"] = MoveDirection.ToString();
-            play["Id"] = ClientId;
-            return play.ToString();
+	        JObject play = new JObject
+	        {
+		        ["Name"] = Name,
+		        ["Direction"] = MoveDirection.ToString(),
+		        ["Id"] = ClientId
+	        };
+	        return play.ToString();
         }
 
         /// <summary>

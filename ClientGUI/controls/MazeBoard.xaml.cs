@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MazeLib;
 
-namespace ClientGUI.view
+namespace ClientGUI.controls
 {
 	/// <summary>
 	/// Interaction logic for MazeBoard.xaml
@@ -84,14 +74,14 @@ namespace ClientGUI.view
 						player.Fill = (ImageBrush)Resources["DaveRight"];
 						Canvas.SetLeft(player, left);
 						Canvas.SetTop(player, top);
-						Canvas.SetZIndex(player, 1);
+						Panel.SetZIndex(player, 1);
 						Canvas.Children.Add(player);
 						return;
 					case '3':
 						player.Fill = (ImageBrush)Resources["DaveLeft"];
 						Canvas.SetLeft(player, left);
 						Canvas.SetTop(player, top);
-						Canvas.SetZIndex(player, 1);
+						Panel.SetZIndex(player, 1);
 						Canvas.Children.Add(player);
 						return;
 					default:
@@ -114,13 +104,12 @@ namespace ClientGUI.view
 		{
 			player.Height = Canvas.Height / Rows;
 			player.Width = Canvas.Width / Cols;
-			Rectangle rect;
 			double left = 0;
 			double top = 0;
 			bool newLine = false;
 			foreach (char c in Maze)
 			{
-				rect = new Rectangle();
+				Rectangle rect = new Rectangle();
 				rect.Stroke = Brushes.Gray;
 				rect.Height = Canvas.Height / Rows;
 				rect.Width = Canvas.Width / Cols;

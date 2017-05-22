@@ -15,7 +15,7 @@ namespace Server.Commands
         /// <summary>
         ///     Initializes a new instance of the <see cref="Play" /> class.
         /// </summary>
-        /// <param name="gameController">The game controller.</param>
+        /// <param name="model">The game controller.</param>
         public Play(IModel model)
         {
             _model = model;

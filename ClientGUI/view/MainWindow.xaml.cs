@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace ClientGUI
+namespace ClientGUI.view
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -16,21 +16,21 @@ namespace ClientGUI
 
         private void SinglePlayerClick(object sender, RoutedEventArgs e)
         {
-            SinglePlayerMenu singlePlayer = new SinglePlayerMenu();
+            Menus.SinglePlayerMenu singlePlayer = new Menus.SinglePlayerMenu();
             Close();
 			singlePlayer.Show();
 		}
 
         private void MultiPlayerClick(object sender, RoutedEventArgs e)
         {
-            MultiPlayerMenu multiPlayer = new MultiPlayerMenu();
+            Menus.MultiPlayerMenu multiPlayer = new Menus.MultiPlayerMenu();
 			Close();
 			multiPlayer.Show();
 		}
 
         private void SettingsClick(object sender, RoutedEventArgs e)
         {
-            SettingsMenu settings = new SettingsMenu();
+            Menus.SettingsMenu settings = new Menus.SettingsMenu();
 			Close();
 			settings.Show();
         }

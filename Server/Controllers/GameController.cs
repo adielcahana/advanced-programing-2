@@ -19,7 +19,6 @@ namespace Server.Controllers
         ///     Initializes a new instance of the <see cref="GameController" /> class.
         /// </summary>
         /// <param name="name">The name.</param>
-        /// <param name="maze">The maze.</param>
         /// <param name="model">The model.</param>
         public GameController(IModel model, string name)
         {

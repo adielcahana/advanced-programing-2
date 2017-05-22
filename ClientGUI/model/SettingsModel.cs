@@ -1,12 +1,8 @@
-﻿using ClientGUI.view_model;
-
-namespace ClientGUI
+﻿namespace ClientGUI.model
 {
-    class SettingsModel : ISettingModel
+    public class SettingsModel : ISettingModel
     {
-        public SettingsModel()
-        {}
-        public string ServerIP
+        public string ServerIp
         {
             get { return Properties.Settings.Default.ServerIP; }
             set { Properties.Settings.Default.ServerIP = value; }

@@ -1,10 +1,9 @@
 ﻿using System.Windows;
 using ClientGUI.model;
-using ClientGUI.view;
 using ClientGUI.view.Games;
 using ClientGUI.view_model;
 
-namespace ClientGUI
+namespace ClientGUI.view.Menus
 {
     /// <summary>
     /// Interaction logic for MultiPlayerMenu.xaml
@@ -24,7 +23,7 @@ namespace ClientGUI
         private void Back(object sender, RoutedEventArgs e)
         {
             Close();
-			new MainWindow().Show();
+			new view.MainWindow().Show();
 		}
 
         private void ChooseGame_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

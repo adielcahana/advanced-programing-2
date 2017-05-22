@@ -91,9 +91,8 @@ namespace ClientGUI.view_model
             List<string> gamesList = _model.CreateList();
             _lastMove = Direction.Right;
             _model.NewMaze += new EventHandler<Maze>(delegate (Object sender, Maze e) {
-                _mazeSrl = new StringBuilder(e.ToString());
-                _mazeSrl[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2';
-                OnPropertyChanged("MazeSrl");
+	            _mazeSrl = new StringBuilder(e.ToString()) {[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2'};
+	            OnPropertyChanged("MazeSrl");
             });
 
             _model.PlayerMoved += new EventHandler<Position>(delegate (Object sender, Position e) {

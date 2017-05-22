@@ -1,10 +1,8 @@
 ﻿using System.Windows;
 using ClientGUI.model;
-using ClientGUI.view;
 using ClientGUI.view_model;
-using MazeLib;
 
-namespace ClientGUI
+namespace ClientGUI.view.Menus
 {
 	/// <summary>
 	/// Interaction logic for SinglePlayer.xaml
@@ -22,7 +20,7 @@ namespace ClientGUI
 		}
 		private void Back(object sender, RoutedEventArgs e)
 		{
-		    new MainWindow().Show();
+		    new view.MainWindow().Show();
             Close();
 		}
 
@@ -30,13 +28,13 @@ namespace ClientGUI
 		{
 			if (!_gameStarted)
 			{
-				new MainWindow().Show();
+				new view.MainWindow().Show();
 			}
 		}
 
 		private void StartGame_Click(object sender, RoutedEventArgs e)
 		{
-			SinglePlayerGame game = new SinglePlayerGame(_viewModel);
+			Games.SinglePlayerGame game = new Games.SinglePlayerGame(_viewModel);
 			_viewModel.GenerateMaze();
 			game.Show();
 			game.Start();

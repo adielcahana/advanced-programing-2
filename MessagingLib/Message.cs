@@ -49,6 +49,6 @@ namespace MessagingLib
         /// <summary>
         /// The delimiter for the size header
         /// </summary>
-        public const char delim = ',';
+        public const char Delim = ',';
     }
 }

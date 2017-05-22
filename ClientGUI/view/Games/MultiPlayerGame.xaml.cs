@@ -13,7 +13,7 @@ namespace ClientGUI.view.Games
     public partial class MultiPlayerGame : Window
     {
 
-        public MultiPlayerViewModel _vm;
+        private MultiPlayerViewModel _vm;
         private DispatcherTimer _timer;
         public MultiPlayerGame(MultiPlayerViewModel vm)
         {
