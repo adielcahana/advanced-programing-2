@@ -20,14 +20,14 @@ namespace ClientGUI.view.Menus
         private void Return_Click(object sender, RoutedEventArgs e)
         {
             Close();
-			new view.MainWindow().Show();
+			new MainWindow().Show();
 		}
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             _vm.SaveSetting();
             Close();
-			new view.MainWindow().Show();
+			new MainWindow().Show();
 		}
     }
 }

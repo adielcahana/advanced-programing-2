@@ -20,7 +20,7 @@ namespace ClientGUI.view.Menus
 		}
 		private void Back(object sender, RoutedEventArgs e)
 		{
-		    new view.MainWindow().Show();
+		    new MainWindow().Show();
             Close();
 		}
 

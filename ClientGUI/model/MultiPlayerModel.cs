@@ -1,21 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using MazeLib;
 using Newtonsoft.Json;
-using static Client.Client;
 
 namespace ClientGUI.model
 {
-    public class MultiPlayerModel
+    public class MultiPlayerModel : PlayerModel
     {
-        private Maze _maze;
-        private string _mazeName;
-        private int _rows;
-        private int _cols;
-        private int _otherRows;
-        private int _otherCols;
         public event EventHandler<Maze> NewMaze;
         public event EventHandler<Position> PlayerMoved;
         private Client.Client _client;
@@ -29,76 +21,9 @@ namespace ClientGUI.model
             _client = new Client.Client();
         }
 
-        public string Maze
-        {
-            get
-            {
-                return _maze.ToString();
-            }
-        }
-
-
-        public string MazeName
-        {
-            get
-            {
-                return _mazeName;
-            }
-            set
-            {
-                _mazeName = value;
-            }
-        }
-
-        public int Rows
-        {
-            get
-            {
-                return _rows;
-            }
-            set
-            {
-                _rows = value;
-            }
-        }
-
-        public int Cols
-        {
-            get
-            {
-                return _cols;
-            }
-            set
-            {
-                _cols = value;
-            }
-        }
-        public int OtherRows
-        {
-            get
-            {
-                return _otherRows;
-            }
-            set
-            {
-                _otherRows = value;
-            }
-        }
-
-        public int OtherCols
-        {
-            get
-            {
-                return _otherCols;
-            }
-            set
-            {
-                _otherCols = value;
-            }
-        }
 
         private Position _playerPos;
-        public Position PlayerPos
+        private Position PlayerPos
         {
             get
             {
@@ -108,12 +33,11 @@ namespace ClientGUI.model
             {
                 _playerPos = value;
                 PlayerMoved(this, _playerPos);
-
             }
         }
 
         private Position _otherPlayerPos;
-        public Position OtherPlayerPos
+        private Position OtherPlayerPos
         {
             get
             {
@@ -130,7 +54,7 @@ namespace ClientGUI.model
         {
             int row = PlayerPos.Row;
             int col = PlayerPos.Col;
-            if (IsValidMove(direction))
+            if (IsValidMove(direction, PlayerPos))
             {
                 switch (direction)
                 {
@@ -155,32 +79,38 @@ namespace ClientGUI.model
                 PlayerPos = PlayerPos;
             }
         }
-        private bool IsValidMove(Direction direction)
+
+        public void MoveOther(Direction direction)
         {
-            int row = PlayerPos.Row;
-            int col = PlayerPos.Col;
-            try
+            int row = OtherPlayerPos.Row;
+            int col = OtherPlayerPos.Col;
+            if (IsValidMove(direction, OtherPlayerPos))
             {
                 switch (direction)
                 {
                     case Direction.Up:
-                        return _maze[row - 1, col] == CellType.Free;
+                        OtherPlayerPos = new Position(row - 1, col);
+                        break;
                     case Direction.Down:
-                        return _maze[row + 1, col] == CellType.Free;
+                        OtherPlayerPos = new Position(row + 1, col);
+                        break;
                     case Direction.Right:
-                        return _maze[row, col + 1] == CellType.Free;
+                        OtherPlayerPos = new Position(row, col + 1);
+                        break;
                     case Direction.Left:
-                        return _maze[row, col - 1] == CellType.Free;
+                        OtherPlayerPos = new Position(row, col - 1);
+                        break;
                     default:
-                        throw new Exception("wrond argument in IsValidMove");
+                        throw new Exception("wrond argument in Move");
                 }
             }
-            catch (IndexOutOfRangeException)
+            else
             {
-                return false;
+                OtherPlayerPos = OtherPlayerPos;
             }
         }
 
+        
         public void StartGame()
         {
             _client.Initialize();
@@ -216,14 +146,18 @@ namespace ClientGUI.model
                 {
                     // check if it's a move
                     Move move = ClientGUI.Move.FromJson(answer);
-                    if (move.ClientId != _clientId)
+                    if (move.ClientId == _clientId)
                         Move(move.MoveDirection);
+                    else
+                    {
+                        MoveOther(move.MoveDirection);
+                    }
                 }
                 catch
                 {
                     if (answer.Contains("close"))
                     {
-                        
+                        Close();                
                     }
                 }
             }
@@ -244,14 +178,23 @@ namespace ClientGUI.model
             _client.Send(msg);
         }
 
-        public List<string> CreateList()
+        public ObservableCollection<string> CreateList()
         {
             Client.Client client = new Client.Client();
             client.Initialize();
             client.Send("list");
-            string msg = client.Recieve();
+            string answer = client.Recieve();
             client.Close();
-            return JsonConvert.DeserializeObject<List<string>>(msg);
+            if (!answer.Equals("no games avaliable"))
+            {
+                return JsonConvert.DeserializeObject<ObservableCollection<string>>(answer);
+            }
+            return null;
+        }
+
+        public void Close()
+        {
+            _client.Close();
         }
     }
 }

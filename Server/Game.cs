@@ -109,16 +109,16 @@ namespace Server
             Direction dir = new Direction();
             switch (direction)
             {
-                case "up":
+                case "Up":
                     dir = Direction.Up;
                     break;
-                case "down":
+                case "Down":
                     dir = Direction.Down;
                     break;
-                case "right":
+                case "Right":
                     dir = Direction.Right;
                     break;
-                case "left":
+                case "Left":
                     dir = Direction.Left;
                     break;
             }

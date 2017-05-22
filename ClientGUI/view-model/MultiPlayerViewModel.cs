@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using ClientGUI.model;
 using MazeLib;
 
@@ -15,11 +13,18 @@ namespace ClientGUI.view_model
         public event PropertyChangedEventHandler PropertyChanged;
         private Direction _lastMove;
 
-        private List<String> _gamesList;
-
-        protected void OnPropertyChanged(string name)
+        private ObservableCollection<String> _gamesList;
+        public ObservableCollection<String> GamesList
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            get { return _gamesList; }
+            set
+            {
+                if (_gamesList != value)
+                {
+                    _gamesList = value;
+                    OnPropertyChanged("GamesList");
+                }
+            }
         }
 
         public string MazeName
@@ -64,31 +69,10 @@ namespace ClientGUI.view_model
             }
         }
 
-        public int OtherRows
-        {
-            get { return _model.OtherRows; }
-            set
-            {
-                _model.OtherRows = value;
-                OnPropertyChanged("OtherRows");
-            }
-        }
-
-        public int OtherCols
-        {
-            get { return _model.OtherCols; }
-            set
-            {
-                _model.OtherCols = value;
-                OnPropertyChanged("OtherCols");
-            }
-        }
-
-
         public MultiPlayerViewModel(MultiPlayerModel model)
         {
             _model = model;
-            List<string> gamesList = _model.CreateList();
+            _gamesList = _model.CreateList();
             _lastMove = Direction.Right;
             _model.NewMaze += new EventHandler<Maze>(delegate (Object sender, Maze e) {
 	            _mazeSrl = new StringBuilder(e.ToString()) {[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2'};
@@ -96,7 +80,7 @@ namespace ClientGUI.view_model
             });
 
             _model.PlayerMoved += new EventHandler<Position>(delegate (Object sender, Position e) {
-                _mazeSrl = new StringBuilder(((SinglePlayerModel)sender).Maze);
+                _mazeSrl = new StringBuilder(((MultiPlayerModel)sender).Maze);
                 switch (_lastMove)
                 {
                     case Direction.Right:
@@ -108,6 +92,11 @@ namespace ClientGUI.view_model
                 }
                 OnPropertyChanged("MazeSrl");
             });
+        }
+
+        private void OnPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         public void Move(Direction direction)
@@ -122,6 +111,16 @@ namespace ClientGUI.view_model
         public void StartGame()
         {
             _model.StartGame();
+        }
+
+        public void JoinGame()
+        {
+            _model.JoinGame();
+        }
+
+        public void Close()
+        {
+            _model.Close();
         }
     }
 }

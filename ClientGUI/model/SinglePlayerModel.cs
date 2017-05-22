@@ -4,12 +4,8 @@ using MazeLib;
 
 namespace ClientGUI.model
 {
-    public class SinglePlayerModel
+    public class SinglePlayerModel : PlayerModel
     {
-		private Maze _maze;
-		private string _mazeName;
-        private int _rows;
-        private int _cols;
 		public event EventHandler<Maze> NewMaze;
 		public event EventHandler<Position> PlayerMoved;
 
@@ -20,70 +16,25 @@ namespace ClientGUI.model
             Cols = Properties.Settings.Default.MazeCols;
         }
 
-		private Position _playerPos;
-		private Position PlayerPos
-		{
-			get
-			{
-				return _playerPos;
-			}
-			set
-			{
-				_playerPos = value;
-				PlayerMoved(this, _playerPos);
-			}
-		}
-
-		public string Maze
-		{
-			get
-			{
-				return _maze.ToString();
-			}
-		}
-		
-
-		public string MazeName
+        private Position _playerPos;
+        private Position PlayerPos
         {
             get
             {
-                return _mazeName;
+                return _playerPos;
             }
             set
             {
-                _mazeName = value;
+                _playerPos = value;
+                PlayerMoved(this, _playerPos);
             }
         }
 
-        public int Rows
-        {
-            get
-            {
-                return _rows;
-            }
-            set
-            {
-                _rows = value;
-            }
-        }
-
-        public int Cols
-        {
-            get
-            {
-                return _cols;
-            }
-            set
-            {
-                _cols = value;
-            }
-        }
-
-		public void Move(Direction direction)
+        public void Move(Direction direction)
 		{
 			int row = PlayerPos.Row;
 			int col = PlayerPos.Col;
-			if (IsValidMove(direction))
+			if (IsValidMove(direction, PlayerPos))
 			{
 				switch (direction)
 				{
@@ -112,32 +63,6 @@ namespace ClientGUI.model
 		public void RestartGame()
 		{
 			PlayerPos = _maze.InitialPos;
-		}
-
-		private bool IsValidMove(Direction direction)
-		{
-			int row = PlayerPos.Row;
-			int col = PlayerPos.Col;
-			try
-			{
-				switch (direction)
-				{
-					case Direction.Up:
-						return _maze[row - 1, col] == CellType.Free;
-					case Direction.Down:
-						return _maze[row + 1, col] == CellType.Free;
-					case Direction.Right:
-						return _maze[row, col + 1] == CellType.Free;
-					case Direction.Left:
-						return _maze[row, col - 1] == CellType.Free;
-					default:
-						throw new Exception("wrond argument in IsValidMove");
-				}
-			}
-			catch (IndexOutOfRangeException)
-			{
-				return false;
-			}
 		}
 
 		public void GenerateMaze()
