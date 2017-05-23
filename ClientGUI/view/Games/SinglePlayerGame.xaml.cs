@@ -42,8 +42,7 @@ namespace ClientGUI.view.Games
 			_vm = vm;
 			_timer = null;
 			DataContext = _vm;
-			Board.DataContext = _vm;
-
+			
 			Binding binding = new Binding();
 			binding.Path = new PropertyPath("Start");
 			binding.Source = vm;  
@@ -53,6 +52,8 @@ namespace ClientGUI.view.Games
 			binding.Path = new PropertyPath("Finish");
 			binding.Source = vm;
 			BindingOperations.SetBinding(this, FinishProperty, binding);
+
+			Board.DataContext = _vm;
 		}
 
 		private static void StartPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -71,13 +72,14 @@ namespace ClientGUI.view.Games
 		private void FinishGame()
 		{
 			MessageWindow message;
-			FinishGame();
 			if (Finish == true && Start == true)
 			{
 				message = new MessageWindow("You won");
 				message.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
 				{
 					Close();
+					message.Hide();
+					new MainWindow().Show();
 					message.Close();
 				};
 				message.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
@@ -92,6 +94,8 @@ namespace ClientGUI.view.Games
 				message = new MessageWindow("Name already exist");
 				message.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
 				{
+					message.Hide();
+					new MainWindow().Show();
 					message.Close();
 				};
 				message.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
@@ -151,6 +155,7 @@ namespace ClientGUI.view.Games
 
 		private void StartGame()
 		{
+			Show();
 			Board.DrawMaze();
 			Board.RefreshMaze();
 		}
