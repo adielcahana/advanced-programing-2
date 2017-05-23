@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Text;
+using System.Windows;
 using ClientGUI.model;
+using ClientGUI.view;
 using Ex1;
 using MazeLib;
 
@@ -12,21 +14,30 @@ namespace ClientGUI
         private readonly SinglePlayerModel _model;
 		public event PropertyChangedEventHandler PropertyChanged;
 		private Direction _lastMove;
-        private bool _isFinish;
 
-        public bool Finish
+	    private bool _finish;
+		public bool Finish
         {
-            get { return _isFinish; }
+            get { return _finish; }
             set
             {
-                if (_isFinish != value)
-                {
-                    _isFinish = value;
-                    OnPropertyChanged("Finish");
-                }
+	            _finish = value;
+				OnPropertyChanged("Finish");
             }
         }
-        public string MazeName
+
+	    private bool _start;
+	    public bool Start
+	    {
+		    get { return _start; }
+		    set
+		    {
+			    _start = value;
+				OnPropertyChanged("Start");
+		    }
+	    }
+
+		public string MazeName
 		{
 			get { return _model.MazeName; }
 			set
@@ -72,10 +83,20 @@ namespace ClientGUI
         {
             _model = model;
 			_lastMove = Direction.Right;
+	        _start = false;
+	        _finish = false;
 			_model.NewMaze += new EventHandler<Maze>(delegate (Object sender, Maze e) {
-				_mazeSrl = new StringBuilder(e.ToString());
-				_mazeSrl[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2';
-				OnPropertyChanged("MazeSrl");
+				if (e != null)
+				{
+					_mazeSrl = new StringBuilder(e.ToString());
+					_mazeSrl[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2';
+					OnPropertyChanged("MazeSrl");
+					Start = true;
+				}
+				else
+				{
+					Finish = true;
+				}
 			});
 
 			_model.PlayerMoved += new EventHandler<Position>(delegate (Object sender, Position e) {
@@ -91,10 +112,10 @@ namespace ClientGUI
 				}
 				OnPropertyChanged("MazeSrl");
 			});
-            _model.FinishGame += new EventHandler<bool>(delegate(Object sender, bool e)
+
+            _model.FinishGame += new EventHandler<string>(delegate(Object sender, string e)
             {
-                Finish = e;
-                OnPropertyChanged("Finish");
+	            Finish = true;
             });
         }
 

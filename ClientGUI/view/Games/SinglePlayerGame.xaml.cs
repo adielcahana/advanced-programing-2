@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using ClientGUI.view_model;
@@ -16,7 +17,25 @@ namespace ClientGUI.view.Games
 	{
 		private SinglePlayerViewModel _vm;
 		private DispatcherTimer _timer;
-		
+
+		public bool Finish
+		{
+			get { return (bool)GetValue(FinishProperty); }
+			set { SetValue(FinishProperty, value); }
+		}
+
+		public static readonly DependencyProperty FinishProperty =
+			DependencyProperty.Register("Finish", typeof(bool), typeof(SinglePlayerGame), new PropertyMetadata(FinishPropertyChanged));
+
+		public bool Start
+		{
+			get { return (bool)GetValue(StartProperty); }
+			set { SetValue(FinishProperty, value); }
+		}
+
+		public static readonly DependencyProperty StartProperty =
+			DependencyProperty.Register("Start", typeof(bool), typeof(SinglePlayerGame), new PropertyMetadata(StartPropertyChanged));
+
 		public SinglePlayerGame(SinglePlayerViewModel vm)
 		{
 			InitializeComponent();
@@ -24,12 +43,63 @@ namespace ClientGUI.view.Games
 			_timer = null;
 			DataContext = _vm;
 			Board.DataContext = _vm;
+
+			Binding binding = new Binding();
+			binding.Path = new PropertyPath("Start");
+			binding.Source = vm;  
+			BindingOperations.SetBinding(this ,StartProperty ,binding);
+
+			binding = new Binding();
+			binding.Path = new PropertyPath("Finish");
+			binding.Source = vm;
+			BindingOperations.SetBinding(this, FinishProperty, binding);
 		}
 
-		public void Start()
+		private static void StartPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	    {
+		    if ((bool) e.NewValue)
+		    {
+			    ((SinglePlayerGame)d).StartGame();
+			}
+		}
+
+		private static void FinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			Board.DrawMaze();
-			Board.RefreshMaze();
+			((SinglePlayerGame)d).FinishGame();
+		}
+
+		private void FinishGame()
+		{
+			MessageWindow message;
+			FinishGame();
+			if (Finish == true && Start == true)
+			{
+				message = new MessageWindow("You won");
+				message.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
+				{
+					Close();
+					message.Close();
+				};
+				message.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
+				{
+					message.Close();
+				};
+				message.Show();
+			}
+			else if (Finish == true && Start == false)
+			{
+				Close();
+				message = new MessageWindow("Name already exist");
+				message.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
+				{
+					message.Close();
+				};
+				message.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
+				{
+					message.Close();
+				};
+				message.Show();
+			}
 		}
 
 		private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -78,6 +148,17 @@ namespace ClientGUI.view.Games
 			Hide();
 			msg.Show();
 		}
+
+		private void StartGame()
+		{
+			Board.DrawMaze();
+			Board.RefreshMaze();
+		}
+
+//		public void CloseMaze()
+//	    {
+//            Clos
+//        }
 
 		private void Menu_Click(object sender, RoutedEventArgs e)
 		{

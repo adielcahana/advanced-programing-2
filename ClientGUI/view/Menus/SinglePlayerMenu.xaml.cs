@@ -35,8 +35,6 @@ namespace ClientGUI.view.Menus
 		{
 			Games.SinglePlayerGame game = new Games.SinglePlayerGame(_viewModel);
 			_viewModel.GenerateMaze();
-			game.Show();
-			game.Start();
 			_gameStarted = true;
 			Close();
         }

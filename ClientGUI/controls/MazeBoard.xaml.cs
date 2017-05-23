@@ -46,19 +46,19 @@ namespace ClientGUI.controls
 		public static readonly DependencyProperty ColsProperty =
 			DependencyProperty.Register("Cols", typeof(int), typeof(MazeBoard));
 
-	    public bool Finish
-	    {
-	        get { return (bool)GetValue(FinishProperty); }
-	        set { SetValue(FinishProperty, value); }
-	    }
-
-	    public static readonly DependencyProperty FinishProperty =
-	        DependencyProperty.Register("Finish", typeof(bool), typeof(MazeBoard), new PropertyMetadata(FinishMazePropertyChanged));
-
-	    private static void FinishMazePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-	    {
-	        ((MazeBoard)d).CloseMaze();
-	    }
+//	    public bool Finish
+//	    {
+//	        get { return (bool)GetValue(FinishProperty); }
+//	        set { SetValue(FinishProperty, value); }
+//	    }
+//
+//	    public static readonly DependencyProperty FinishProperty =
+//	        DependencyProperty.Register("Finish", typeof(bool), typeof(MazeBoard), new PropertyMetadata(FinishMazePropertyChanged));
+//
+//	    private static void FinishMazePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+//	    {
+//	        ((MazeBoard)d).CloseMaze();
+//	    }
 
         public MazeBoard()
 		{
@@ -67,11 +67,25 @@ namespace ClientGUI.controls
 			_player.Stroke = Brushes.Gray;
 		}
 
-	    public void CloseMaze()
-	    {
-            new MainWindow().Show();
-	        Window.GetWindow(this).Close();
-        }
+//		public bool isReady()
+//		{
+//			return Maze == null;
+//		}
+
+//		public void StartMaze()
+//		{
+//			if (Maze != null)
+//			{
+//				DrawMaze();
+//				RefreshMaze();
+//			}
+//		}
+
+//	    public void CloseMaze()
+//	    {
+//            new MainWindow().Show();
+//	        Window.GetWindow(this).Close();
+//        }
 
         public void RefreshMaze()
 		{

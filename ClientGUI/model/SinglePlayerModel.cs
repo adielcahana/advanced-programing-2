@@ -10,7 +10,7 @@ namespace ClientGUI.model
     {
 		public event EventHandler<Maze> NewMaze;
         public event EventHandler<Position> PlayerMoved;
-        public event EventHandler<bool> FinishGame;
+        public event EventHandler<string> FinishGame;
 
         private Position _playerPos;
         private Position PlayerPos
@@ -31,7 +31,7 @@ namespace ClientGUI.model
             PlayerPos = ChangePosition(direction, PlayerPos);
 		    if (PlayerPos.Equals(_maze.GoalPos) )
 		    {
-		        Finish("You Win!");
+			    FinishGame(this, "You Win!");
 		    }
 		}
 
@@ -50,8 +50,8 @@ namespace ClientGUI.model
             client.Close();
             if (answer.Equals("name: " + MazeName +" already taken"))
             {
-                Finish("answer");
-            }
+	            FinishGame(this, answer);
+			}
             else
             {
                 _maze = MazeLib.Maze.FromJSON(answer);
@@ -80,26 +80,6 @@ namespace ClientGUI.model
         {
             int algorithm = Properties.Settings.Default.SearchAlgorithm;
             return "solve " + _mazeName + " " + algorithm.ToString();
-        }
-
-        public void Finish(string msg)
-        {
-            MessageWindow message = new MessageWindow(msg);
-            message.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
-            {
-                message.Hide();
-                FinishGame(this, true);
-                message.Close();
-            };
-            message.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
-            {
-                if (!msg.Equals("You Win!"))
-                {
-                    FinishGame(this, true);
-                }
-                message.Close();
-            };
-            message.Show();
         }
     }
 }
