@@ -132,7 +132,7 @@ namespace ClientGUI.view_model
             {
                 _lastMove = direction;
             }
-            _model.SendMoveMassege(direction);
+            _model.Move(direction);
         }
 
         public void StartGame()

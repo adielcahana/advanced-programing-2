@@ -8,6 +8,8 @@ namespace ClientGUI.model
 {
     public class MultiPlayerModel : PlayerModel
     {
+
+        protected readonly MultiPlayerModel _model;
         public event EventHandler<Maze> NewMaze;
         public event EventHandler<Position> PlayerMoved;
         public event EventHandler<Position> OtherPlayerMoved;
@@ -47,66 +49,6 @@ namespace ClientGUI.model
             {
                 _otherPlayerPos = value;
                 OtherPlayerMoved(this, _otherPlayerPos);
-            }
-        }
-
-        public void Move(Direction direction)
-        {
-            int row = PlayerPos.Row;
-            int col = PlayerPos.Col;
-            if (IsValidMove(direction, PlayerPos))
-            {
-                switch (direction)
-                {
-                    case Direction.Up:
-                        PlayerPos = new Position(row - 1, col);
-                        break;
-                    case Direction.Down:
-                        PlayerPos = new Position(row + 1, col);
-                        break;
-                    case Direction.Right:
-                        PlayerPos = new Position(row, col + 1);
-                        break;
-                    case Direction.Left:
-                        PlayerPos = new Position(row, col - 1);
-                        break;
-                    default:
-                        throw new Exception("wrond argument in Move");
-                }
-            }
-            else
-            {
-                PlayerPos = PlayerPos;
-            }
-        }
-
-        public void MoveOther(Direction direction)
-        {
-            int row = OtherPlayerPos.Row;
-            int col = OtherPlayerPos.Col;
-            if (IsValidMove(direction, OtherPlayerPos))
-            {
-                switch (direction)
-                {
-                    case Direction.Up:
-                        OtherPlayerPos = new Position(row - 1, col);
-                        break;
-                    case Direction.Down:
-                        OtherPlayerPos = new Position(row + 1, col);
-                        break;
-                    case Direction.Right:
-                        OtherPlayerPos = new Position(row, col + 1);
-                        break;
-                    case Direction.Left:
-                        OtherPlayerPos = new Position(row, col - 1);
-                        break;
-                    default:
-                        throw new Exception("wrond argument in Move");
-                }
-            }
-            else
-            {
-                OtherPlayerPos = OtherPlayerPos;
             }
         }
 
@@ -150,10 +92,10 @@ namespace ClientGUI.model
                     // check if it's a move
                     Move move = ClientGUI.Move.FromJson(answer);
                     if (move.ClientId == _clientId)
-                        Move(move.MoveDirection);
+                        PlayerPos = ChangePosition(move.MoveDirection, PlayerPos);
                     else
                     {
-                        MoveOther(move.MoveDirection);
+                        OtherPlayerPos = ChangePosition(move.MoveDirection, OtherPlayerPos);
                     }
                 }
                 catch
@@ -175,7 +117,7 @@ namespace ClientGUI.model
             return "join " + _mazeName;
         }
 
-        public void SendMoveMassege(Direction direction)
+        public void Move(Direction direction)
         {
             string msg = "play " + direction.ToString();
             _client.Send(msg);

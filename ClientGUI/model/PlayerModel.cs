@@ -68,6 +68,37 @@ namespace ClientGUI.model
             }
         }
 
+        protected Position ChangePosition(Direction direction, Position playerPosition)
+        {
+            int row = playerPosition.Row;
+            int col = playerPosition.Col;
+            if (IsValidMove(direction, playerPosition))
+            {
+                switch (direction)
+                {
+                    case Direction.Up:
+                        playerPosition = new Position(row - 1, col);
+                        break;
+                    case Direction.Down:
+                        playerPosition = new Position(row + 1, col);
+                        break;
+                    case Direction.Right:
+                        playerPosition = new Position(row, col + 1);
+                        break;
+                    case Direction.Left:
+                        playerPosition = new Position(row, col - 1);
+                        break;
+                    default:
+                        throw new Exception("wrond argument in Move");
+                }
+            }
+            else
+            {
+                playerPosition = playerPosition;
+            }
+            return playerPosition;
+        }
+
         protected bool IsValidMove(Direction direction, Position playerPosition)
         {
             int row = playerPosition.Row;

@@ -19,15 +19,17 @@ namespace ClientGUI.view.Menus
 
         private void Return_Click(object sender, RoutedEventArgs e)
         {
+            Hide();
+            new MainWindow().Show();
             Close();
-			new MainWindow().Show();
 		}
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             _vm.SaveSetting();
-            Close();
+            Hide();
 			new MainWindow().Show();
-		}
+            Close();
+        }
     }
 }

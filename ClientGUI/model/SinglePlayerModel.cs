@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using ClientGUI.view;
 using Ex1;
 using MazeLib;
 
@@ -24,33 +26,12 @@ namespace ClientGUI.model
         }
 
         public void Move(Direction direction)
-		{
-			int row = PlayerPos.Row;
-			int col = PlayerPos.Col;
-			if (IsValidMove(direction, PlayerPos))
-			{
-				switch (direction)
-				{
-					case Direction.Up:
-						PlayerPos = new Position(row - 1, col);
-						break;
-					case Direction.Down:						
-						PlayerPos = new Position(row + 1, col);
-						break;
-					case Direction.Right:
-						PlayerPos = new Position(row, col + 1);
-						break;
-					case Direction.Left:
-						PlayerPos = new Position(row, col - 1);
-						break;
-					default:
-						throw new Exception("wrond argument in Move");
-				}
-			}
-			else
-			{
-				PlayerPos = PlayerPos;
-			}
+        {
+            PlayerPos = ChangePosition(direction, PlayerPos);
+		    if (PlayerPos.Equals(_maze.GoalPos) )
+		    {
+		        Finish();
+		    }
 		}
 
 		public void RestartGame()
@@ -91,6 +72,21 @@ namespace ClientGUI.model
         {
             int algorithm = Properties.Settings.Default.SearchAlgorithm;
             return "solve " + _mazeName + " " + algorithm.ToString();
+        }
+
+        public void Finish()
+        {
+            MessageWindow win = new MessageWindow("You Win!");
+            win.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
+            {
+                win.Close();
+                new MainWindow().Show();
+            };
+            win.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
+            {
+                win.Close();
+            };
+            win.Show();
         }
     }
 }
