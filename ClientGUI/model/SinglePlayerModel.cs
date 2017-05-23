@@ -9,7 +9,8 @@ namespace ClientGUI.model
     public class SinglePlayerModel : PlayerModel
     {
 		public event EventHandler<Maze> NewMaze;
-		public event EventHandler<Position> PlayerMoved;
+        public event EventHandler<Position> PlayerMoved;
+        public event EventHandler<bool> FinishGame;
 
         private Position _playerPos;
         private Position PlayerPos
@@ -30,7 +31,7 @@ namespace ClientGUI.model
             PlayerPos = ChangePosition(direction, PlayerPos);
 		    if (PlayerPos.Equals(_maze.GoalPos) )
 		    {
-		        Finish();
+		        Finish("You Win!");
 		    }
 		}
 
@@ -39,18 +40,25 @@ namespace ClientGUI.model
 			PlayerPos = _maze.InitialPos;
 		}
 
-		public void GenerateMaze()
+        public void GenerateMaze()
         {
-			Client.Client client = new Client.Client(_port, _ip);
-			client.Initialize();
-			string msg = CreateGenerateMessage();
+            Client.Client client = new Client.Client(_port, _ip);
+            client.Initialize();
+            string msg = CreateGenerateMessage();
             client.Send(msg);
             string answer = client.Recieve();
-			client.Close();
-			_maze = MazeLib.Maze.FromJSON(answer);
-			_playerPos = _maze.InitialPos;
-			NewMaze(this, _maze);
-		}
+            client.Close();
+            if (answer.Equals("name: " + MazeName +" already taken"))
+            {
+                Finish("answer");
+            }
+            else
+            {
+                _maze = MazeLib.Maze.FromJSON(answer);
+                _playerPos = _maze.InitialPos;
+                NewMaze(this, _maze);
+            }
+        }
 
         private string CreateGenerateMessage()
         {
@@ -74,19 +82,24 @@ namespace ClientGUI.model
             return "solve " + _mazeName + " " + algorithm.ToString();
         }
 
-        public void Finish()
+        public void Finish(string msg)
         {
-            MessageWindow win = new MessageWindow("You Win!");
-            win.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
+            MessageWindow message = new MessageWindow(msg);
+            message.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
             {
-                win.Close();
-                new MainWindow().Show();
+                message.Hide();
+                FinishGame(this, true);
+                message.Close();
             };
-            win.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
+            message.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
             {
-                win.Close();
+                if (!msg.Equals("You Win!"))
+                {
+                    FinishGame(this, true);
+                }
+                message.Close();
             };
-            win.Show();
+            message.Show();
         }
     }
 }

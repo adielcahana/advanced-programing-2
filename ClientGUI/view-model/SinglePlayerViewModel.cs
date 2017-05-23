@@ -12,8 +12,21 @@ namespace ClientGUI
         private readonly SinglePlayerModel _model;
 		public event PropertyChangedEventHandler PropertyChanged;
 		private Direction _lastMove;
+        private bool _isFinish;
 
-		public string MazeName
+        public bool Finish
+        {
+            get { return _isFinish; }
+            set
+            {
+                if (_isFinish != value)
+                {
+                    _isFinish = value;
+                    OnPropertyChanged("Finish");
+                }
+            }
+        }
+        public string MazeName
 		{
 			get { return _model.MazeName; }
 			set
@@ -78,7 +91,12 @@ namespace ClientGUI
 				}
 				OnPropertyChanged("MazeSrl");
 			});
-		}
+            _model.FinishGame += new EventHandler<bool>(delegate(Object sender, bool e)
+            {
+                Finish = e;
+                OnPropertyChanged("Finish");
+            });
+        }
 
         private void OnPropertyChanged(string name)
         {

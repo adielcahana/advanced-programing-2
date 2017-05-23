@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using ClientGUI.view;
 
 namespace ClientGUI.controls
 {
@@ -11,7 +12,7 @@ namespace ClientGUI.controls
 	/// </summary>
 	public partial class MazeBoard : UserControl
 	{
-		private Rectangle player;
+		private readonly Rectangle _player;
 
 		public string Maze
 		{
@@ -45,21 +46,41 @@ namespace ClientGUI.controls
 		public static readonly DependencyProperty ColsProperty =
 			DependencyProperty.Register("Cols", typeof(int), typeof(MazeBoard));
 
-		public MazeBoard()
+	    public bool Finish
+	    {
+	        get { return (bool)GetValue(FinishProperty); }
+	        set { SetValue(FinishProperty, value); }
+	    }
+
+	    public static readonly DependencyProperty FinishProperty =
+	        DependencyProperty.Register("Finish", typeof(bool), typeof(MazeBoard), new PropertyMetadata(FinishMazePropertyChanged));
+
+	    private static void FinishMazePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+	    {
+	        ((MazeBoard)d).CloseMaze();
+	    }
+
+        public MazeBoard()
 		{
 			InitializeComponent();
-			player = new Rectangle();
-			player.Stroke = Brushes.Gray;
+			_player = new Rectangle();
+			_player.Stroke = Brushes.Gray;
 		}
 
-		public void RefreshMaze()
+	    public void CloseMaze()
+	    {
+            new MainWindow().Show();
+	        Window.GetWindow(this).Close();
+        }
+
+        public void RefreshMaze()
 		{
-			player.Height = Canvas.Height / Rows;
-			player.Width = Canvas.Width / Cols;
+			_player.Height = Canvas.Height / Rows;
+			_player.Width = Canvas.Width / Cols;
 			double left = 0;
 			double top = 0;
 			bool newLine = false;
-			Canvas.Children.Remove(player);
+			Canvas.Children.Remove(_player);
 			foreach (char c in Maze)
 			{
 				switch (c)
@@ -68,28 +89,28 @@ namespace ClientGUI.controls
 					case '#':
 					case '0':
 					case '1':
-						left += player.Width;
+						left += _player.Width;
 						break;
 					case '2':
-						player.Fill = (ImageBrush)Resources["DaveRight"];
-						Canvas.SetLeft(player, left);
-						Canvas.SetTop(player, top);
-						Panel.SetZIndex(player, 1);
-						Canvas.Children.Add(player);
+						_player.Fill = (ImageBrush)Resources["DaveRight"];
+						Canvas.SetLeft(_player, left);
+						Canvas.SetTop(_player, top);
+						Panel.SetZIndex(_player, 1);
+						Canvas.Children.Add(_player);
 						return;
 					case '3':
-						player.Fill = (ImageBrush)Resources["DaveLeft"];
-						Canvas.SetLeft(player, left);
-						Canvas.SetTop(player, top);
-						Panel.SetZIndex(player, 1);
-						Canvas.Children.Add(player);
+						_player.Fill = (ImageBrush)Resources["DaveLeft"];
+						Canvas.SetLeft(_player, left);
+						Canvas.SetTop(_player, top);
+						Panel.SetZIndex(_player, 1);
+						Canvas.Children.Add(_player);
 						return;
 					default:
 						if (Char.IsWhiteSpace(c) && newLine == false)
 						{
 							newLine = true;
 							left = 0;
-							top += player.Height;
+							top += _player.Height;
 						}
 						else
 						{
