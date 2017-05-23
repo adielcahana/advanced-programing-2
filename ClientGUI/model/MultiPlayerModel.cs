@@ -13,6 +13,7 @@ namespace ClientGUI.model
         public event EventHandler<Maze> NewMaze;
         public event EventHandler<Position> PlayerMoved;
         public event EventHandler<Position> OtherPlayerMoved;
+        public event EventHandler<bool> FinishGame;
         private Client.Client _client;
         private int _clientId;
 
@@ -102,7 +103,7 @@ namespace ClientGUI.model
                 {
                     if (answer.Contains("close"))
                     {
-                        Close();                
+                        Finish("");
                     }
                 }
             }
@@ -137,8 +138,14 @@ namespace ClientGUI.model
             return null;
         }
 
-        public void Close()
+        public void CloseGame()
         {
+            _client.Send("close " + MazeName);
+        }
+
+        public void Finish(string msg)
+        {
+            FinishGame(this, true);
             _client.Close();
         }
     }

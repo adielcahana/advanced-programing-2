@@ -56,7 +56,7 @@ namespace ClientGUI.view.Games
             {
 
                 msg.Close();
-                Close();
+                _vm.FinishGame();
                 new MainWindow().Show();
             };
             msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)

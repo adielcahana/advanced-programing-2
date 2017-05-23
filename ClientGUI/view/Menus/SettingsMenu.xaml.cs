@@ -20,6 +20,7 @@ namespace ClientGUI.view.Menus
         private void Return_Click(object sender, RoutedEventArgs e)
         {
             Hide();
+            Properties.Settings.Default.Reload();
             new MainWindow().Show();
             Close();
 		}

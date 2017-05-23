@@ -28,6 +28,21 @@ namespace ClientGUI.view_model
             }
         }
 
+        private bool _isFinish;
+
+        public bool Finish
+        {
+            get { return _isFinish; }
+            set
+            {
+                if (_isFinish != value)
+                {
+                    _isFinish = value;
+                    OnPropertyChanged("Finish");
+                }
+            }
+        }
+
         public string MazeName
         {
             get { return _model.MazeName; }
@@ -118,7 +133,11 @@ namespace ClientGUI.view_model
                 }
                 OnPropertyChanged("OtherMazeSrl");
             });
-
+            _model.FinishGame += new EventHandler<bool>(delegate (Object sender, bool e)
+            {
+                Finish = e;
+                OnPropertyChanged("Finish");
+            });
         }
 
         private void OnPropertyChanged(string name)
@@ -145,9 +164,9 @@ namespace ClientGUI.view_model
             _model.JoinGame();
         }
 
-        public void Close()
+        public void FinishGame()
         {
-            _model.Close();
+            _model.CloseGame();
         }
     }
 }

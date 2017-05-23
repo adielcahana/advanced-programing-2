@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using ClientGUI.model;
-using ClientGUI.view_model;
 
 namespace ClientGUI.view.Menus
 {

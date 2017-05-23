@@ -34,7 +34,7 @@ namespace ClientGUI.view.Menus
             msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
             {
                 msg.Close();
-                _viewModel.Close();
+                _viewModel.FinishGame();
             };
             msg.Show();
             MultiPlayerGame game = new MultiPlayerGame(_viewModel);
