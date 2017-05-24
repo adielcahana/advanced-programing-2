@@ -6,14 +6,35 @@ using MazeLib;
 
 namespace ClientGUI.model
 {
-    public class SinglePlayerModel : PlayerModel
+	/// <summary>
+	/// single player model
+	/// </summary>
+	/// <seealso cref="ClientGUI.model.PlayerModel" />
+	public class SinglePlayerModel : PlayerModel
     {
+		/// <summary>
+		/// Occurs when [new maze] is created.
+		/// </summary>
 		public event EventHandler<Maze> NewMaze;
-        public event EventHandler<Position> PlayerMoved;
-        public event EventHandler<string> FinishGame;
-
-        private Position _playerPos;
-        private Position PlayerPos
+		/// <summary>
+		/// Occurs when [player moved].
+		/// </summary>
+		public event EventHandler<Position> PlayerMoved;
+		/// <summary>
+		/// Occurs when the game should be finished.
+		/// </summary>
+		public event EventHandler<string> FinishGame;
+		/// <summary>
+		/// The player position
+		/// </summary>
+		private Position _playerPos;
+		/// <summary>
+		/// Gets or sets the player position.
+		/// </summary>
+		/// <value>
+		/// The player position.
+		/// </value>
+		private Position PlayerPos
         {
             get
             {
@@ -25,8 +46,11 @@ namespace ClientGUI.model
                 PlayerMoved(this, _playerPos);
             }
         }
-
-        public void Move(Direction direction)
+		/// <summary>
+		/// Moves to the specified direction.
+		/// </summary>
+		/// <param name="direction">The direction.</param>
+		public void Move(Direction direction)
         {
             PlayerPos = ChangePosition(direction, PlayerPos);
 		    if (PlayerPos.Equals(_maze.GoalPos) )
@@ -34,13 +58,17 @@ namespace ClientGUI.model
 			    FinishGame(this, "You Win!");
 		    }
 		}
-
+		/// <summary>
+		/// Restarts the game.
+		/// </summary>
 		public void RestartGame()
 		{
 			PlayerPos = _maze.InitialPos;
 		}
-
-        public void GenerateMaze()
+		/// <summary>
+		/// Generates the maze.
+		/// </summary>
+		public void GenerateMaze()
         {
             Client.Client client = new Client.Client(_port, _ip);
             client.Initialize();
@@ -59,13 +87,19 @@ namespace ClientGUI.model
                 NewMaze(this, _maze);
             }
         }
-
-        private string CreateGenerateMessage()
+		/// <summary>
+		/// Creates the generate message.
+		/// </summary>
+		/// <returns></returns>
+		private string CreateGenerateMessage()
         {
             return "generate " + _mazeName + " " + _rows.ToString() + " " + _cols.ToString();
 		}
-
-        public MazeSolution SolveMaze()
+		/// <summary>
+		/// Solves the maze.
+		/// </summary>
+		/// <returns></returns>
+		public MazeSolution SolveMaze()
         {
 			Client.Client client = new Client.Client(_port, _ip);
 			client.Initialize();
@@ -75,8 +109,11 @@ namespace ClientGUI.model
 			client.Close();
 			return MazeSolution.FromJson(answer);
         }
-
-        private string CreateSolveMessage()
+		/// <summary>
+		/// Creates the solve message.
+		/// </summary>
+		/// <returns></returns>
+		private string CreateSolveMessage()
         {
             int algorithm = Properties.Settings.Default.SearchAlgorithm;
             return "solve " + _mazeName + " " + algorithm.ToString();

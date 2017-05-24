@@ -6,15 +6,29 @@ namespace ClientGUI
 {
     class SettingViewModel : INotifyPropertyChanged
 	{
-        private readonly ISettingModel _model;
-
+		/// <summary>
+		/// The model
+		/// </summary>
+		private readonly ISettingModel _model;
+		/// <summary>
+		/// Occurs when a property value changes.
+		/// </summary>
 		public event PropertyChangedEventHandler PropertyChanged;
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SettingViewModel"/> class.
+		/// </summary>
+		/// <param name="model">The model.</param>
 		public SettingViewModel(ISettingModel model)
         {
             _model = model;
         }
-        public string ServerIp
+		/// <summary>
+		/// Gets or sets the server ip.
+		/// </summary>
+		/// <value>
+		/// The server ip.
+		/// </value>
+		public string ServerIp
         {
             get { return _model.ServerIp; }
             set
@@ -23,8 +37,13 @@ namespace ClientGUI
                 OnPropertyChanged("ServerIP");
             }
         }
-
-        public int ServerPort
+		/// <summary>
+		/// Gets or sets the server port.
+		/// </summary>
+		/// <value>
+		/// The server port.
+		/// </value>
+		public int ServerPort
         {
             get { return _model.ServerPort; }
             set
@@ -33,8 +52,13 @@ namespace ClientGUI
                 OnPropertyChanged("ServerPort");
             }
         }
-
-        public int MazeRows
+		/// <summary>
+		/// Gets or sets the maze rows.
+		/// </summary>
+		/// <value>
+		/// The maze rows.
+		/// </value>
+		public int MazeRows
         {
             get { return _model.MazeRows; }
             set
@@ -43,8 +67,13 @@ namespace ClientGUI
                 OnPropertyChanged("MazeRows");
             }
         }
-
-        public int MazeCols
+		/// <summary>
+		/// Gets or sets the maze cols.
+		/// </summary>
+		/// <value>
+		/// The maze cols.
+		/// </value>
+		public int MazeCols
         {
             get { return _model.MazeCols; }
             set
@@ -53,8 +82,13 @@ namespace ClientGUI
                 OnPropertyChanged("MazeCols");
             }
         }
-
-        public int SearchAlgorithm
+		/// <summary>
+		/// Gets or sets the search algorithm.
+		/// </summary>
+		/// <value>
+		/// The search algorithm.
+		/// </value>
+		public int SearchAlgorithm
         {
             get { return _model.SearchAlgorithm; }
             set
@@ -63,12 +97,17 @@ namespace ClientGUI
                 OnPropertyChanged("SearchAlgorithm");
             }
         }
-
+		/// <summary>
+		/// Called when [property changed].
+		/// </summary>
+		/// <param name="name">The name.</param>
 		private void OnPropertyChanged(string name)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
-
+		/// <summary>
+		/// Saves the setting.
+		/// </summary>
 		public void SaveSetting()
         {
             _model.SaveSettings();

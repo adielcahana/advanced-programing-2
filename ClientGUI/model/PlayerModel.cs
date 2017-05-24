@@ -164,7 +164,7 @@ namespace ClientGUI.model
         /// <returns>
         ///   <c>true</c> if [is valid move] [the specified direction]; otherwise, <c>false</c>.
         /// </returns>
-        /// <exception cref="System.Exception">wrond argument in IsValidMove</exception>
+        /// <exception cref="System.Exception">wrong argument in IsValidMove</exception>
         public bool IsValidMove(Direction direction, Position playerPosition)
         {
             int row = playerPosition.Row;
@@ -182,9 +182,10 @@ namespace ClientGUI.model
                     case Direction.Left:
                         return _maze[row, col - 1] == CellType.Free;
                     default:
-                        throw new Exception("wrond argument in IsValidMove");
+                        throw new Exception("wrong argument in IsValidMove");
                 }
             }
+			//in case the movement is outside the maze
             catch (IndexOutOfRangeException)
             {
                 return false;

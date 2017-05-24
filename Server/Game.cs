@@ -159,17 +159,11 @@ namespace Server
                     _changes.TryDequeue(out move);
                     _lastReaderIndex = -1;
                 }
-            }
-
-            //case of closing state represented by irrelevant move
-            if (move.ClientId == -1)
-            {
-                _playersReadCloseMessage++;
-                return "close";
-
-            }
-
-            return move.ToJson();
+	            //case of closing state represented by irrelevant move
+	            if (move.ClientId == -1) _playersReadCloseMessage++;
+			}
+	        if (move.ClientId == -1) return "close";
+			return move.ToJson();
         }
 
         /// <summary>

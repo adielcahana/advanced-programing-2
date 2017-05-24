@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-
 using MazeLib;
 using Newtonsoft.Json.Linq;
 
