@@ -91,6 +91,11 @@ namespace ClientGUI.view.Games
 
         private void FinishGame()
         {
+            if (FinishMessage.Equals(""))
+            {
+                new MainWindow().Show();
+                Close();
+            }
             MessageWindow message;
             if (Finish == true && Start == true)
             {
@@ -128,13 +133,6 @@ namespace ClientGUI.view.Games
             }
         }
 
-
-
-
-
-
-
-
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
@@ -162,7 +160,6 @@ namespace ClientGUI.view.Games
 
                 msg.Close();
                 _vm.FinishGame();
-                new MainWindow().Show();
             };
             msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
             {

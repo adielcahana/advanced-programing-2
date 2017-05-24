@@ -22,21 +22,23 @@ namespace ClientGUI.view.Menus
 
         private void btnJoinGame_Click(object sender, RoutedEventArgs e)
         {
-            MultiPlayerGame game = new MultiPlayerGame(_viewModel);
-            _viewModel.JoinGame();
-            _gameStarted = true;
-            Close();
+            if (_viewModel.JoinName != null)
+            {
+                MultiPlayerGame game = new MultiPlayerGame(_viewModel);
+                _viewModel.JoinGame();
+                _gameStarted = true;
+                Close();
+            }
         }
 
         private void btnStartGame_Click(object sender, RoutedEventArgs e)
         {
             MessageWindow msg = new MessageWindow("wait to second player...");
             Hide();
-            msg.Ok.Click += delegate (object sender1, RoutedEventArgs e1) { };
             msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
             {
-                msg.Close();
                 _viewModel.FinishGame();
+                msg.Close();
             };
             msg.Show();
             MultiPlayerGame game = new MultiPlayerGame(_viewModel);
@@ -44,7 +46,6 @@ namespace ClientGUI.view.Menus
             msg.Close();
             _gameStarted = true;
             Close();
-
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
