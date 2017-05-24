@@ -8,12 +8,20 @@ namespace ClientGUI.view
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// constructor of the <see cref="MainWindow"/> class.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
             ResizeMode = ResizeMode.CanMinimize;
         }
-        
+
+        /// <summary>
+        /// Handles the Click event of the btnSinglePlayer control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
         {
             Menus.SinglePlayerMenu singlePlayer = new Menus.SinglePlayerMenu();
@@ -21,6 +29,11 @@ namespace ClientGUI.view
             singlePlayer.Show();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnMultiPlayer control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void btnMultiPlayer_Click(object sender, RoutedEventArgs e)
         {
             Menus.MultiPlayerMenu multiPlayer = new Menus.MultiPlayerMenu();
@@ -28,6 +41,11 @@ namespace ClientGUI.view
             multiPlayer.Show();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnSettings control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             Menus.SettingsMenu settings = new Menus.SettingsMenu();
@@ -35,6 +53,11 @@ namespace ClientGUI.view
             settings.Show();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnExit control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             Close();

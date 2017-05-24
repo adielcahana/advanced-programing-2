@@ -80,9 +80,7 @@
     <Compile Include="model\SettingsModel.cs" />
     <Compile Include="model\SinglePlayerModel.cs" />
     <Compile Include="Move.cs" />
-    <Compile Include="view-model\ClientViewModel.cs" />
     <Compile Include="view-model\MultiPlayerViewModel.cs" />
-    <Compile Include="view-model\PlayerViewModel.cs" />
     <Compile Include="view-model\SinglePlayerViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="model\ISettingModel.cs" />

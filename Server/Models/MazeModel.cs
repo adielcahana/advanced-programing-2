@@ -179,6 +179,10 @@ namespace Server.Models
         public void FinishGame(string name, TcpClient client)
         {
             _games[name].Finish();
+            while (!_games[name].BothFinish())
+            {
+                System.Threading.Thread.Sleep(10);
+            }
             _games.Remove(name);
         }
 
