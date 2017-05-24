@@ -54,12 +54,13 @@ namespace ClientGUI.view.Games
 	        _waitMessage = new MessageWindow("wait to second player...");
 	        _waitMessage.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
 	        {
-		        _vm.FinishGame();
-		        _waitMessage.Hide();
-				new MainWindow().Show();
 		        _waitMessage.Close();
 			};
-	        _waitMessage.Show();
+	        _waitMessage.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
+	        {
+		        _waitMessage.Close();
+	        };
+			_waitMessage.Show();
 		}
 
         /// <summary>
