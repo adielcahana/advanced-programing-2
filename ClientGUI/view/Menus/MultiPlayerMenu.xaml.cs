@@ -10,8 +10,18 @@ namespace ClientGUI.view.Menus
     /// </summary>
     public partial class MultiPlayerMenu : Window
     {
+        /// <summary>
+        /// check if the game start
+        /// </summary>
         private bool _gameStarted;
+        /// <summary>
+        /// The view model
+        /// </summary>
         private MultiPlayerViewModel _viewModel;
+
+        /// <summary>
+        /// constructor of the <see cref="MultiPlayerMenu"/> class.
+        /// </summary>
         public MultiPlayerMenu()
         {
             InitializeComponent();
@@ -20,6 +30,11 @@ namespace ClientGUI.view.Menus
             _gameStarted = false;
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnJoinGame control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void btnJoinGame_Click(object sender, RoutedEventArgs e)
         {
             if (_viewModel.JoinName != null)
@@ -31,15 +46,21 @@ namespace ClientGUI.view.Menus
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnStartGame control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void btnStartGame_Click(object sender, RoutedEventArgs e)
         {
             MessageWindow msg = new MessageWindow("wait to second player...");
-            Hide();
             msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
             {
                 _viewModel.FinishGame();
                 msg.Close();
             };
+            Hide();
+            // wait until the second player join
             msg.Show();
             MultiPlayerGame game = new MultiPlayerGame(_viewModel);
             _viewModel.StartGame();
@@ -48,6 +69,11 @@ namespace ClientGUI.view.Menus
             Close();
         }
 
+        /// <summary>
+        /// Handles the Click event of the btnBack control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             Close();

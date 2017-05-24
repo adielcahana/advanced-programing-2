@@ -7,7 +7,11 @@ namespace ClientGUI.view
     /// </summary>
     public partial class MessageWindow : Window
     {
-		public MessageWindow(string msg)
+        /// <summary>
+        /// constructor of the <see cref="MessageWindow"/> class.
+        /// </summary>
+        /// <param name="msg">The MSG.</param>
+        public MessageWindow(string msg)
         {
             InitializeComponent();
 			Message.Text = msg;

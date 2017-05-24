@@ -19,6 +19,7 @@ namespace Server
         /// </summary>
         private readonly ConcurrentQueue<Move> _changes;
 
+        private int _playersReadCloseMessage;
         private bool _gameFinished;
         private bool _isPlayer2Connected;
         
@@ -42,6 +43,7 @@ namespace Server
         /// <param name="model">The model.</param>
         public Game(Maze maze, MazeModel model)
         {
+            _playersReadCloseMessage = 0;
             _directions = new Dictionary<string, Direction>
             {
                 {Direction.Up.ToString(), Direction.Up},
@@ -161,7 +163,11 @@ namespace Server
 
             //case of closing state represented by irrelevant move
             if (move.ClientId == -1)
+            {
+                _playersReadCloseMessage++;
                 return "close";
+
+            }
 
             return move.ToJson();
         }
@@ -212,6 +218,15 @@ namespace Server
                 //update _changes with an irelevant Move that closes the game
                 _changes.Enqueue(new Move(Direction.Up, null));
             }).Start();
+        }
+
+        /// <summary>
+        /// check if both players pull the close message from the moves queue.
+        /// </summary>
+        /// <returns></returns>
+        public bool BothFinish()
+        {
+            return _playersReadCloseMessage == 2;
         }
     }
 }
