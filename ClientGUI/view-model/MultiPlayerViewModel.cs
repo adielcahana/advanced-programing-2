@@ -27,7 +27,6 @@ namespace ClientGUI.view_model
                 }
             }
         }
-
         
         public string JoinName
         {
