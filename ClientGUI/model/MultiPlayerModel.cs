@@ -15,7 +15,6 @@ namespace ClientGUI.model
         public event EventHandler<string> FinishGame;
         private Client.Client _client;
         private int _clientId;
-        private bool _closed;
 
         private string _joinName;
         public string JoinName
@@ -37,7 +36,6 @@ namespace ClientGUI.model
             Rows = Properties.Settings.Default.MazeRows;
             Cols = Properties.Settings.Default.MazeCols;
             _client = new Client.Client(_port, _ip);
-            _closed = false;
         }
 
         private Position _playerPos;
@@ -132,11 +130,16 @@ namespace ClientGUI.model
                         if (PlayerPos.Equals(_maze.GoalPos))
                         {
                             CloseGame();
+                            FinishGame(this, "You Win!");
                         }
                     }
                     else
                     {
                         OtherPlayerPos = ChangePosition(move.MoveDirection, OtherPlayerPos);
+                        if (OtherPlayerPos.Equals(_maze.GoalPos))
+                        {
+                            FinishGame(this, "You Lose!");
+                        }
                     }
                 }
                 catch
@@ -144,21 +147,9 @@ namespace ClientGUI.model
                     if (answer.Contains("close"))
                     {
                         _client.Close();
-                        if (PlayerPos.Equals(_maze.GoalPos))
+                        if (!PlayerPos.Equals(_maze.GoalPos) && !OtherPlayerPos.Equals(_maze.GoalPos))
                         {
-                            FinishGame(this, "You Won!");
-                        }
-                        else if (OtherPlayerPos.Equals(_maze.GoalPos))
-                        {
-                            FinishGame(this, "You Lose!");
-                        }
-                        else if (_closed == false)
-                        {
-                            FinishGame(this, "The Second Player Disconnect!");
-                        }
-                        else
-                        {
-                            FinishGame(this, "You Disconnect");
+                            FinishGame(this, "The Game Over!");
                         }
                         break;
                     }
@@ -197,7 +188,6 @@ namespace ClientGUI.model
 
         public void CloseGame()
         {
-            _closed = true;
             _client.Send("close");
         }
     }
