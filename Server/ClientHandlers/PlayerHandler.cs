@@ -14,7 +14,10 @@ namespace Server.ClientHandlers
     internal class PlayerHandler : IClientHandler
     {
         private readonly IController _gameController;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayerHandler"/> class.
+        /// </summary>
+        /// <param name="game">The game.</param>
         public PlayerHandler(IController game)
         {
             _gameController = game;

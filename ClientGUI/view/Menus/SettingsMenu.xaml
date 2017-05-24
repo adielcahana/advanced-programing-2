@@ -44,8 +44,8 @@
             <ComboBoxItem>BFS</ComboBoxItem>
             <ComboBoxItem>DFS</ComboBoxItem>
         </ComboBox>
-        <Button x:Name="Save" Content="Save Settngs" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,276,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353" Click="Save_Click"/>
-        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="0,276,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="Return_Click"/>
+        <Button x:Name="Save" Content="Save Settngs" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="0,276,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353" Click="btnSave_Click"/>
+        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="0,276,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="btnBack_Click"/>
         <Grid.Background>
             <ImageBrush ImageSource="/ClientGUI;component/view/resources/background maze.jpg"/>
         </Grid.Background>

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{24D5A2CB-9706-4CCF-886B-9FBEB4D3BA48}</ProjectGuid>
+    <ProjectGuid>{843EE612-EC43-43B0-87AC-BA2B62D4A3D9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ClientGUI</RootNamespace>
@@ -74,6 +74,7 @@
     <Compile Include="controls\MenuUserControl.xaml.cs">
       <DependentUpon>MenuUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="model\IPlayerModel.cs" />
     <Compile Include="model\MultiPlayerModel.cs" />
     <Compile Include="model\PlayerModel.cs" />
     <Compile Include="model\SettingsModel.cs" />

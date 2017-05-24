@@ -8,14 +8,27 @@ namespace ClientGUI.model
 {
     public class MultiPlayerModel : PlayerModel
     {
-
         protected readonly MultiPlayerModel _model;
         public event EventHandler<Maze> NewMaze;
         public event EventHandler<Position> PlayerMoved;
         public event EventHandler<Position> OtherPlayerMoved;
-        public event EventHandler<bool> FinishGame;
+        public event EventHandler<string> FinishGame;
         private Client.Client _client;
         private int _clientId;
+
+        private string _joinName;
+        public string JoinName
+        {
+            get
+            {
+                return _joinName;
+            }
+            set
+            {
+                _joinName = value;
+            }
+        }
+
 
         public MultiPlayerModel()
         {
@@ -59,12 +72,19 @@ namespace ClientGUI.model
             string msg = CreateStartMessage();
             _client.Send(msg);
             string answer = _client.Recieve();
-            _maze = MazeLib.Maze.FromJSON(answer);
-            _playerPos = _maze.InitialPos;
-            _otherPlayerPos = _maze.InitialPos;
-            _clientId = 0;
-            new Task(() => Listen()).Start();
-            NewMaze(this, _maze);
+            if (answer.Equals("name: " + MazeName + " alredy taken"))
+            {
+                FinishGame(this, answer);
+            }
+            else
+            {
+                _maze = MazeLib.Maze.FromJSON(answer);
+                _playerPos = _maze.InitialPos;
+                _otherPlayerPos = _maze.InitialPos;
+                _clientId = 0;
+                new Task(() => Listen()).Start();
+                NewMaze(this, _maze);
+            }
         }
 
         public void JoinGame()
@@ -73,14 +93,26 @@ namespace ClientGUI.model
             string msg = CreateJoinMessage();
             _client.Send(msg);
             string answer = _client.Recieve();
-            _maze = MazeLib.Maze.FromJSON(answer);
-            Rows = _maze.Rows;
-            Cols = _maze.Cols;
-            _playerPos = _maze.InitialPos;
-            _otherPlayerPos = _maze.InitialPos;
-            _clientId = 1;
-            new Task(() => Listen()).Start();
-            NewMaze(this, _maze);
+            if (_joinName == null || answer.Equals("the name: " + _joinName + " does not exist"))
+            {
+                FinishGame(this, "the name: " + _joinName + " does not exist");
+            }
+            else if(answer.Equals("game: " + _joinName + " is full"))
+            {
+                FinishGame(this, answer);
+            }
+            else
+            {
+                _maze = MazeLib.Maze.FromJSON(answer);
+                Rows = _maze.Rows;
+                Cols = _maze.Cols;
+                _playerPos = _maze.InitialPos;
+                _otherPlayerPos = _maze.InitialPos;
+                _clientId = 1;
+                new Task(() => Listen()).Start();
+                NewMaze(this, _maze);
+
+            }
         }
 
         public void Listen()
@@ -93,17 +125,33 @@ namespace ClientGUI.model
                     // check if it's a move
                     Move move = ClientGUI.Move.FromJson(answer);
                     if (move.ClientId == _clientId)
+                    {
                         PlayerPos = ChangePosition(move.MoveDirection, PlayerPos);
+                        if (PlayerPos.Equals(_maze.GoalPos))
+                        {
+                            CloseGame();
+                            FinishGame(this, "You Win!");
+                        }
+                    }
                     else
                     {
                         OtherPlayerPos = ChangePosition(move.MoveDirection, OtherPlayerPos);
+                        if (OtherPlayerPos.Equals(_maze.GoalPos))
+                        {
+                            FinishGame(this, "You Lose!");
+                        }
                     }
                 }
                 catch
                 {
                     if (answer.Contains("close"))
                     {
-                        Finish("");
+                        _client.Close();
+                        if (!PlayerPos.Equals(_maze.GoalPos) && !OtherPlayerPos.Equals(_maze.GoalPos))
+                        {
+                            FinishGame(this, "The Game Over!");
+                        }
+                        break;
                     }
                 }
             }
@@ -115,7 +163,7 @@ namespace ClientGUI.model
         }
         public string CreateJoinMessage()
         {
-            return "join " + _mazeName;
+            return "join " + _joinName;
         }
 
         public void Move(Direction direction)
@@ -140,13 +188,7 @@ namespace ClientGUI.model
 
         public void CloseGame()
         {
-            _client.Send("close " + MazeName);
-        }
-
-        public void Finish(string msg)
-        {
-            FinishGame(this, true);
-            _client.Close();
+            _client.Send("close");
         }
     }
 }

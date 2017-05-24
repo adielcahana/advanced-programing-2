@@ -28,18 +28,47 @@ namespace ClientGUI.view_model
             }
         }
 
-        private bool _isFinish;
-
-        public bool Finish
+        
+        public string JoinName
         {
-            get { return _isFinish; }
+            get { return _model.JoinName; }
             set
             {
-                if (_isFinish != value)
-                {
-                    _isFinish = value;
-                    OnPropertyChanged("Finish");
-                }
+                _model.JoinName = value;
+                OnPropertyChanged("JoinName");
+            }
+        }
+
+        private bool _finish;
+        public bool Finish
+        {
+            get { return _finish; }
+            set
+            {
+                _finish = value;
+                OnPropertyChanged("Finish");
+            }
+        }
+
+        private string _finishMessage;
+        public string FinishMessage
+        {
+            get { return _finishMessage; }
+            set
+            {
+                _finishMessage = value;
+                OnPropertyChanged("FinishMessage");
+            }
+        }
+
+        private bool _start;
+        public bool Start
+        {
+            get { return _start; }
+            set
+            {
+                _start = value;
+                OnPropertyChanged("Start");
             }
         }
 
@@ -61,6 +90,10 @@ namespace ClientGUI.view_model
         {
             get
             {
+                if (_mazeSrl == null)
+                {
+                    return null;
+                }
                 return _mazeSrl.ToString();
             }
         }
@@ -70,6 +103,10 @@ namespace ClientGUI.view_model
         {
             get
             {
+                if (_otherMazeSrl == null)
+                {
+                    return null;
+                }
                 return _otherMazeSrl.ToString();
             }
         }
@@ -101,10 +138,20 @@ namespace ClientGUI.view_model
             _lastMove = Direction.Right;
             _otherLastMove = Direction.Right;
             _model.NewMaze += new EventHandler<Maze>(delegate (Object sender, Maze e) {
-	            _mazeSrl = new StringBuilder(e.ToString()) {[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2'};
-	            OnPropertyChanged("MazeSrl");
-                _otherMazeSrl = new StringBuilder(e.ToString()) {[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2' };
-                OnPropertyChanged("OtherMazeSrl");
+                if (e != null)
+                {
+                    _mazeSrl =
+                        new StringBuilder(e.ToString()) {[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2'};
+                    OnPropertyChanged("MazeSrl");
+                    _otherMazeSrl =
+                        new StringBuilder(e.ToString()) {[e.InitialPos.Row * (Cols + 2) + e.InitialPos.Col] = '2'};
+                    OnPropertyChanged("OtherMazeSrl");
+                    Start = true;
+                }
+                else
+                {
+                    Finish = true;
+                }
             });
 
             _model.PlayerMoved += new EventHandler<Position>(delegate (Object sender, Position e) {
@@ -133,10 +180,10 @@ namespace ClientGUI.view_model
                 }
                 OnPropertyChanged("OtherMazeSrl");
             });
-            _model.FinishGame += new EventHandler<bool>(delegate (Object sender, bool e)
+            _model.FinishGame += new EventHandler<string>(delegate (Object sender, string e)
             {
-                Finish = e;
-                OnPropertyChanged("Finish");
+                FinishMessage = e;
+                Finish = true;
             });
         }
 

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using ClientGUI.view.Menus;
 using ClientGUI.view_model;
 using Ex1;
 using MazeLib;
@@ -74,7 +75,7 @@ namespace ClientGUI.view.Games
 			MessageWindow message;
 			if (Finish == true && Start == true)
 			{
-				message = new MessageWindow("You won");
+				message = new MessageWindow("You Won!");
 				message.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
 				{
 					Close();
@@ -91,17 +92,19 @@ namespace ClientGUI.view.Games
 			else if (Finish == true && Start == false)
 			{
 				Close();
-				message = new MessageWindow("Name already exist");
+				message = new MessageWindow("Name already exist!");
 				message.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
 				{
 					message.Hide();
-					new MainWindow().Show();
+					new SinglePlayerMenu().Show();
 					message.Close();
 				};
 				message.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
 				{
-					message.Close();
-				};
+				    message.Hide();
+                    new SinglePlayerMenu().Show();
+                    message.Close();
+                };
 				message.Show();
 			}
 		}
@@ -127,30 +130,6 @@ namespace ClientGUI.view.Games
 
 		private void RestartGame_Click(object sender, RoutedEventArgs e)
 		{
-			MessageWindow msg = new MessageWindow("are you sure you want to restart the game?");
-			if (_timer != null && _timer.IsEnabled)
-			{
-				_timer.Stop();
-			    KeyDown += Window_KeyDown;
-			}
-			msg.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
-			{
-				_vm.RestartGame();
-				msg.Close();
-				Show();
-			};
-			msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
-			{
-				msg.Close();
-				Show();
-			    if (_timer != null)
-			    {
-			        KeyDown -= Window_KeyDown;
-                    _timer.Start();
-			    }
-            };
-			Hide();
-			msg.Show();
 		}
 
 		private void StartGame()
@@ -159,77 +138,101 @@ namespace ClientGUI.view.Games
 			Board.DrawMaze();
 			Board.RefreshMaze();
 		}
-
-//		public void CloseMaze()
-//	    {
-//            Clos
-//        }
-
-		private void Menu_Click(object sender, RoutedEventArgs e)
-		{
-			MessageWindow msg = new MessageWindow("are you sure you want to go back to the main menu?");
-		    if (_timer != null && _timer.IsEnabled)
-		    {
-		        _timer.Stop();
-		        KeyDown += Window_KeyDown;
-		    }
-            msg.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
-			{
-				
-				msg.Close();
-				Close();
-				new MainWindow().Show();
-			};
-			msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
-			{
-				msg.Close();
-				Show();
-			    if (_timer != null)
-			    {
-			        KeyDown -= Window_KeyDown;
-                    _timer.Start();
-			    }
+		
+        private void btnSolveMaze_Click(object sender, RoutedEventArgs e)
+        {
+            KeyDown -= Window_KeyDown;
+            MazeSolution solution = _vm.SolveMaze();
+            _vm.RestartGame();
+            IEnumerator<Direction> directions = solution.GetEnumerator();
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(0.1);
+            _timer.Tick += delegate (object sender1, EventArgs e1)
+            {
+                if (directions.MoveNext())
+                {
+                    switch (directions.Current)
+                    {
+                        case Direction.Down:
+                            _vm.Move(Direction.Down);
+                            break;
+                        case Direction.Up:
+                            _vm.Move(Direction.Up);
+                            break;
+                        case Direction.Right:
+                            _vm.Move(Direction.Right);
+                            break;
+                        case Direction.Left:
+                            _vm.Move(Direction.Left);
+                            break;
+                    }
+                }
+                else
+                {
+                    _timer.Stop();
+                    KeyDown += Window_KeyDown;
+                    _timer = null;
+                }
             };
-			Hide();
-			msg.Show();
-		}
+            _timer.Start();
+        }
 
-		private void SolveMaze_Click(object sender, RoutedEventArgs e)
-		{
-			KeyDown -= Window_KeyDown;
-			MazeSolution solution = _vm.SolveMaze();
-			_vm.RestartGame();
-			IEnumerator<Direction> directions = solution.GetEnumerator();
-			_timer = new DispatcherTimer();
-			_timer.Interval = TimeSpan.FromSeconds(0.1);
-			_timer.Tick += delegate(object sender1, EventArgs e1)
-			{
-				if (directions.MoveNext())
-				{
-					switch (directions.Current)
-					{
-						case Direction.Down:
-							_vm.Move(Direction.Down);
-							break;
-						case Direction.Up:
-							_vm.Move(Direction.Up);
-							break;
-						case Direction.Right:
-							_vm.Move(Direction.Right);
-							break;
-						case Direction.Left:
-							_vm.Move(Direction.Left);
-							break;
-					}
-				} 
-				else
-				{
-					_timer.Stop();
-					KeyDown += Window_KeyDown;
-				    _timer = null;
-				}
-			};
-			_timer.Start();
-		}
-	}
+        private void btnRestartGame_Click(object sender, RoutedEventArgs e)
+        {
+            MessageWindow msg = new MessageWindow("are you sure you want to restart the game?");
+            if (_timer != null && _timer.IsEnabled)
+            {
+                _timer.Stop();
+                KeyDown += Window_KeyDown;
+            }
+            msg.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
+            {
+                _vm.RestartGame();
+                msg.Close();
+                Show();
+            };
+            msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
+            {
+                msg.Close();
+                Show();
+                if (_timer != null)
+                {
+                    KeyDown -= Window_KeyDown;
+                    _timer.Start();
+                }
+            };
+            Hide();
+            msg.Show();
+        }
+
+        private void btnMenu_Click(object sender, RoutedEventArgs e)
+        {
+
+            MessageWindow msg = new MessageWindow("are you sure you want to go back to the main menu?");
+            if (_timer != null && _timer.IsEnabled)
+            {
+                _timer.Stop();
+                KeyDown += Window_KeyDown;
+            }
+            msg.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
+            {
+
+                msg.Close();
+                Close();
+                new MainWindow().Show();
+            };
+            msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
+            {
+                msg.Close();
+                Show();
+                if (_timer != null)
+                {
+                    KeyDown -= Window_KeyDown;
+                    _timer.Start();
+                }
+            };
+            Hide();
+            msg.Show();
+        }
+    }
 }

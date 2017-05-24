@@ -13,29 +13,29 @@ namespace ClientGUI.view
             InitializeComponent();
             ResizeMode = ResizeMode.CanMinimize;
         }
-
-        private void SinglePlayerClick(object sender, RoutedEventArgs e)
+        
+        private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
         {
             Menus.SinglePlayerMenu singlePlayer = new Menus.SinglePlayerMenu();
             Close();
-			singlePlayer.Show();
-		}
-
-        private void MultiPlayerClick(object sender, RoutedEventArgs e)
-        {
-            Menus.MultiPlayerMenu multiPlayer = new Menus.MultiPlayerMenu();
-			Close();
-			multiPlayer.Show();
-		}
-
-        private void SettingsClick(object sender, RoutedEventArgs e)
-        {
-            Menus.SettingsMenu settings = new Menus.SettingsMenu();
-			Close();
-			settings.Show();
+            singlePlayer.Show();
         }
 
-        private void ExitClick(object sender, RoutedEventArgs e)
+        private void btnMultiPlayer_Click(object sender, RoutedEventArgs e)
+        {
+            Menus.MultiPlayerMenu multiPlayer = new Menus.MultiPlayerMenu();
+            Close();
+            multiPlayer.Show();
+        }
+
+        private void btnSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Menus.SettingsMenu settings = new Menus.SettingsMenu();
+            Close();
+            settings.Show();
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             Close();
             Environment.Exit(0);

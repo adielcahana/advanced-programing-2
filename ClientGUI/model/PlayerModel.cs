@@ -7,7 +7,7 @@ using MazeLib;
 
 namespace ClientGUI.model
 {
-    public abstract class PlayerModel
+    public abstract class PlayerModel : IPlayerModel
     {
         protected string _mazeName;
         protected int _rows;
@@ -68,7 +68,7 @@ namespace ClientGUI.model
             }
         }
 
-        protected Position ChangePosition(Direction direction, Position playerPosition)
+        public Position ChangePosition(Direction direction, Position playerPosition)
         {
             int row = playerPosition.Row;
             int col = playerPosition.Col;
@@ -99,7 +99,7 @@ namespace ClientGUI.model
             return playerPosition;
         }
 
-        protected bool IsValidMove(Direction direction, Position playerPosition)
+        public bool IsValidMove(Direction direction, Position playerPosition)
         {
             int row = playerPosition.Row;
             int col = playerPosition.Col;

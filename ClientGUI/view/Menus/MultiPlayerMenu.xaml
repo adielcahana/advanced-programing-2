@@ -36,12 +36,12 @@
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition Width="51*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="Title" Content="Multi Player" FontSize="15" Foreground="Gold" Grid.Column="2" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="135" Height="38"/>
+        <Label x:Name="Title" Content="Multi Player" FontSize="15" Foreground="Gold" Grid.Column="2" HorizontalAlignment="Left" Margin="110,0,0,0" VerticalAlignment="Top" Width="135" Height="38"/>
         <TextBlock x:Name="ListOfGames" Style="{StaticResource TextBlock}" Grid.Column="1" Margin="5,35,0,0" Text="List of games:" Grid.ColumnSpan="2"/>
-        <Button x:Name="JoinGame" Content="Join Game" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Height="29" Margin="110,81,0,0" VerticalAlignment="Top" Width="120" Click="JoinGame_Click"/>
-        <ComboBox x:Name="ChooseGame" Style="{StaticResource TextBox}" Grid.Column="1" Margin="110,35,0,0" ItemsSource="{Binding Path = GamesList,  Mode=TwoWay}" SelectedItem="{Binding Path = MazeName, Mode=TwoWay}"/>
-        <Button x:Name="StartGame" Content="Start Game" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="110,275,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353" Click="StartGame_Click"/>
-        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,275,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="Back" Grid.ColumnSpan="2"/>
+        <Button x:Name="JoinGame" Content="Join Game" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Height="29" Margin="110,81,0,0" VerticalAlignment="Top" Width="120" Click="btnJoinGame_Click"/>
+        <ComboBox x:Name="ChooseGame" Style="{StaticResource TextBox}" Grid.Column="1" Margin="110,35,0,0" ItemsSource="{Binding Path = GamesList,  Mode=TwoWay}" SelectedItem="{Binding Path = JoinName, Mode=TwoWay}"/>
+        <Button x:Name="StartGame" Content="Start Game" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="110,275,0,0" VerticalAlignment="Top" Width="120" Height="35" RenderTransformOrigin="0.949,0.353" Click="btnStartGame_Click"/>
+        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,275,0,0" VerticalAlignment="Top" Width="65" Height="35" Click="btnBack_Click" Grid.ColumnSpan="2"/>
         <controls:MenuUserControl x:Name="Menu" Margin="0,130,0,50" Grid.ColumnSpan="2"/>
         <Grid.Background>
             <ImageBrush ImageSource="/ClientGUI;component/view/resources/background maze.jpg"/>

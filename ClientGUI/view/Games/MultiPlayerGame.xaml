@@ -10,7 +10,7 @@
     <DockPanel x:Name="Dock" HorizontalAlignment="Center" Margin="0,0,0,0" Width="1190">
         <StackPanel Height="100"  DockPanel.Dock="Top" Orientation="Horizontal" >
             <Label x:Name="MyBoardName" Foreground="Blue" Content="My board" Margin="220,50,0,0" FontSize="25"/>
-            <Button x:Name="Menu" Content="Back to main menu" Margin="130,0,0,50" HorizontalAlignment="Center" FontSize="25" Width="250" Click="Menu_Click" RenderTransformOrigin="1.979,0.818"/>
+            <Button x:Name="Menu" Content="Back to main menu" Margin="130,0,0,50" HorizontalAlignment="Center" FontSize="25" Width="250" Click="btnMenu_Click" RenderTransformOrigin="1.979,0.818"/>
             <Label x:Name="OtherBoardName" Foreground="Green" Content="Other player board" Margin="120,50,0,0" FontSize="25"/>
         </StackPanel>
         <controls:MazeBoard x:Name="MyBoard" DockPanel.Dock="Left" Rows="{Binding Rows}" Cols="{Binding Cols}" Maze="{Binding MazeSrl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10,10,10,30" Width="560"/>

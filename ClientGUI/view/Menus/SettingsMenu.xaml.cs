@@ -17,19 +17,19 @@ namespace ClientGUI.view.Menus
             DataContext = _vm;
         }
 
-        private void Return_Click(object sender, RoutedEventArgs e)
+        private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             Hide();
             Properties.Settings.Default.Reload();
             new MainWindow().Show();
             Close();
-		}
+        }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             _vm.SaveSetting();
             Hide();
-			new MainWindow().Show();
+            new MainWindow().Show();
             Close();
         }
     }

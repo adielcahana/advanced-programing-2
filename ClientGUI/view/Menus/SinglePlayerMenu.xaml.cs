@@ -17,11 +17,6 @@ namespace ClientGUI.view.Menus
 			DataContext = _viewModel;
 			_gameStarted = false;
 		}
-		private void Back(object sender, RoutedEventArgs e)
-		{
-		    new MainWindow().Show();
-            Close();
-		}
 
 		private void Window_Closed(object sender, System.EventArgs e)
 		{
@@ -31,12 +26,18 @@ namespace ClientGUI.view.Menus
 			}
 		}
 
-		private void StartGame_Click(object sender, RoutedEventArgs e)
-		{
-			Games.SinglePlayerGame game = new Games.SinglePlayerGame(_viewModel);
-			_viewModel.GenerateMaze();
-			_gameStarted = true;
-			Close();
+        private void btnStartGame_Click(object sender, RoutedEventArgs e)
+        {
+            Games.SinglePlayerGame game = new Games.SinglePlayerGame(_viewModel);
+            _viewModel.GenerateMaze();
+            _gameStarted = true;
+            Close();
         }
-	}
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            Close();
+        }
+    }
 }

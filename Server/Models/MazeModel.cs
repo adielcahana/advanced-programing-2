@@ -132,6 +132,10 @@ namespace Server.Models
         /// </returns>
         public string NewGame(string name, int rows, int cols, TcpClient player1)
         {
+            // check if the game exist
+            if (_games.ContainsKey(name))
+                return "name: " + name + " alredy taken";
+            // else create new game
             Maze maze = _generator.Generate(rows, cols);
             maze.Name = name;
             GameController controller = new GameController(this, name);
@@ -178,11 +182,24 @@ namespace Server.Models
             _games.Remove(name);
         }
 
+        /// <summary>
+        /// Adds move to thegiven game
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="direction">The direction.</param>
+        /// <param name="client">The client.</param>
+        /// <returns></returns>
         public string AddMove(string name, string direction, TcpClient client)
         {
             return _games[name].AddMove(direction, client);
         }
 
+        /// <summary>
+        /// Get state from given game
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="client">The client.</param>
+        /// <returns></returns>
         public string GetState(string name, TcpClient client)
         {
             return _games[name].GetState(client);

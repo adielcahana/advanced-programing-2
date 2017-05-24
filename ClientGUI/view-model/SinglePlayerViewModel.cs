@@ -55,6 +55,10 @@ namespace ClientGUI
 		{
 			get
 			{
+			    if (_mazeSrl == null)
+			    {
+			        return null;
+			    } 
 				return _mazeSrl.ToString();
 			}
 		}

@@ -17,8 +17,8 @@
             <ColumnDefinition Width="55*"/>
         </Grid.ColumnDefinitions>
         <Label x:Name="Title" Content="Single Player" FontSize="15" Foreground="Gold" Grid.Column="1" HorizontalAlignment="Left" Margin="125,25,0,0" VerticalAlignment="Top" Width="100" Height="30"/>
-        <Button x:Name="StartGame" Content="OK" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="115,270,0,0" VerticalAlignment="Top" Width="100" Height="30" RenderTransformOrigin="0.949,0.353" Click="StartGame_Click"/>
-        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,270,0,0" VerticalAlignment="Top" Width="65" Height="30" Click="Back" RenderTransformOrigin="-1,0.7" Grid.ColumnSpan="2"/>
+        <Button x:Name="StartGame" Content="OK" FontSize="15" Grid.Column="1" HorizontalAlignment="Left" Margin="115,270,0,0" VerticalAlignment="Top" Width="100" Height="30" RenderTransformOrigin="0.949,0.353" Click="btnStartGame_Click"/>
+        <Button x:Name="Return" Content="Back" HorizontalAlignment="Left" Margin="5,270,0,0" VerticalAlignment="Top" Width="65" Height="30" Click="btnBack_Click" RenderTransformOrigin="-1,0.7" Grid.ColumnSpan="2"/>
         <controls:MenuUserControl x:Name="Menu" Margin="0,100,0,80" Grid.ColumnSpan="2"/>
         <Grid.Background>
             <ImageBrush ImageSource="/ClientGUI;component/view/resources/background maze.jpg"/>
