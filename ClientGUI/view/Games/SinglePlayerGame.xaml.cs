@@ -278,11 +278,11 @@ namespace ClientGUI.view.Games
             PauseAnimation();
             msg.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
             {
-
                 msg.Close();
-                Close();
+				Hide();
                 new MainWindow().Show();
-            };
+	            Close();
+			};
             msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
             {
                 msg.Close();

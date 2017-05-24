@@ -122,30 +122,33 @@ namespace ClientGUI.model
         /// </summary>
         public void StartGame()
         {
-            _client.Initialize();
-            // send start message
-            string msg = CreateStartMessage();
-            _client.Send(msg);
-            // recieve aanswer from server
-            string answer = _client.Recieve();
-            // if the game name alredy exist
-            if (answer.Equals("name: " + MazeName + " alredy taken"))
-            {
-                FinishGame(this, answer);
-            }
-            else
-            {
-                // create maze from the answer
-                _maze = MazeLib.Maze.FromJSON(answer);
-                _playerPos = _maze.InitialPos;
-                _otherPlayerPos = _maze.InitialPos;
-                // the host player
-                _clientId = 0;
-                // new task for listenning to server
-                new Task(() => Listen()).Start();
-                // new maze event
-                NewMaze(this, _maze);
-            }
+	        new Task(() =>
+	        {
+				_client.Initialize();
+		        // send start message
+		        string msg = CreateStartMessage();
+		        _client.Send(msg);
+		        // recieve aanswer from server
+		        string answer = _client.Recieve();
+		        // if the game name alredy exist
+		        if (answer.Equals("name: " + MazeName + " alredy taken"))
+		        {
+			        FinishGame(this, answer);
+		        }
+		        else
+		        {
+			        // create maze from the answer
+			        _maze = MazeLib.Maze.FromJSON(answer);
+			        _playerPos = _maze.InitialPos;
+			        _otherPlayerPos = _maze.InitialPos;
+			        // the host player
+			        _clientId = 0;
+			        // new task for listenning to server
+			        new Task(() => Listen()).Start();
+			        // new maze event
+			        NewMaze(this, _maze);
+		        }
+			}).Start();
         }
 
         /// <summary>

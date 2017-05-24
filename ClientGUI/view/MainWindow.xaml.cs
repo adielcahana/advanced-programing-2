@@ -25,9 +25,10 @@ namespace ClientGUI.view
         private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
         {
             Menus.SinglePlayerMenu singlePlayer = new Menus.SinglePlayerMenu();
-            Close();
+            Hide();
             singlePlayer.Show();
-        }
+	        Close();
+		}
 
         /// <summary>
         /// Handles the Click event of the btnMultiPlayer control.
@@ -37,9 +38,10 @@ namespace ClientGUI.view
         private void btnMultiPlayer_Click(object sender, RoutedEventArgs e)
         {
             Menus.MultiPlayerMenu multiPlayer = new Menus.MultiPlayerMenu();
-            Close();
+            Hide();
             multiPlayer.Show();
-        }
+	        Close();
+		}
 
         /// <summary>
         /// Handles the Click event of the btnSettings control.
@@ -49,9 +51,10 @@ namespace ClientGUI.view
         private void btnSettings_Click(object sender, RoutedEventArgs e)
         {
             Menus.SettingsMenu settings = new Menus.SettingsMenu();
-            Close();
+            Hide();
             settings.Show();
-        }
+	        Close();
+		}
 
         /// <summary>
         /// Handles the Click event of the btnExit control.

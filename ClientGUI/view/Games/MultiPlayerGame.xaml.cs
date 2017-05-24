@@ -16,12 +16,15 @@ namespace ClientGUI.view.Games
         /// The view model
         /// </summary>
         private readonly MultiPlayerViewModel _vm;
-
-        /// <summary>
-        /// constructor of the <see cref="MultiPlayerGame"/> class.
-        /// </summary>
-        /// <param name="vm">The vm.</param>
-        public MultiPlayerGame(MultiPlayerViewModel vm)
+		/// <summary>
+		/// wait message window
+		/// </summary>
+		private MessageWindow _waitMessage;
+		/// <summary>
+		/// constructor of the <see cref="MultiPlayerGame"/> class.
+		/// </summary>
+		/// <param name="vm">The vm.</param>
+		public MultiPlayerGame(MultiPlayerViewModel vm)
         {
             InitializeComponent();
             _vm = vm;
@@ -47,13 +50,24 @@ namespace ClientGUI.view.Games
 
             MyBoard.DataContext = _vm;
             OtherBoard.DataContext = _vm;
-        }
+
+	        _waitMessage = new MessageWindow("wait to second player...");
+	        _waitMessage.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
+	        {
+		        _vm.FinishGame();
+		        _waitMessage.Hide();
+				new MainWindow().Show();
+		        _waitMessage.Close();
+			};
+	        _waitMessage.Show();
+		}
 
         /// <summary>
         /// Start the game.
         /// </summary>
         public void StartGame()
         {
+	        if (_waitMessage.IsActive) _waitMessage.Close();
             Show();
             MyBoard.DrawMaze();
             MyBoard.RefreshMaze();
@@ -143,8 +157,9 @@ namespace ClientGUI.view.Games
         /// </summary>
         private void FinishGame()
         {
-            // if close the game
-            if (FinishMessage.Equals(""))
+	        if (_waitMessage.IsActive) _waitMessage.Close();
+			// if close the game
+			if (FinishMessage.Equals(""))
             {
                 new MainWindow().Show();
                 Close();

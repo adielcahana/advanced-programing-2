@@ -53,18 +53,9 @@ namespace ClientGUI.view.Menus
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void btnStartGame_Click(object sender, RoutedEventArgs e)
         {
-            MessageWindow msg = new MessageWindow("wait to second player...");
-            msg.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
-            {
-                _viewModel.FinishGame();
-                msg.Close();
-            };
             Hide();
-            // wait until the second player join
-            msg.Show();
             MultiPlayerGame game = new MultiPlayerGame(_viewModel);
             _viewModel.StartGame();
-            msg.Close();
             _gameStarted = true;
             Close();
         }
@@ -76,8 +67,9 @@ namespace ClientGUI.view.Menus
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+			Hide();
             new view.MainWindow().Show();
-        }
+	        Close();
+		}
     }
 }
