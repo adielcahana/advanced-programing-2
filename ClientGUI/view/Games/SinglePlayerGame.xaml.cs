@@ -51,7 +51,7 @@ namespace ClientGUI.view.Games
 		public bool Start
 		{
 			get { return (bool)GetValue(StartProperty); }
-			set { SetValue(FinishProperty, value); }
+			set { SetValue(StartProperty, value); }
 		}
 		/// <summary>
 		/// The start property
@@ -79,14 +79,40 @@ namespace ClientGUI.view.Games
 			binding.Source = vm;
 			BindingOperations.SetBinding(this, FinishProperty, binding);
 
-			Board.DataContext = _vm;
+		    // binding for finish boolean in view model
+		    binding = new Binding();
+		    binding.Path = new PropertyPath("Connect");
+		    binding.Source = vm;
+		    BindingOperations.SetBinding(this, ConnectProperty, binding);
+
+
+            Board.DataContext = _vm;
 		}
-		/// <summary>
-		/// Starts the game.
-		/// </summary>
-		/// <param name="d">The d.</param>
-		/// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
-		private static void StartPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="SinglePlayerGame"/> is connect.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if connect; otherwise, <c>false</c>.
+        /// </value>
+        public bool Connect
+	    {
+	        get { return (bool)GetValue(ConnectProperty); }
+	        set { SetValue(ConnectProperty, value); }
+	    }
+
+        /// <summary>
+        /// The finish message property
+        /// </summary>
+        public static readonly DependencyProperty ConnectProperty =
+	        DependencyProperty.Register("ConnectMessage", typeof(bool), typeof(SinglePlayerGame));
+
+        /// <summary>
+        /// Starts the game.
+        /// </summary>
+        /// <param name="d">The d.</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
+        private static void StartPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 	    {
 			// checks if the game started. and initialize it
 		    if ((bool) e.NewValue)
@@ -109,8 +135,25 @@ namespace ClientGUI.view.Games
 		private void FinishGame()
 		{
 			MessageWindow message;
+            // if connection failed
+		    if (!Connect)
+		    {
+		        message = new MessageWindow("Connection Failed");
+		        message.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
+		        {
+		            Close();
+		            message.Hide();
+		            new MainWindow().Show();
+		            message.Close();
+		        };
+		        message.Cancel.Click += delegate (object sender1, RoutedEventArgs e1)
+		        {
+		            message.Close();
+		        };
+		        message.Show();
+            }
 			// if the game started and ended correctly, show a wining message
-			if (Finish == true && Start == true)
+			else if (Finish == true && Start == true)
 			{
 				message = new MessageWindow("You Won!");
 				message.Ok.Click += delegate (object sender1, RoutedEventArgs e1)
@@ -210,6 +253,10 @@ namespace ClientGUI.view.Games
 			//stop listening to key events
             KeyDown -= Window_KeyDown;
             MazeSolution solution = _vm.SolveMaze();
+            if (solution == null)
+            {
+                return;
+            }
             _vm.RestartGame();
             IEnumerator<Direction> directions = solution.GetEnumerator();
             _timer = new DispatcherTimer();

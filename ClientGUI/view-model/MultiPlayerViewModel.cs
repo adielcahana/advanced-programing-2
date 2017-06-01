@@ -225,8 +225,6 @@ namespace ClientGUI.view_model
         public MultiPlayerViewModel(MultiPlayerModel model)
         {
             _model = model;
-            // create the list
-            _gamesList = _model.CreateList();
             _lastMove = Direction.Right;
             _otherLastMove = Direction.Right;
             // new game event
@@ -286,6 +284,8 @@ namespace ClientGUI.view_model
                 FinishMessage = e;
                 Finish = true;
             });
+            // create the list
+            _gamesList = _model.CreateList();
         }
 
         /// <summary>

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
+using ClientGUI.view;
 using MazeLib;
 using Newtonsoft.Json;
 
@@ -37,6 +39,8 @@ namespace ClientGUI.model
         /// </summary>
         private bool _closed;
 
+        private bool _connectToServer;
+
         /// <summary>
         /// The join game name
         /// </summary>
@@ -69,6 +73,7 @@ namespace ClientGUI.model
             Cols = Properties.Settings.Default.MazeCols;
             _client = new Client.Client(_port, _ip);
             _closed = false;
+            _connectToServer = true;
         }
 
         /// <summary>
@@ -122,33 +127,41 @@ namespace ClientGUI.model
         /// </summary>
         public void StartGame()
         {
-	        new Task(() =>
-	        {
-				_client.Initialize();
-		        // send start message
-		        string msg = CreateStartMessage();
-		        _client.Send(msg);
-		        // recieve aanswer from server
-		        string answer = _client.Recieve();
-		        // if the game name alredy exist
-		        if (answer.Equals("name: " + MazeName + " alredy taken"))
-		        {
-			        FinishGame(this, answer);
-		        }
-		        else
-		        {
-			        // create maze from the answer
-			        _maze = MazeLib.Maze.FromJSON(answer);
-			        _playerPos = _maze.InitialPos;
-			        _otherPlayerPos = _maze.InitialPos;
-			        // the host player
-			        _clientId = 0;
-			        // new task for listenning to server
-			        new Task(() => Listen()).Start();
-			        // new maze event
-			        NewMaze(this, _maze);
-		        }
-			}).Start();
+            MessageWindow waitMessage = new MessageWindow("Wait to second player");
+            try
+            {
+                _client.Initialize();
+                // send start message
+                string msg = CreateStartMessage();
+                _client.Send(msg);
+                waitMessage.Show();
+                // recieve aanswer from server
+                string answer = _client.Recieve();
+                // if the game name alredy exist
+                if (answer.Equals("name: " + MazeName + " alredy taken"))
+                {
+                    FinishGame(this, answer);
+                }
+                else
+                {
+                    // create maze from the answer
+                    _maze = MazeLib.Maze.FromJSON(answer);
+                    _playerPos = _maze.InitialPos;
+                    _otherPlayerPos = _maze.InitialPos;
+                    // the host player
+                    _clientId = 0;
+                    // new task for listenning to server
+                    new Task(() => Listen()).Start();
+                    // new maze event
+                    NewMaze(this, _maze);
+                }
+            }
+            catch
+            {
+                _client.Close();
+                FinishGame(this, "Coneection Failed");
+            }
+            waitMessage.Close();
         }
 
         /// <summary>
@@ -156,37 +169,45 @@ namespace ClientGUI.model
         /// </summary>
         public void JoinGame()
         {
-            _client.Initialize();
-            // send join message
-            string msg = CreateJoinMessage();
-            _client.Send(msg);
-            // recieve aanswer from server
-            string answer = _client.Recieve();
-            // if the game not exist
-            if (_joinName == null || answer.Equals("the name: " + _joinName + " does not exist"))
+            try
             {
-                FinishGame(this, "the name: " + _joinName + " does not exist");
-            }
-            // if the game is full
-            else if(answer.Equals("game: " + _joinName + " is full"))
-            {
-                FinishGame(this, answer);
-            }
-            else
-            {
-                // create maze from the answer
-                _maze = MazeLib.Maze.FromJSON(answer);
-                Rows = _maze.Rows;
-                Cols = _maze.Cols;
-                _playerPos = _maze.InitialPos;
-                _otherPlayerPos = _maze.InitialPos;
-                // the geust player
-                _clientId = 1;
-                // new task for listenning to server
-                new Task(() => Listen()).Start();
-                // new maze event
-                NewMaze(this, _maze);
+                _client.Initialize();
+                // send join message
+                string msg = CreateJoinMessage();
+                _client.Send(msg);
+                // recieve aanswer from server
+                string answer = _client.Recieve();
+                // if the game not exist
+                if (_joinName == null || answer.Equals("the name: " + _joinName + " does not exist"))
+                {
+                    FinishGame(this, "the name: " + _joinName + " does not exist");
+                }
+                // if the game is full
+                else if (answer.Equals("game: " + _joinName + " is full"))
+                {
+                    FinishGame(this, answer);
+                }
+                else
+                {
+                    // create maze from the answer
+                    _maze = MazeLib.Maze.FromJSON(answer);
+                    Rows = _maze.Rows;
+                    Cols = _maze.Cols;
+                    _playerPos = _maze.InitialPos;
+                    _otherPlayerPos = _maze.InitialPos;
+                    // the geust player
+                    _clientId = 1;
+                    // new task for listenning to server
+                    new Task(() => Listen()).Start();
+                    // new maze event
+                    NewMaze(this, _maze);
 
+                }
+            }
+            catch
+            {
+                _client.Close();
+                FinishGame(this, "Coneection Failed");
             }
         }
 
@@ -195,62 +216,72 @@ namespace ClientGUI.model
         /// </summary>
         public void Listen()
         {
-            // while the connection 
-            while (true)
+            try
             {
-                // recieve maessage from server
-                string answer = _client.Recieve();
-                try
+                // while the connection 
+                while (true)
                 {
-                    // check if it's a move
-                    Move move = ClientGUI.Move.FromJson(answer);
-                    if (move.ClientId == _clientId)
+                    // recieve maessage from server
+                    string answer = _client.Recieve();
+                    try
                     {
-                        // move the player
-                        PlayerPos = ChangePosition(move.MoveDirection, PlayerPos);
-                        if (PlayerPos.Equals(_maze.GoalPos))
+                        // check if it's a move
+                        Move move = ClientGUI.Move.FromJson(answer);
+                        if (move.ClientId == _clientId)
                         {
-                            // if get to end position
-                            CloseGame();
+                            // move the player
+                            PlayerPos = ChangePosition(move.MoveDirection, PlayerPos);
+                            if (PlayerPos.Equals(_maze.GoalPos))
+                            {
+                                // if get to end position
+                                CloseGame();
+                            }
                         }
-                    }
-                    else
-                    {
-                        // move the other player
-                        OtherPlayerPos = ChangePosition(move.MoveDirection, OtherPlayerPos);
-                    }
-                }
-                // if the connection failed
-                catch
-                {
-                    if (answer.Contains("close"))
-                    {
-                        // close the connection
-                        _client.Close();
-                        // if the player won
-                        if (PlayerPos.Equals(_maze.GoalPos))
-                        {
-                            FinishGame(this, "You Won!");
-                        }
-                        // if other player won
-                        else if (OtherPlayerPos.Equals(_maze.GoalPos))
-                        {
-                            FinishGame(this, "You Lose!");
-                        }
-                        // if the other player close the game
-                        else if (_closed == false)
-                        {
-                            FinishGame(this, "The Second Player Disconnect!");
-                        }
-                        // if the player close the game
                         else
                         {
-                            FinishGame(this, "");
+                            // move the other player
+                            OtherPlayerPos = ChangePosition(move.MoveDirection, OtherPlayerPos);
                         }
-                        break;
                     }
-                    FinishGame(this, "Connection failed");
+                    // if the connection failed
+                    catch
+                    {
+                        if (answer.Contains("close"))
+                        {
+                            // close the connection
+                            _client.Close();
+                            // if the player won
+                            if (PlayerPos.Equals(_maze.GoalPos))
+                            {
+                                FinishGame(this, "You Won!");
+                            }
+                            // if other player won
+                            else if (OtherPlayerPos.Equals(_maze.GoalPos))
+                            {
+                                FinishGame(this, "You Lose!");
+                            }
+                            // if the other player close the game
+                            else if (_closed == false)
+                            {
+                                FinishGame(this, "The Second Player Disconnect!");
+                            }
+                            // if the player close the game
+                            else
+                            {
+                                FinishGame(this, "");
+                            }
+                            break;
+                        }
+                        _connectToServer = false;
+                        FinishGame(this, "Connection failed");
+                    }
                 }
+            }
+            catch
+            {
+                _connectToServer = false;
+                _client.Close();
+                FinishGame(this, "Connection failed");
             }
         }
 
@@ -288,16 +319,25 @@ namespace ClientGUI.model
         /// <returns></returns>
         public ObservableCollection<string> CreateList()
         {
-            // create client nd send list request
-            Client.Client client = new Client.Client(_port, _ip);
-            client.Initialize();
-            client.Send("list");
-            string answer = client.Recieve();
-            client.Close();
-            // return the list
-            if (!answer.Equals("no games avaliable"))
+            try
             {
-                return JsonConvert.DeserializeObject<ObservableCollection<string>>(answer);
+                // create client and send list request
+                Client.Client client = new Client.Client(_port, _ip);
+                client.Initialize();
+                client.Send("list");
+                string answer = client.Recieve();
+                client.Close();
+                // return the list
+                if (!answer.Equals("no games avaliable"))
+                {
+                    return JsonConvert.DeserializeObject<ObservableCollection<string>>(answer);
+                }
+            }
+            catch
+            {
+                _connectToServer = false;
+                _client.Close();
+                FinishGame(this, "Coneection Failed");
             }
             return null;
         }
@@ -308,7 +348,8 @@ namespace ClientGUI.model
         public void CloseGame()
         {
             _closed = true;
-            _client.Send("close");
+            if(_connectToServer)
+                _client.Send("close");
         }
     }
 }

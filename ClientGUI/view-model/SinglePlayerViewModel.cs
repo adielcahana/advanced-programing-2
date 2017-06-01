@@ -27,10 +27,28 @@ namespace ClientGUI
 		/// direction of the last move
 		/// </summary>
 		private Direction _lastMove;
-		/// <summary>
-		/// finish flag property
-		/// </summary>
-		private bool _finish;
+        /// <summary>
+        /// finish flag property
+        /// </summary>
+
+        private bool _connect;
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="SinglePlayerViewModel"/> is finish.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if finish; otherwise, <c>false</c>.
+        /// </value>
+        public bool Connect
+        {
+            get { return _connect; }
+            set
+            {
+                _connect = value;
+                OnPropertyChanged("Connect");
+            }
+        }
+
+        private bool _finish;
 		/// <summary>
 		/// Gets or sets a value indicating whether this <see cref="SinglePlayerViewModel"/> is finish.
 		/// </summary>
@@ -152,7 +170,7 @@ namespace ClientGUI
 					Finish = true;
 				}
 			});
-
+            Connect = true;
 			_model.PlayerMoved += new EventHandler<Position>(delegate (Object sender, Position e) {
 				_mazeSrl = new StringBuilder(((SinglePlayerModel)sender).Maze);
 				switch (_lastMove)
@@ -166,9 +184,12 @@ namespace ClientGUI
 				}
 				OnPropertyChanged("MazeSrl");
 			});
-
             _model.FinishGame += new EventHandler<string>(delegate(Object sender, string e)
             {
+                if (e.Equals("Connection Failed"))
+                {
+                    Connect = false;
+                }
 	            Finish = true;
             });
         }

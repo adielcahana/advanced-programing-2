@@ -46,10 +46,13 @@ namespace Client
         /// </summary>
         public void Close()
         {
-            _stream.Close();
-            _reader.Close();
-            _writer.Close();
-            _client.Close();
+            if (_stream != null)
+            {
+                _stream.Close();
+                _reader.Close();
+                _writer.Close();
+                _client.Close();
+            }
         }
 
         /// <summary>

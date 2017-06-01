@@ -46,6 +46,9 @@ namespace ClientGUI.model
                 PlayerMoved(this, _playerPos);
             }
         }
+
+        public bool ConnectToServer { get; set; }
+
 		/// <summary>
 		/// Moves to the specified direction.
 		/// </summary>
@@ -55,7 +58,7 @@ namespace ClientGUI.model
             PlayerPos = ChangePosition(direction, PlayerPos);
 		    if (PlayerPos.Equals(_maze.GoalPos) )
 		    {
-			    FinishGame(this, "You Win!");
+			    FinishGame(this, "You Won!");
 		    }
 		}
 		/// <summary>
@@ -65,29 +68,39 @@ namespace ClientGUI.model
 		{
 			PlayerPos = _maze.InitialPos;
 		}
-		/// <summary>
-		/// Generates the maze.
-		/// </summary>
-		public void GenerateMaze()
+
+        /// <summary>
+        /// Generates the maze.
+        /// </summary>
+        public void GenerateMaze()
         {
-            Client.Client client = new Client.Client(_port, _ip);
-            client.Initialize();
-            string msg = CreateGenerateMessage();
-            client.Send(msg);
-            string answer = client.Recieve();
-            client.Close();
-            if (answer.Equals("name: " + MazeName +" already taken"))
+            try
             {
-	            FinishGame(this, answer);
-			}
-            else
+                Client.Client client = new Client.Client(_port, _ip);
+                client.Initialize();
+                string msg = CreateGenerateMessage();
+                client.Send(msg);
+                string answer = client.Recieve();
+                client.Close();
+                if (answer.Equals("name: " + MazeName + " already taken"))
+                {
+                    FinishGame(this, answer);
+                }
+                else
+                {
+                    _maze = MazeLib.Maze.FromJSON(answer);
+                    _playerPos = _maze.InitialPos;
+                    NewMaze(this, _maze);
+                }
+            }
+            catch
             {
-                _maze = MazeLib.Maze.FromJSON(answer);
-                _playerPos = _maze.InitialPos;
-                NewMaze(this, _maze);
+                ConnectToServer = false;
+                FinishGame(this, "Connection Failed");
             }
         }
-		/// <summary>
+
+        /// <summary>
 		/// Creates the generate message.
 		/// </summary>
 		/// <returns></returns>
@@ -95,21 +108,32 @@ namespace ClientGUI.model
         {
             return "generate " + _mazeName + " " + _rows.ToString() + " " + _cols.ToString();
 		}
-		/// <summary>
-		/// Solves the maze.
-		/// </summary>
-		/// <returns></returns>
-		public MazeSolution SolveMaze()
+
+        /// <summary>
+        /// Solves the maze.
+        /// </summary>
+        /// <returns></returns>
+        public MazeSolution SolveMaze()
         {
-			Client.Client client = new Client.Client(_port, _ip);
-			client.Initialize();
-			string msg = CreateSolveMessage();
-            client.Send(msg);
-            string answer = client.Recieve();
-			client.Close();
-			return MazeSolution.FromJson(answer);
+            try
+            {
+                Client.Client client = new Client.Client(_port, _ip);
+                client.Initialize();
+                string msg = CreateSolveMessage();
+                client.Send(msg);
+                string answer = client.Recieve();
+                client.Close();
+                return MazeSolution.FromJson(answer);
+            }
+            catch
+            {
+                ConnectToServer = false;
+                FinishGame(this, "Connection Failed");
+            }
+            return null;
         }
-		/// <summary>
+
+        /// <summary>
 		/// Creates the solve message.
 		/// </summary>
 		/// <returns></returns>
