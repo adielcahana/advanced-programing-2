@@ -7,14 +7,19 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 </head>
 <body>
+<button id="solve">solve</button>
 <canvas id="mazeCanvas" width="300" height="300" style="border: 2px black solid"></canvas>
 <script src="jquery.mazeBoard.js"></script>
 <script>
 	exit = new Image();
-	player = new Image();
+	player_left = new Image();
+	player_right = new Image();
 	wall = new Image();
 	exit.src = 'D:/Documents/Visual Studio 2017/Projects/advanced programing 2/ClientGUI/view/resources/goal.png';
-	player.src = 'D:/Documents/Visual Studio 2017/Projects/advanced programing 2/ClientGUI/view/resources/dave_left.png';
+	player_left.src =
+		'D:/Documents/Visual Studio 2017/Projects/advanced programing 2/ClientGUI/view/resources/dave_left.png';
+	player_right.src =
+		'D:/Documents/Visual Studio 2017/Projects/advanced programing 2/ClientGUI/view/resources/dave_right.png';
 	wall.src = 'D:/Documents/Visual Studio 2017/Projects/advanced programing 2/ClientGUI/view/resources/wall.png';
 	var maze = [
 		[0, 1, 0, 1, 0, 1, 0, 0, 1, 1], [0, 1, 0, 1, 0, 1, 0, 0, 1, 1], [0, 1, 0, 1, 0, 1, 0, 0, 1, 1],
@@ -22,26 +27,47 @@
 		[0, 1, 0, 1, 0, 1, 0, 0, 1, 1], [0, 1, 0, 1, 0, 1, 0, 0, 1, 1], [0, 1, 0, 1, 0, 1, 0, 0, 1, 1],
 		[0, 1, 0, 1, 0, 1, 0, 0, 1, 1]
 	];
-	var board = $("#mazeCanvas").mazeBoard(maze, 1, 0, 9, 7, player, exit, wall, true);
-	board.drawMaze();
+	var board = $("#mazeCanvas").mazeBoard(maze, 0, 0, 9, 7, player_right, player_left, exit, wall, true);
+	exit.onload = function() {
+		board.drawMaze();
+	}
+	wall.onload = function() {
+		board.drawMaze();
+	}
+	player_left.onload = function() {
+		board.drawMaze();
+	}
+	player_right.onload = function() {
+		board.drawMaze();
+	}
 	document.onkeydown = function(e) {
 		switch (e.which) {
 		case 37:
-			board.move("left");
+			board.makeMove("left");
 			break;
 		case 38:
-			board.move("up");
+			board.makeMove("up");
 			break;
 		case 39:
-			board.move("right");
+			board.makeMove("right");
 			break;
 		case 40:
-			board.move("down");
+			board.makeMove("down");
 			break;
 		default:
 			break;
 		}
-	};
+	}
+	$("#solve")[0].onclick = function() {
+	    board.solve(board, [3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3]);
+	}
+/*	function sleep(time) {
+		return new Promise((resolve) => setTimeout(resolve, time));
+	}
+
+	sleep(1000).then(() => {
+		board.solve([3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3]);
+	});*/
 </script>
 </body>
 </html>
