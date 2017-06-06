@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex1", "Ex1\Ex1.csproj", "{BA4B82F4-4704-475F-BF3A-E66639700B3D}"
 EndProject
@@ -18,8 +18,19 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web client", "web client", "{FD70FFA0-708E-4A3E-84C8-3374355CFA5D}"
 	ProjectSection(SolutionItems) = preProject
 		example.html = example.html
+		GeneralStyle.css = GeneralStyle.css
 		..\..\..\..\Downloads\jquery-3.2.1.js = ..\..\..\..\Downloads\jquery-3.2.1.js
 		jquery.mazeBoard.js = jquery.mazeBoard.js
+		jquery.NavigationScript.js = jquery.NavigationScript.js
+		jquery.SettingsScript.js = jquery.SettingsScript.js
+		LoginPage.html = LoginPage.html
+		MainPage.html = MainPage.html
+		MainPageStyle.css = MainPageStyle.css
+		Navigation.html = Navigation.html
+		NavigationStyle.css = NavigationStyle.css
+		RankingPage.html = RankingPage.html
+		RegisterPage.html = RegisterPage.html
+		SettingsPage.html = SettingsPage.html
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{ABA262EC-37A4-4C50-8D34-7BE0DB0A8B90}"
@@ -27,6 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{ABA262
 		ClientGUI\view\resources\dave_left.png = ClientGUI\view\resources\dave_left.png
 		ClientGUI\view\resources\dave_right.png = ClientGUI\view\resources\dave_right.png
 		ClientGUI\view\resources\goal.png = ClientGUI\view\resources\goal.png
+		ClientGUI\view\resources\MazeGif.gif = ClientGUI\view\resources\MazeGif.gif
 		ClientGUI\view\resources\wall.png = ClientGUI\view\resources\wall.png
 	EndProjectSection
 EndProject
