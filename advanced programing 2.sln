@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex1", "Ex1\Ex1.csproj", "{BA4B82F4-4704-475F-BF3A-E66639700B3D}"
 EndProject
@@ -41,6 +41,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{ABA262
 		ClientGUI\view\resources\MazeGif.gif = ClientGUI\view\resources\MazeGif.gif
 		ClientGUI\view\resources\wall.png = ClientGUI\view\resources\wall.png
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeAdapterLib", "MazeAdapterLib\MazeAdapterLib.csproj", "{24293B46-77DE-4834-97DD-52BEBD155DD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeMC", "MazeMC\MazeMC.csproj", "{0C197E85-15E2-4ABE-ABFF-1C18ED98B143}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -98,6 +102,22 @@ Global
 		{843EE612-EC43-43B0-87AC-BA2B62D4A3D9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{843EE612-EC43-43B0-87AC-BA2B62D4A3D9}.Release|x64.ActiveCfg = Release|Any CPU
 		{843EE612-EC43-43B0-87AC-BA2B62D4A3D9}.Release|x64.Build.0 = Release|Any CPU
+		{24293B46-77DE-4834-97DD-52BEBD155DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24293B46-77DE-4834-97DD-52BEBD155DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24293B46-77DE-4834-97DD-52BEBD155DD4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{24293B46-77DE-4834-97DD-52BEBD155DD4}.Debug|x64.Build.0 = Debug|Any CPU
+		{24293B46-77DE-4834-97DD-52BEBD155DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24293B46-77DE-4834-97DD-52BEBD155DD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24293B46-77DE-4834-97DD-52BEBD155DD4}.Release|x64.ActiveCfg = Release|Any CPU
+		{24293B46-77DE-4834-97DD-52BEBD155DD4}.Release|x64.Build.0 = Release|Any CPU
+		{0C197E85-15E2-4ABE-ABFF-1C18ED98B143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C197E85-15E2-4ABE-ABFF-1C18ED98B143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C197E85-15E2-4ABE-ABFF-1C18ED98B143}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0C197E85-15E2-4ABE-ABFF-1C18ED98B143}.Debug|x64.Build.0 = Debug|Any CPU
+		{0C197E85-15E2-4ABE-ABFF-1C18ED98B143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C197E85-15E2-4ABE-ABFF-1C18ED98B143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C197E85-15E2-4ABE-ABFF-1C18ED98B143}.Release|x64.ActiveCfg = Release|Any CPU
+		{0C197E85-15E2-4ABE-ABFF-1C18ED98B143}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
