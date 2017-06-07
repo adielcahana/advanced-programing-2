@@ -91,13 +91,14 @@ namespace MazeMC
         ///     Initializes the game.
         ///     waiting for the next player to connect
         /// </summary>
-        public void Initialize(IClientHandler playerHandler)
-        {
-            while (!_isPlayer2Connected)
-                Thread.Sleep(10);
-            playerHandler.HandleClient(_players[0]);
-            playerHandler.HandleClient(_players[1]);
-        }
+        //todo add this again
+//        public void Initialize(IClientHandler playerHandler)
+//        {
+//            while (!_isPlayer2Connected)
+//                Thread.Sleep(10);
+//            playerHandler.HandleClient(_players[0]);
+//            playerHandler.HandleClient(_players[1]);
+//        }
 
 
         /// <summary>

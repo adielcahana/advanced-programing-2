@@ -1,5 +1,5 @@
 ﻿using System.Net.Sockets;
-using Ex1;
+using MazeAdapterLib;
 using MazeLib;
 
 namespace MazeMC.Models

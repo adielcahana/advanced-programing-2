@@ -2,7 +2,7 @@
 using MazeLib;
 using SearchAlgorithmsLib;
 
-namespace Ex1
+namespace MazeAdapterLib
 {
     /// <summary>
     ///     wrap the maze with the solve of ISearchable logic

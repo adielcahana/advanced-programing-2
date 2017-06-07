@@ -6,7 +6,7 @@ using MazeLib;
 using Newtonsoft.Json.Linq;
 using SearchAlgorithmsLib;
 
-namespace Ex1
+namespace MazeAdapterLib
 {
     /// <summary>
     ///     adapter for the maze soltion.

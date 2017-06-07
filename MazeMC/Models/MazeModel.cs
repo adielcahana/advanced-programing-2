@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
-using Ex1;
+using MazeAdapterLib;
 using MazeGeneratorLib;
 using MazeLib;
 using Newtonsoft.Json;
@@ -14,7 +14,7 @@ namespace MazeMC.Models
     /// <summary>
     ///     algorithm enum according to the exercise specs
     /// </summary>
-    internal enum Algorithm
+    public enum Algorithm
     {
         Bfs,
         Dfs
@@ -24,7 +24,7 @@ namespace MazeMC.Models
     ///     encasulates all the logic of maze gaming
     /// </summary>
     /// <seealso cref="IModel" />
-    internal class MazeModel : IModel
+    public class MazeModel : IModel
     {
         private readonly ISearcher<Position>[] _algorithms;
         private readonly DFSMazeGenerator _generator;
@@ -138,12 +138,14 @@ namespace MazeMC.Models
             Maze maze = _generator.Generate(rows, cols);
             maze.Name = name;
             GameController controller = new GameController(this, name);
-            PlayerHandler playerHandler = new PlayerHandler(controller);
+			//todo return this line
+            //PlayerHandler playerHandler = new PlayerHandler(controller);
             Game game = new Game(maze, this);
             _games.Add(name, game);
             game.AddPlayer(player1);
-            game.Initialize(playerHandler);
-            game.Start();
+	        //todo return this line
+			//game.Initialize(playerHandler);
+			game.Start();
             return maze.ToJSON();
         }
 
