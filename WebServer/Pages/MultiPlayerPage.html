@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Multi Player</title>
+    <script src="../Scripts/jquery-3.1.1.js"></script>
+    <link href="../Styles/GamesStyle.css" rel="stylesheet" />
+</head>
+<body>
+    <iframe src="Navigation.html" scrolling="no" frameborder="0"></iframe>
+    <div style="margin: 0px 0px 0px 5%">
+        <h1> MultiPlayer Game </h1>
+        <canvas class="multiMaze" id="mazeCanvas" style="border: 2px black solid"></canvas>
+        <canvas class="multiMaze" id="otherMazeCanvas" style="border: 2px black solid"></canvas>
+        <form class="menu" method="get" style="margin-bottom:100px">
+            Games:<select id="Games"></select><br />
+            <input id="join" type="button" style="width:100px" value="Join" /><br />
+            Maze name:<input id="Name" type="text" name="Name" value="" /><br />
+            Rows size:<input id="Rows" type="text" name="Rows" style="margin-left:8px" value="" /><br />
+            Cols size:<input id="Cols" type="text" name="Cols" style="margin-left:15px" value="" /><br />
+            <input id="start" type="submit" style="width:150px" value="Start New Game" /><br />
+        </form>
+    </div>
+</body>
+</html>

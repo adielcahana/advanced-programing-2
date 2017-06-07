@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+    <title>Single Player</title>
+    <script src="../Scripts/jquery-3.1.1.js"></script>
+    <link href="../Styles/GamesStyle.css" rel="stylesheet" />
+</head>
+<body>
+    <iframe src="Navigation.html" scrolling="no" frameborder="0"></iframe>
+    <div style="margin: 0px 0px 0px 5%">
+        <h1> SinglePlayer Game </h1>
+        <canvas class="maze" id="mazeCanvas" style="border: 2px black solid"></canvas>
+            <form class="menu" method="get" style="margin-bottom:100px">
+                Maze name:<input id="Name" type="text" name="Name" value="" /><br />
+                Rows size:<input id="Rows" type="text" name="Rows" style="margin-left:8px" value="" /><br />
+                Cols size:<input id="Cols" type="text" name="Cols" style="margin-left:15px" value="" /><br />
+                <input id="start" type="submit" style="width:150px" value="Start New Game" /><br />
+                Search Algorithm:
+                <select id="Algorithm">
+                    <option value="BFS">BFS</option>
+                    <option value="DFS">DFS</option>
+                </select><br />
+                <input id="solve" type="button" style="width:100px" value="Solve" /><br />
+            </form>
+    </div>
+    <script src="../Scripts/jquery.SinglePlayerScript.js"></script>
+</body>
+</html>

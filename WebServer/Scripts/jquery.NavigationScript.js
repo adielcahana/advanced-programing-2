@@ -5,11 +5,11 @@ $('#Maze').click(function () {
 });
 
 $('#SinglePlayer_Game').click(function () {
-    window.open("./example.html", '_top');
+    window.open("./SinglePlayerPage.html", '_top');
 });
 
 $('#MultiPlayer_Game').click(function () {
-    alert("button");
+    window.open("./MultiPlayerPage.html", '_top');
 });
 
 $('#Settings').click(function () {

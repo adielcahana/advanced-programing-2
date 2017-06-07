@@ -31,10 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MazeGeneratorLib">
-      <HintPath>..\..\..\..\לימודים\שנה ג\תכנות מתקדם 2\תרגילי בית\תרגיל 1\MazeGeneratorLib.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\אורי\בר אילן\שנה ב\סמסטר ב\תכנות מתקדם 2\תרגיל 1\MazeGeneratorLib.dll</HintPath>
     </Reference>
     <Reference Include="MazeLib">
-      <HintPath>..\..\..\..\לימודים\שנה ג\תכנות מתקדם 2\תרגילי בית\תרגיל 1\MazeLib.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\אורי\בר אילן\שנה ב\סמסטר ב\תכנות מתקדם 2\תרגיל 1\MazeLib.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
