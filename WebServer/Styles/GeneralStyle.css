@@ -41,3 +41,12 @@ th {
     color: white;
     margin-left: 50px;
 }
+.blueButton{
+    background: none;
+    border: none;
+    color: blue;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+}
