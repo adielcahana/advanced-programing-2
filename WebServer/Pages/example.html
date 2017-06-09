@@ -1,34 +1,47 @@
 ﻿<!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <meta charset="utf-8" />
-	<title>little example</title>
+    <title>Single Player</title>
+    <script src="../Scripts/jquery-3.1.1.js"></script>
+    <link href="../Styles/GamesStyle.css" rel="stylesheet" />
     <script src="../Scripts/jquery-3.1.1.js"></script>
     <script>
         var board;
+        exit = new Image();
+        player_left = new Image();
+        player_right = new Image();
+        wall = new Image();
+        exit.src = "../images/goal.png";
+        player_left.src = '../images/dave_left.png';
+        player_right.src = '../images/dave_right.png';
+        wall.src = '../images/wall.png';
         function startGame() {
-            var name = $("Name").val();
-            var rows = $("Rows").val();
-            var cols = $("Cols").val();
-            var apiUrl = 'api/SinglePlayerController/' + name + "/" + rows + "/" + cols;
-            $.getJSON(apiUrl).done(function(data) {
-                var rows = data["Rows"];
+            var name = $("#Name").val();
+            var rows = $("#Rows").val();
+            var cols = $("#Cols").val();
+            var apiUrl = '/api/SinglePlayer';
+            $.ajax({
+                method: "GET",
+                url: apiUrl
+//                data: { "name": name, "row": rows, "col": cols }
+            }).done(function (data) {
                 var cols = data["Cols"];
                 var maze = [];
                 var row = [];
                 var i = 0;
-                forEach(data["Maze"],
-                    function(item, index) {
-                        if (i != cols) {
-                            row[i] = parseInt(item);
-                            i++;
-                        } else {
-                            maze.push(row);
-                            row = [];
-                            i = 0;
-                        }
-                    });
+                var mazeSrl = data["Maze"];
+                for(var c of mazeSrl) {
+                    if (i < cols) {
+                        row[i] = parseInt(c);
+                        i++;
+                    } else {
+                        maze.push(row);
+                        row = [parseInt(c)];
+                        i = 1;
+                    }
+                };
+                maze.push(row);
                 board = $("#mazeCanvas").mazeBoard(maze,
                     data["Start"]["Row"],
                     data["Start"]["Col"],
@@ -39,19 +52,19 @@
                     exit,
                     wall,
                     true);
-                exit.onload = function() {
-                    board.drawMaze();
-                }
-                wall.onload = function() {
-                    board.drawMaze();
-                }
-                player_left.onload = function() {
-                    board.drawMaze();
-                }
-                player_right.onload = function() {
-                    board.drawMaze();
-                }
-                document.onkeydown = function(e) {
+//                exit.onload = function () {
+//                    board.drawMaze();
+//                }
+//                player_left.onload = function () {
+//                    board.drawMaze();
+//                }
+//                player_right.onload = function () {
+//                    board.drawMaze();
+//                }
+//                wall.onload = function () {
+//                    board.drawMaze();
+//                }
+                document.onkeydown = function (e) {
                     switch (e.which) {
                     case 37:
                         board.makeMove("left");
@@ -69,52 +82,53 @@
                         break;
                     }
                 }
+                board.drawMaze();
             });
         }
     </script>
 </head>
 <body>
-<button id="solve">solve</button>
-<canvas id="mazeCanvas" width="300" height="300" style="border: 2px black solid"></canvas>
-<div style="margin: 0px 15% 0px 45%">
-    <h1> Single Game </h1>
+<iframe src="Navigation.html" scrolling="no" frameborder="0"></iframe>
+<div style="margin: 0px 0px 0px 5%">
+    <h1> SinglePlayer Game </h1>
     <table>
-        <tr><td>Name: </td>
-            <td><input id="Name" type="text" name="Name" style="width: 50px" value="0" /></td></tr>
-        <tr><td>Rows size: </td>
-            <td><input id="Rows" type="text" name="Rows" style="width: 50px" value="0" /></td></tr>
-        <tr><td>Cols size: </td>
-            <td><input id="Cols" type="text" name="Cols" style="width: 50px" value="0" /></td></tr>
+        <tr>
+            <td>Name: </td>
+            <td><input id="Name" type="text" name="Name" style="width: 50px" value="0"/></td>
+        </tr>
+        <tr>
+            <td>Rows size: </td>
+            <td><input id="Rows" type="text" name="Rows" style="width: 50px" value="0"/></td>
+        </tr>
+        <tr>
+            <td>Cols size: </td>
+            <td><input id="Cols" type="text" name="Cols" style="width: 50px" value="0"/></td>
+        </tr>
+        <tr>
+            <td><input type="button" id="start" value="Start New Game"/></td>
+        </tr>
+        <tr>
+            <td>Search Algorithm: </td>
+            <td>
+                <select id="Algorithm">
+                    <option value="BFS">BFS</option>
+                    <option value="DFS">DFS</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><input id="solve" type="button" style="width:100px" value="Solve" /></td>
+        </tr>
     </table>
-    <input type="button" id="Stat Game" value="Start New Game" onclick="startGame" />
+    <canvas class="maze" id="mazeCanvas" style="border: 2px black solid"></canvas>
 </div>
+<script src="../Scripts/jquery.SinglePlayerScript.js"></script>
 <script src="../Scripts/jquery.mazeBoard.js"></script>
 <script>
-    exit = new Image();
-    player_left = new Image();
-    player_right = new Image();
-    wall = new Image();
-    exit.src = "../images/goal.png";
-    player_left.src = '../images/dave_left.png';
-    player_right.src = '../images/dave_right.png';
-    wall.src = '../images/wall.png';
-//    var maze = [
-//        [0, 1, 0, 1, 0, 1, 0, 0, 1, 1], [0, 1, 0, 1, 0, 1, 0, 0, 1, 1], [0, 1, 0, 1, 0, 1, 0, 0, 1, 1],
-//        [0, 1, 0, 1, 0, 1, 0, 0, 1, 1], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 1, 0, 1, 0, 0, 1, 1],
-//        [0, 1, 0, 1, 0, 1, 0, 0, 1, 1], [0, 1, 0, 1, 0, 1, 0, 0, 1, 1], [0, 1, 0, 1, 0, 1, 0, 0, 1, 1],
-//        [0, 1, 0, 1, 0, 1, 0, 0, 1, 1]
-//    ];
-
+    $("#start")[0].onclick = startGame;
     $("#solve")[0].onclick = function() {
         board.solve(board, [3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3]);
     }
-/*	function sleep(time) {
-		return new Promise((resolve) => setTimeout(resolve, time));
-	}
-
-	sleep(1000).then(() => {
-		board.solve([3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 3]);
-	});*/
 </script>
 </body>
 </html>

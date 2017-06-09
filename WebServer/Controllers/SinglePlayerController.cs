@@ -21,9 +21,9 @@ namespace WebServer.Controllers
 	    }
 
 	    [HttpGet]
-	    public JObject GenerateMaze(string name, int row, int col)
+	    public JObject GenerateMaze()//string name, int row, int col)
 	    {
-		    Maze maze = model.GenerateMaze(name, row, col);
+		    Maze maze = model.GenerateMaze("name", 10, 10);
 			JObject obj = JObject.Parse(maze.ToJSON());
 		    return obj;
 	    }
