@@ -4,6 +4,7 @@
 	<meta charset="utf-8" />
     <title>Single Player</title>
     <script src="../Scripts/jquery-3.1.1.js"></script>
+    <script src="../Scripts/jquery.mazeBoard.js"></script>
     <link href="../Content/bootstrap.min.css" rel="stylesheet">
     <link href="../Styles/GamesStyle.css" rel="stylesheet" />
 </head>
@@ -33,8 +34,8 @@
                     <td>Search Algorithm:</td>
                     <td>
                         <select id="Algorithm">
-                            <option value="BFS">BFS</option>
-                            <option value="DFS">DFS</option>
+                            <option value=0>BFS</option>
+                            <option value=1>DFS</option>
                         </select>
                     </td>
                 </tr>
@@ -47,6 +48,6 @@
             <canvas class="maze" id="mazeCanvas" tabindex="1" style="border: 2px black solid"></canvas>
         </div>
     </div>
-            <script src="../Scripts/jquery.SinglePlayerScript.js"></script>
+<script src="../Scripts/jquery.SinglePlayerScript.js"></script>
 </body>
 </html>

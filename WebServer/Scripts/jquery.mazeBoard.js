@@ -1,6 +1,6 @@
 // JavaScript source code
 (function($) {
-    $.fn.mazeBoard = function(mazeData,
+    $.fn.mazeBoard = function(name, mazeData,
         startRow,
         startCol,
         exitRow,
@@ -12,7 +12,8 @@
         isEnabled) {
 
         class mazeBoard {
-            constructor(mazeData, startRow, startCol, exitRow, exitCol, playerRight, playerLeft, exitImage, wallImg, isEnabled, canvas) {
+            constructor(name, mazeData, startRow, startCol, exitRow, exitCol, playerRight, playerLeft, exitImage, wallImg, isEnabled, canvas) {
+                this._name = name;
                 this._data = mazeData;
                 this._startRow = startRow;
                 this._startCol = startCol;
@@ -28,6 +29,12 @@
                 this._isEnabled = isEnabled;
                 //this._move = callback;
                 this._canvas = canvas;
+            }
+
+            reset() {
+                this._playerRow = this._startRow;
+                this._playerCol = this._startCol;
+                this.drawMaze();
             }
 
             drawMaze() {
@@ -77,6 +84,7 @@
                     return false;
                 }  
             }
+
             makeMove(direction) {
                 if (this._isEnabled == true) {
                     this.move(direction);
@@ -137,8 +145,10 @@
                     height);
             }
 
-            solve(board, solution) {
-                board._isEnabled = false;
+            solve(solution) {
+                var timer;
+                this._isEnabled = false;
+                var board = this;
                 var i = 0;
                 function stage() {
                     switch (solution[i]) {
@@ -159,14 +169,14 @@
                         i++;
                     } else {
                         board._isEnabled = true;
-                        clearInterval();
+                        clearInterval(timer);
                     }
                 }
-                setInterval(stage, 500);
+                timer = setInterval(stage, 500);
             }
         }
 
-        return new mazeBoard(mazeData,
+        return new mazeBoard(name, mazeData,
             startRow,
             startCol,
             exitRow,

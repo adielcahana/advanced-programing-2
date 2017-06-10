@@ -109,14 +109,22 @@ namespace MazeMC.Models
         /// <returns>
         ///     list of games names
         /// </returns>
-        public string CreateList()
+        public List<string> CreateList()
         {
-            if (_games.Count == 0)
-                return "no games avaliable";
-            List<string> names = new List<string>(_games.Keys.Count);
-            foreach (string name in _games.Keys)
-                names.Add(name);
-            return JsonConvert.SerializeObject(names, Formatting.Indented);
+	        List<string> names;
+	        if (_games.Count == 0)
+	        {
+				names = new List<string>(1);
+		        names.Add("no games avaliable");
+			}
+	        else
+	        {
+		        names = new List<string>(_games.Keys.Count);
+		        foreach (string name in _games.Keys)
+			        names.Add(name);
+			}
+//            return JsonConvert.SerializeObject(names, Formatting.Indented);
+	        return names;
         }
 
         /// <summary>
@@ -129,7 +137,7 @@ namespace MazeMC.Models
         /// <returns>
         ///     the maze detailes
         /// </returns>
-        public string NewGame(string name, int rows, int cols, TcpClient player1)
+        public Maze NewGame(string name, int rows, int cols)
         {
             // check if the game exist
             if (_games.ContainsKey(name))
@@ -146,7 +154,7 @@ namespace MazeMC.Models
 	        //todo return this line
 			//game.Initialize(playerHandler);
 			game.Start();
-            return maze.ToJSON();
+            return maze;
         }
 
         /// <summary>

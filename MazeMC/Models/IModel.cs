@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System.Collections.Generic;
+using System.Net.Sockets;
 using MazeAdapterLib;
 using MazeLib;
 
@@ -46,11 +47,11 @@ namespace MazeMC.Models
         /// <returns> the maze detailes </returns>
         string JoinGame(string name, TcpClient player2);
 
-        /// <summary>
-        ///     Creates list of active game.
-        /// </summary>
-        /// <returns> list of games names</returns>
-        string CreateList();
+		/// <summary>
+		///     Creates list of active game.
+		/// </summary>
+		/// <returns> list of games names</returns>
+		List<string> CreateList();
 
         /// <summary>
         ///     Finishes the game.

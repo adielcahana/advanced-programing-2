@@ -13,23 +13,20 @@ namespace WebServer.Controllers
 {
     public class SinglePlayerController : ApiController
     {
-	    private SinglePlayerModel model;
-
-	    public SinglePlayerController()
-	    {
-		    model = new SinglePlayerModel();
-	    }
+	    private static SinglePlayerModel model = new SinglePlayerModel();
 
 	    [HttpGet]
-	    public JObject GenerateMaze()//string name, int row, int col)
+		[Route("SinglePlayer/{name}/{row}/{col}")]
+	    public JObject GenerateMaze(string name, int row, int col)
 	    {
-		    Maze maze = model.GenerateMaze("name", 10, 10);
+		    Maze maze = model.GenerateMaze(name, row, col);
 			JObject obj = JObject.Parse(maze.ToJSON());
 		    return obj;
 	    }
 
-	    [HttpPost]
-	    public JObject SolveMaze(string name, Algorithm algorithm)
+	    [HttpGet]
+	    [Route("SinglePlayer/{name}/{algorithm}")]
+		public JObject SolveMaze(string name, Algorithm algorithm)
 	    {
 		    MazeSolution solution = model.SolveMaze(name, algorithm);
 		    JObject obj = JObject.Parse(solution.ToJson());
