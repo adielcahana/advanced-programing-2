@@ -17,19 +17,9 @@ namespace WebServer.Controllers
 	    [Route("MultyPlayer/list")]
 	    public JObject CreateList()
 	    {
-		    List<string> names = model.CreateList();
+		    string names = model.CreateList();
 			JObject obj = JObject.Parse(JsonConvert.SerializeObject(names, Formatting.Indented));
 		    return obj;
 	    }
-
-	    [HttpGet]
-	    [Route("MultyPlayer/list")]
-	    public JObject CreateList()
-	    {
-		    List<string> names = model.CreateList();
-		    JObject obj = JObject.Parse(JsonConvert.SerializeObject(names, Formatting.Indented));
-		    return obj;
-	    }
-
 	}
 }

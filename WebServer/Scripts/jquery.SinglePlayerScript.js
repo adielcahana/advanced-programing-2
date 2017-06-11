@@ -20,6 +20,8 @@ player_right.src = '../images/dave_right.png';
 wall.src = '../images/wall.png';
 
 function startGame() {
+    $("#mazeCanvas").hide();
+    $(".loader").show();
     var name = $("#Name").val();
     var rows = $("#Rows").val();
     var cols = $("#Cols").val();
@@ -73,7 +75,9 @@ function startGame() {
             }
         }
         board.drawMaze();
-        $("title").text = name;
+        $(".loader").hide();
+        $("#mazeCanvas").show();
+        document.title = name;
     });
 }
 

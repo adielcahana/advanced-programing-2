@@ -51,7 +51,7 @@ namespace MazeMC.Models
 		///     Creates list of active game.
 		/// </summary>
 		/// <returns> list of games names</returns>
-		List<string> CreateList();
+		string CreateList();
 
         /// <summary>
         ///     Finishes the game.

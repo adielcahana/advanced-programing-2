@@ -103,119 +103,109 @@ namespace MazeMC.Models
             return null;
         }
 
-        /// <summary>
-        ///     Creates list of active game.
-        /// </summary>
-        /// <returns>
-        ///     list of games names
-        /// </returns>
-        public List<string> CreateList()
-        {
-	        List<string> names;
-	        if (_games.Count == 0)
-	        {
-				names = new List<string>(1);
-		        names.Add("no games avaliable");
-			}
-	        else
-	        {
-		        names = new List<string>(_games.Keys.Count);
-		        foreach (string name in _games.Keys)
-			        names.Add(name);
-			}
-//            return JsonConvert.SerializeObject(names, Formatting.Indented);
-	        return names;
-        }
+	    /// <summary>
+	    ///     Creates list of active game.
+	    /// </summary>
+	    /// <returns>
+	    ///     list of games names
+	    /// </returns>
+	    public string CreateList()
+	    {
+		    if (_games.Count == 0)
+			    return "no games avaliable";
+		    List<string> names = new List<string>(_games.Keys.Count);
+		    foreach (string name in _games.Keys)
+			    names.Add(name);
+		    return JsonConvert.SerializeObject(names, Formatting.Indented);
+	    }
 
-        /// <summary>
-        ///     create new game.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="rows">The rows.</param>
-        /// <param name="cols">The cols.</param>
-        /// <param name="player1">client.</param>
-        /// <returns>
-        ///     the maze detailes
-        /// </returns>
-        public Maze NewGame(string name, int rows, int cols)
-        {
-            // check if the game exist
-            if (_games.ContainsKey(name))
-                return "name: " + name + " alredy taken";
-            // else create new game
-            Maze maze = _generator.Generate(rows, cols);
-            maze.Name = name;
-            GameController controller = new GameController(this, name);
-			//todo return this line
-            //PlayerHandler playerHandler = new PlayerHandler(controller);
-            Game game = new Game(maze, this);
-            _games.Add(name, game);
-            game.AddPlayer(player1);
-	        //todo return this line
-			//game.Initialize(playerHandler);
-			game.Start();
-            return maze;
-        }
+	    /// <summary>
+	    ///     create new game.
+	    /// </summary>
+	    /// <param name="name">The name.</param>
+	    /// <param name="rows">The rows.</param>
+	    /// <param name="cols">The cols.</param>
+	    /// <param name="player1">client.</param>
+	    /// <returns>
+	    ///     the maze detailes
+	    /// </returns>
+	    public string NewGame(string name, int rows, int cols, TcpClient player1)
+	    {
+		    // check if the game exist
+		    if (_games.ContainsKey(name))
+			    return "name: " + name + " alredy taken";
+		    // else create new game
+		    Maze maze = _generator.Generate(rows, cols);
+		    maze.Name = name;
+		    GameController controller = new GameController(this, name);
+//		    PlayerHandler playerHandler = new PlayerHandler(controller);
+		    Game game = new Game(maze, this);
+		    _games.Add(name, game);
+//		    game.AddPlayer(player1);
+//		    game.Initialize(playerHandler);
+		    game.Start();
+		    return maze.ToJSON();
+	    }
 
-        /// <summary>
-        ///     player 2 join the game.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="player2">The player2.</param>
-        /// <returns>
-        ///     the maze detailes
-        /// </returns>
-        public string JoinGame(string name, TcpClient player2)
-        {
-            Game game;
-            if (_games.TryGetValue(name, out game))
-            {
-                if (game.IsStarted())
-                {
-                    return "game: " + name + " is full";
-                }
-                game.AddPlayer(player2);
-                return game.Maze.ToJSON();
-            }
-            return "the name: " + name + " does not exist";
-        }
+	    /// <summary>
+	    ///     player 2 join the game.
+	    /// </summary>
+	    /// <param name="name">The name.</param>
+	    /// <param name="player2">The player2.</param>
+	    /// <returns>
+	    ///     the maze detailes
+	    /// </returns>
+	    public string JoinGame(string name, TcpClient player2)
+	    {
+		    Game game;
+		    if (_games.TryGetValue(name, out game))
+		    {
+			    if (game.IsStarted())
+			    {
+				    return "game: " + name + " is full";
+			    }
+			    game.AddPlayer(player2);
+			    return game.Maze.ToJSON();
+		    }
+		    return "the name: " + name + " does not exist";
+	    }
 
-        /// <summary>
-        ///     notify the game to finish.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="client">The client.</param>
-        public void FinishGame(string name, TcpClient client)
-        {
-            _games[name].Finish();
-            while (!_games[name].BothFinish())
-            {
-                System.Threading.Thread.Sleep(10);
-            }
-            _games.Remove(name);
-        }
+	    /// <summary>
+	    ///     notify the game to finish.
+	    /// </summary>
+	    /// <param name="name">The name.</param>
+	    /// <param name="client">The client.</param>
+	    public void FinishGame(string name, TcpClient client)
+	    {
+		    _games[name].Finish();
+		    while (!_games[name].BothFinish())
+		    {
+			    System.Threading.Thread.Sleep(10);
+		    }
+		    _games.Remove(name);
+	    }
 
-        /// <summary>
-        /// Adds move to thegiven game
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="direction">The direction.</param>
-        /// <param name="client">The client.</param>
-        /// <returns></returns>
-        public string AddMove(string name, string direction, TcpClient client)
-        {
-            return _games[name].AddMove(direction, client);
-        }
+	    /// <summary>
+	    /// Adds move to thegiven game
+	    /// </summary>
+	    /// <param name="name">The name.</param>
+	    /// <param name="direction">The direction.</param>
+	    /// <param name="client">The client.</param>
+	    /// <returns></returns>
+	    public string AddMove(string name, string direction, TcpClient client)
+	    {
+		    return _games[name].AddMove(direction, client);
+	    }
 
-        /// <summary>
-        /// Get state from given game
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="client">The client.</param>
-        /// <returns></returns>
-        public string GetState(string name, TcpClient client)
-        {
-            return _games[name].GetState(client);
-        }
+	    /// <summary>
+	    /// Get state from given game
+	    /// </summary>
+	    /// <param name="name">The name.</param>
+	    /// <param name="client">The client.</param>
+	    /// <returns></returns>
+	    public string GetState(string name, TcpClient client)
+	    {
+		    return _games[name].GetState(client);
+	    }
     }
 }
