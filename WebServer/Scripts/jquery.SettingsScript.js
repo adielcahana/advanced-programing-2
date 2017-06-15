@@ -1,9 +1,6 @@
 // JavaScript source code
 
 $(document).ready(function () {
-    localStorage.setItem("Rows", localStorage.Rows);
-    localStorage.setItem("Cols", localStorage.Cols);
-    localStorage.setItem("Algorithm", localStorage.Algorithm);
     loadSettings();
 });
 

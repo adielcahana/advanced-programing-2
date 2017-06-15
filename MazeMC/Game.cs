@@ -9,7 +9,7 @@ using MazeMC.Models;
 
 namespace MazeMC
 {
-    class Game
+    public class Game
     {
         private static Dictionary<string, Direction> _directions;
 

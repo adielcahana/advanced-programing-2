@@ -1,29 +1,33 @@
 // JavaScript source code
 
-$('#Maze').click(function () {
-    window.open("./MainPage.html", '_top');
+$(document).ready(function () {
+    if (sessionStorage.Connect == 1) {
+        $("#Login").text("Log off");
+        $("#Register").text("Hello " + sessionStorage.username + "!");
+    }
+    else {
+        $("#Login").text("Login");
+        $("#Register").text("Register");
+    }
 });
 
-$('#SinglePlayer_Game').click(function () {
-    window.open("./SinglePlayerPage.html", '_top');
+$("#Login").click(function () {
+    var value = $("#Login").text();
+    if (value == "Log off") {
+        sessionStorage.Connect = 0;
+        alert("You Log off");
+        window.location.href = "MainPage.html";
+        return;
+    }
+    window.location.href = "LoginPage.html";
 });
 
-$('#MultiPlayer_Game').click(function () {
-    window.open("./MultiPlayerPage.html", '_top');
-});
-
-$('#Settings').click(function () {
-    window.open("./SettingsPage.html", '_top');
-});
-
-$('#User_Ranking').click(function () {
-    window.open("./RankingPage.html", '_top');
-});
-
-$('#Login').click(function () {
-    window.open("./LoginPage.html", '_top');
-});
-
-$('#Register').click(function () {
-    window.open("./RegisterPage.html", '_top');
+$("#MultiPlayer_Game").click(function (){
+    var value = $("#Login").text();
+    if (value == "Login") {
+        alert("For multiplayer game you need to login");
+        window.location.href = "LoginPage.html";
+        return;
+    }
+    window.location.href = "MultiPlayerPage.html";
 });

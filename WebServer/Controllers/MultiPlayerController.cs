@@ -1,25 +1,25 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using WebServer.Models;
 
 namespace WebServer.Controllers
 {
     public class MultiPlayerController : ApiController
     {
-	    private static MultiPlayerModel model = new MultiPlayerModel();
+        private static MultiPlayerModel model = new MultiPlayerModel();
 
-	    [HttpGet]
-	    [Route("MultyPlayer/list")]
-	    public JObject CreateList()
-	    {
-		    string names = model.CreateList();
-			JObject obj = JObject.Parse(JsonConvert.SerializeObject(names, Formatting.Indented));
-		    return obj;
-	    }
-	}
+        [HttpGet]
+        [Route("MultiPlayer")]
+        public JObject CreateList()
+        {
+            string list = model.CreateList();
+            JObject obj = JObject.Parse(list);
+            return obj;
+        }
+    }
 }

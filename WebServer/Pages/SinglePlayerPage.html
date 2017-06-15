@@ -4,27 +4,27 @@
 	<meta charset="utf-8" />
     <title>Single Player</title>
     <script src="../Scripts/jquery-3.1.1.js"></script>
-    <script src="../Scripts/jquery.mazeBoard.js"></script>
+    <script src="../Scripts/jquery.LoadNav.js"></script>
     <link href="../Content/bootstrap.min.css" rel="stylesheet">
     <link href="../Styles/GamesStyle.css" rel="stylesheet" />
 </head>
 <body>
-    <iframe src="Navigation.html" scrolling="no" frameborder="0"></iframe>
+    <div id="Navigation" class="Navigation"></div>
     <h1> SinglePlayer Game </h1>
     <div class="container" style="margin: 0px 0px 0px 5%">
         <div class="col-md-4" style="margin-bottom:100px">
             <table class="menu">
                 <tr>
                     <td> Maze name:</td>
-                    <td><input id="Name" type="text" name="Name" value="" /></td>
+                    <td><input id="Name" type="text" name="Name" value="" required/></td>
                 </tr>
                 <tr>
                     <td>Rows size:</td>
-                    <td><input id="Rows" type="text" name="Rows" value="" /></td>
+                    <td><input id="Rows" type="text" name="Rows" value="" required/></td>
                 </tr>
                 <tr>
                     <td>Cols size:</td>
-                    <td><input id="Cols" type="text" name="Cols" value="" /></td>
+                    <td><input id="Cols" type="text" name="Cols" value="" required/></td>
                 </tr>
                 <tr>
                     <td><input id="start" type="button" style="width:120px" value="Start New Game" />
@@ -49,6 +49,7 @@
             <canvas class="maze" id="mazeCanvas" tabindex="1"></canvas>
         </div>
     </div>
-<script src="../Scripts/jquery.SinglePlayerScript.js"></script>
+    <script src="../Scripts/jquery.mazeBoard.js"></script>
+    <script src="../Scripts/jquery.SinglePlayerScript.js"></script>
 </body>
 </html>

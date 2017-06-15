@@ -5,7 +5,6 @@ using System.Web;
 using Microsoft.Owin;
 using Owin;
 
-
 namespace WebServer
 {
 	public class Startup

@@ -1,11 +1,13 @@
 ﻿li {
+    background-color: black;
     display: inline;
 }
 nav {
+    width:100%;
     background-color: black;
     color: gray;
 }
-button {
+a {
     margin: 0px 0px 0px 20px;
     background-color: black;
     color: gray;
@@ -19,6 +21,13 @@ button {
     outline: none;
     border: none;
 }
-    button:active {
-        transform: translateY(4px);
-    }
+a:active {
+    transform: translateY(4px);
+}
+.rightSide{
+    float:right;
+}
+.navbar{
+    width:100%;
+    background-color:black;
+}
