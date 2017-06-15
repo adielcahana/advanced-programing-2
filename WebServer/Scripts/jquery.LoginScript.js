@@ -19,15 +19,9 @@ var ViewModel = function () {
     self.checkUser = function () {
         var username = $('#Name').val();
         var password = $('#Password').val();
-        $.getJSON(UsersUri + username).done(function (data) {
+        $.getJSON(UsersUri + username + "/" + password).done(function (data) {
+
             var user = data;
-
-                password = SHA1(password);
-
-            if (password != user["Password"]) {
-                alert("wrond username or password");
-                return;
-            }
 
             alert("wellcome " + user["Id"]);
             sessionStorage.Connect = 1;

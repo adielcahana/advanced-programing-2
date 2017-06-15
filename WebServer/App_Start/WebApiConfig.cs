@@ -15,6 +15,12 @@ namespace WebServer
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+                name: "GetUser",
+                routeTemplate: "api/{controller}/{id}/{Password}",
+                defaults: new { controller = "User" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }

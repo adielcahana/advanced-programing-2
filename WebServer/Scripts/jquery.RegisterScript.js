@@ -14,8 +14,6 @@
             return;
         }
 
-        password = SHA1(password);
-
         var user = {
             Id: username,
             Password: password,

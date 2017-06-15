@@ -7,7 +7,7 @@ namespace WebServer.Migrations
     using Models;
     using MazeGeneratorLib;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<WebServer.Models.DBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<WebServer.Models.UserContext>
     {
         DFSMazeGenerator mg = new DFSMazeGenerator();
         public Configuration()
@@ -15,7 +15,7 @@ namespace WebServer.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(WebServer.Models.DBContext context)
+        protected override void Seed(WebServer.Models.UserContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -29,8 +29,10 @@ namespace WebServer.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            User user1 = context.Users.Find("t");
-            context.Users.Remove(user1);
+            User user2 = context.Users.Find("bbb");
+            User user3 = context.Users.Find("ccc");
+            context.Users.Remove(user2);
+            context.Users.Remove(user3);
         }
     }
 }

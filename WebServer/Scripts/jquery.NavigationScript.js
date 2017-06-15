@@ -22,6 +22,14 @@ $("#Login").click(function () {
     window.location.href = "LoginPage.html";
 });
 
+$("#Register").click(function () {
+    var value = $("#Login").text();
+    if (value == "Log off") {
+        return;
+    }
+    window.location.href = "RegisterPage.html";
+});
+
 $("#MultiPlayer_Game").click(function (){
     var value = $("#Login").text();
     if (value == "Login") {

@@ -6,6 +6,8 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Http;
 using System.Web.Http.Description;
 using WebServer.Models;
@@ -14,7 +16,7 @@ namespace WebServer.Controllers
 {
     public class UsersController : ApiController
     {
-        private DBContext db = new DBContext();
+        private UserContext db = new UserContext();
 
         // GET: api/Users
         public IQueryable<User> GetUsers()
@@ -24,7 +26,7 @@ namespace WebServer.Controllers
 
         // GET: api/Users/5
         [ResponseType(typeof(User))]
-        public IHttpActionResult GetUser(string id)
+        public IHttpActionResult GetUser(string id, string password)
         {
             User user = db.Users.Find(id);
             if (user == null)
@@ -32,6 +34,10 @@ namespace WebServer.Controllers
                 return NotFound();
             }
 
+            if(!(ComputeHash(password).Equals(user.Password)))
+            {
+                return NotFound();
+            }
             return Ok(user);
         }
 
@@ -74,11 +80,13 @@ namespace WebServer.Controllers
         [ResponseType(typeof(User))]
         public IHttpActionResult AddUser(User user)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            user.Password = ComputeHash(user.Password);
             db.Users.Add(user);
 
             try
@@ -129,5 +137,15 @@ namespace WebServer.Controllers
         {
             return db.Users.Count(e => e.Id == id) > 0;
         }
+
+        private string ComputeHash(string input)
+        {
+            SHA1 sha = SHA1.Create();
+            byte[] buffer = Encoding.ASCII.GetBytes(input);
+            byte[] hash = sha.ComputeHash(buffer);
+            string hash64 = Convert.ToBase64String(hash);
+            return hash64;
+        }
+
     }
 }

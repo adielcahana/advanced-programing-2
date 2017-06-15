@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebServer.Models
 {
-    public class DBContext : DbContext
+    public class UserContext : DbContext
     {
         // You can add custom code to this file. Changes will not be overwritten.
         // 
@@ -15,7 +15,7 @@ namespace WebServer.Models
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
     
-        public DBContext() : base("name=UserContext")
+        public UserContext() : base("name=UserContext")
         {
         }
 
