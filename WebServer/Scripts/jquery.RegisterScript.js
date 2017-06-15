@@ -2,10 +2,9 @@
 
     var self = this;
     self.users = ko.observableArray();
-
     var UsersUri = '/api/Users/';
+
     self.addUser = function () {
-        alert("in function");
         var username = $('#Name').val();
         var password = $('#Password').val();
         var verifyPassword = $('#VerifyPassword').val();
@@ -14,6 +13,8 @@
             alert("password don't match to verify password");
             return;
         }
+
+        password = SHA1(password);
 
         var user = {
             Id: username,

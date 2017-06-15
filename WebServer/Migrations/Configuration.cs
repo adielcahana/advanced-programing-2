@@ -29,6 +29,8 @@ namespace WebServer.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+            User user1 = context.Users.Find("t");
+            context.Users.Remove(user1);
         }
     }
 }
