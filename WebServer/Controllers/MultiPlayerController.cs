@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MazeLib;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,27 @@ namespace WebServer.Controllers
         public JObject CreateList()
         {
             string list = model.CreateList();
-            JObject obj = JObject.Parse(list);
+            List<string> gamesList = JsonConvert.DeserializeObject<List<string>>(list);
+            JObject obj = new JObject();
+            obj["games"] = JToken.FromObject(gamesList);
+            return obj;
+        }
+
+        [HttpGet]
+        [Route("MultiPlayer/{name}/{row}/{col}/{username}")]
+        public JObject StartGame(string name, int row, int col, string username)
+        {
+            Maze maze = model.NewGame(name, row, col, username);
+            JObject obj = JObject.Parse(maze.ToJSON());
+            return obj;
+        }
+
+        [HttpGet]
+        [Route("MultiPlayer/{name}/{username}")]
+        public JObject JoinGame(string name, string username)
+        {
+            Maze maze = model.JoinGame(name, username);
+            JObject obj = JObject.Parse(maze.ToJSON());
             return obj;
         }
     }

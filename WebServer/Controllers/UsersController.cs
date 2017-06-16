@@ -16,7 +16,7 @@ namespace WebServer.Controllers
 {
     public class UsersController : ApiController
     {
-        private UserContext db = new UserContext();
+        private static UserContext db = new UserContext();
 
         // GET: api/Users
         public IQueryable<User> GetUsers()

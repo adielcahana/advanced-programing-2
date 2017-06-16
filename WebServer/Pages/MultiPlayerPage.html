@@ -17,10 +17,10 @@
                 <table class="menu">
                     <tr>
                         <td>Games:</td>
-                        <td><select data-bind ="options: Games, optionsText: 'Id'"></select></td>
+                        <td><select id="select" data-bind ="options: Games"></select></td>
                     </tr>
                     <tr>
-                        <td><input id="join" type="button" style="width:100px" value="Join" /></td>
+                        <td><input id="join" type="button" style="width:100px" value="Join" onclick="JoinGame"/></td>
                     </tr>
                     <tr>
                         <td> Maze name:</td>
@@ -42,11 +42,13 @@
             </div>
             <div class="col-md-4">
                 <h2>my board</h2>
+                <div class="loader"></div>
                 <canvas class="multiMaze" id="mazeCanvas" style="border: 2px black solid"></canvas>
             </div>
 
             <div class="col-md-4">
                 <h2>other player's board</h2>
+                <div class="loader"></div>
                 <canvas class="multiMaze" id="otherMazeCanvas" style="border: 2px black solid"></canvas>
             </div>
         </div>

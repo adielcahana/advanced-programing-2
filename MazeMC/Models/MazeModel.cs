@@ -119,6 +119,8 @@ namespace MazeMC.Models
 			    names.Add(name);
 
             names.Add("game1");
+            names.Add("game2");
+            names.Add("game3");
 
             return JsonConvert.SerializeObject(names, Formatting.Indented);
 	    }
@@ -133,22 +135,21 @@ namespace MazeMC.Models
 	    /// <returns>
 	    ///     the maze detailes
 	    /// </returns>
-	    public string NewGame(string name, int rows, int cols, string player1)
+	    public Maze NewGame(string name, int rows, int cols, string player1)
 	    {
 		    // check if the game exist
 		    if (_games.ContainsKey(name))
-			    return "name: " + name + " alredy taken";
+			    return null;
 		    // else create new game
 		    Maze maze = _generator.Generate(rows, cols);
 		    maze.Name = name;
 		    GameController controller = new GameController(this, name);
-//		    PlayerHandler playerHandler = new PlayerHandler(controller);
 		    Game game = new Game(maze, this);
 		    _games.Add(name, game);
-		    //game.AddPlayer(player1);
-//		    game.Initialize(playerHandler);
+		    game.AddPlayer(player1);
+		    //game.Initialize();
 		    game.Start();
-		    return maze.ToJSON();
+		    return maze;
 	    }
 
 	    /// <summary>
@@ -159,19 +160,19 @@ namespace MazeMC.Models
 	    /// <returns>
 	    ///     the maze detailes
 	    /// </returns>
-	    public string JoinGame(string name, TcpClient player2)
+	    public Maze JoinGame(string name, string player2)
 	    {
 		    Game game;
 		    if (_games.TryGetValue(name, out game))
 		    {
 			    if (game.IsStarted())
 			    {
-				    return "game: " + name + " is full";
+				    return null;
 			    }
 			    game.AddPlayer(player2);
-			    return game.Maze.ToJSON();
+			    return game.Maze;
 		    }
-		    return "the name: " + name + " does not exist";
+		    return null;
 	    }
 
 	    /// <summary>
@@ -179,7 +180,7 @@ namespace MazeMC.Models
 	    /// </summary>
 	    /// <param name="name">The name.</param>
 	    /// <param name="client">The client.</param>
-	    public void FinishGame(string name, TcpClient client)
+	    public void FinishGame(string name, string client)
 	    {
 		    _games[name].Finish();
 		    while (!_games[name].BothFinish())
@@ -196,7 +197,7 @@ namespace MazeMC.Models
 	    /// <param name="direction">The direction.</param>
 	    /// <param name="client">The client.</param>
 	    /// <returns></returns>
-	    public string AddMove(string name, string direction, TcpClient client)
+	    public string AddMove(string name, string direction, string client)
 	    {
 		    return _games[name].AddMove(direction, client);
 	    }
@@ -207,12 +208,32 @@ namespace MazeMC.Models
 	    /// <param name="name">The name.</param>
 	    /// <param name="client">The client.</param>
 	    /// <returns></returns>
-	    public string GetState(string name, TcpClient client)
+	    public string GetState(string name, string client)
 	    {
 		    return _games[name].GetState(client);
 	    }
 
         public string NewGame(string name, int rows, int cols, TcpClient player1)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string JoinGame(string name, TcpClient player2)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FinishGame(string name, TcpClient client)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string AddMove(string name, string direction, TcpClient client)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetState(string name, TcpClient client)
         {
             throw new NotImplementedException();
         }

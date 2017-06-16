@@ -199,7 +199,6 @@
     <Content Include="Scripts\knockout-3.4.2.debug.js" />
     <Content Include="Scripts\knockout-3.4.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\SHA1Script.js" />
     <Content Include="Styles\GeneralStyle.css" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
@@ -222,14 +221,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Migrations\201706152000221_Initial.cs" />
-    <Compile Include="Migrations\201706152000221_Initial.Designer.cs">
-      <DependentUpon>201706152000221_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706152048569_Initial1.cs" />
-    <Compile Include="Migrations\201706152048569_Initial1.Designer.cs">
-      <DependentUpon>201706152048569_Initial1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserContext.cs" />
@@ -270,14 +261,6 @@
       <Project>{12367745-207b-4c95-915e-b85faab8d452}</Project>
       <Name>SearchAlgorithmsLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706152000221_Initial.resx">
-      <DependentUpon>201706152000221_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706152048569_Initial1.resx">
-      <DependentUpon>201706152048569_Initial1.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

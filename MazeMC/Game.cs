@@ -26,8 +26,7 @@ namespace MazeMC
         ///     The input moves
         /// </summary>
         private readonly ConcurrentQueue<Move> _moves;
-
-        private readonly List<TcpClient> _players;
+        private readonly List<string> _players;
         private readonly List<Position> _positions;
 
         /// <summary>
@@ -51,7 +50,7 @@ namespace MazeMC
                 {Direction.Left.ToString(), Direction.Left}
             };
 
-            _players = new List<TcpClient>();
+            _players = new List<string>();
             _positions = new List<Position>();
             _moves = new ConcurrentQueue<Move>();
             _changes = new ConcurrentQueue<Move>();
@@ -68,7 +67,7 @@ namespace MazeMC
         ///     Adds the player.
         /// </summary>
         /// <param name="client">The client.</param>
-        public void AddPlayer(TcpClient client)
+        public void AddPlayer(string client)
         {
             _players.Add(client);
             _positions.Add(Maze.InitialPos);
@@ -92,13 +91,11 @@ namespace MazeMC
         ///     waiting for the next player to connect
         /// </summary>
         //todo add this again
-//        public void Initialize(IClientHandler playerHandler)
-//        {
-//            while (!_isPlayer2Connected)
-//                Thread.Sleep(10);
-//            playerHandler.HandleClient(_players[0]);
-//            playerHandler.HandleClient(_players[1]);
-//        }
+        public void Initialize()
+        {
+            while (!_isPlayer2Connected)
+                Thread.Sleep(10);
+        }
 
 
         /// <summary>
@@ -106,7 +103,7 @@ namespace MazeMC
         /// </summary>
         /// <param name="direction">The direction.</param>
         /// <param name="client">The client.</param>
-        public string AddMove(string direction, TcpClient client)
+        public string AddMove(string direction, string client)
         {
             Direction dir = new Direction();
             switch (direction)
@@ -138,7 +135,7 @@ namespace MazeMC
         /// <returns>
         ///     string represantation of the game state
         /// </returns>
-        public string GetState(TcpClient playerClient)
+        public string GetState(string playerClient)
         {
             int indexOfClient = _players.IndexOf(playerClient);
             //sleep while the client already read the next state, ot rhe state hasn't changed
