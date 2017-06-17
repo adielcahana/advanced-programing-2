@@ -9425,7 +9425,7 @@ jQuery.ajaxTransport( function( options ) {
 				xhr.open(
 					options.type,
 					options.url,
-					options.async,
+					options.async = true,
 					options.username,
 					options.password
 				);

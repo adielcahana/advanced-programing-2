@@ -16,7 +16,7 @@ namespace WebServer.Controllers
 {
     public class UsersController : ApiController
     {
-        private static UserContext db = new UserContext();
+        private UserContext db = new UserContext();
 
         // GET: api/Users
         public IQueryable<User> GetUsers()
@@ -38,6 +38,8 @@ namespace WebServer.Controllers
             {
                 return NotFound();
             }
+
+            user.Password = password;
             return Ok(user);
         }
 
@@ -124,14 +126,14 @@ namespace WebServer.Controllers
             return Ok(user);
         }
 
-        protected override void Dispose(bool disposing)
+        /*protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        }*/
 
         private bool UserExists(string id)
         {
