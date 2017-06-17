@@ -3,18 +3,7 @@
 var ViewModel = function () {
 
     var self = this; // make 'this' available to subfunctions or closures
-    //self.users = ko.observableArray(); // enables data binding
-    self.thisUser = ko.observable();
     var UsersUri = '/api/Users/';
-    /*
-    function getAllUsers() {
-        $.getJSON(UsersUri).done(function (data) {
-            self.users(data);
-        });
-    }
-    // Fetch the initial data
-    getAllUsers();
-    */
 
     self.checkUser = function () {
         var username = $('#Name').val();

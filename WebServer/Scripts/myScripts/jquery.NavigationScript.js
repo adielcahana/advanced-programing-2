@@ -1,6 +1,6 @@
 // JavaScript source code
-
 $(document).ready(function () {
+    async: true;
     if (sessionStorage.Connect == 1) {
         $("#Login").text("Log off");
         $("#Register").text("Hello " + sessionStorage.username + "!");
@@ -30,7 +30,7 @@ $("#Register").click(function () {
     window.location.href = "RegisterPage.html";
 });
 
-$("#MultiPlayer_Game").click(function (){
+$("#MultiPlayer_Game").click(function () {
     /*var value = $("#Login").text();
     if (value == "Login") {
         alert("For multiplayer game you need to login");
