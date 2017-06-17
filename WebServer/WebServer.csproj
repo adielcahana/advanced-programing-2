@@ -180,32 +180,31 @@
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Pages\SinglePlayerPage.html" />
     <Content Include="Pages\trainnig.html" />
-    <Content Include="Scripts\jquery.RegisterScript.js" />
+    <Content Include="Scripts\myScripts\jquery.RegisterScript.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
-    <Content Include="Scripts\jquery.LoginScript.js" />
-    <Content Include="Scripts\jquery.MultiPlayerScript.js" />
-    <Content Include="Scripts\jquery.LoadNav.js" />
+    <Content Include="Scripts\myScripts\jquery.LoginScript.js" />
+    <Content Include="Scripts\myScripts\jquery.MultiPlayerScript.js" />
+    <Content Include="Scripts\myScripts\jquery.LoadNav.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
-    <Content Include="Scripts\jquery.SinglePlayerScript.js" />
+    <Content Include="Scripts\myScripts\jquery.SinglePlayerScript.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\knockout-3.4.2.debug.js" />
     <Content Include="Scripts\knockout-3.4.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\RankingScript.js" />
     <Content Include="Styles\GeneralStyle.css" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-    <Content Include="Scripts\jquery.mazeBoard.js" />
-    <Content Include="Scripts\jquery.NavigationScript.js" />
-    <Content Include="Scripts\jquery.SettingsScript.js" />
+    <Content Include="Scripts\myScripts\jquery.mazeBoard.js" />
+    <Content Include="Scripts\myScripts\jquery.NavigationScript.js" />
+    <Content Include="Scripts\myScripts\jquery.SettingsScript.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Styles\MainPageStyle.css" />
@@ -221,14 +220,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\RanksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Migrations\201706172240315_Initial.cs" />
-    <Compile Include="Migrations\201706172240315_Initial.Designer.cs">
-      <DependentUpon>201706172240315_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201706161634446_Initial.cs" />
+    <Compile Include="Migrations\201706161634446_Initial.Designer.cs">
+      <DependentUpon>201706161634446_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Rank.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserContext.cs" />
     <Compile Include="App_Start\Startup.cs" />
@@ -238,6 +235,7 @@
     </Compile>
     <Compile Include="Models\MultiPlayerModel.cs" />
     <Compile Include="Models\SinglePlayerModel.cs" />
+    <Compile Include="Controllers\MultiplayerHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -270,8 +268,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706172240315_Initial.resx">
-      <DependentUpon>201706172240315_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706161634446_Initial.resx">
+      <DependentUpon>201706161634446_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

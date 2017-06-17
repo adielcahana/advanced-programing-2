@@ -7,7 +7,7 @@ using MazeMC;
 
 namespace WebServer.Models
 {
-	public class MultiPlayerModel : MazeModel
+	public class MultiPlayerModel : MazeMC.Models.MultiplayerModel
 	{
-    }
+	}
 }
