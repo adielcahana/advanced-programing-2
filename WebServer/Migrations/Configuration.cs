@@ -1,15 +1,14 @@
+using WebServer.Models;
+
 namespace WebServer.Migrations
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
-    using Models;
-    using MazeGeneratorLib;
 
     internal sealed class Configuration : DbMigrationsConfiguration<WebServer.Models.UserContext>
     {
-        DFSMazeGenerator mg = new DFSMazeGenerator();
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
@@ -22,17 +21,10 @@ namespace WebServer.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
             //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
+                context.Users.AddOrUpdate(
+                  new User { Id = "adiel", Password = "1234", Email = "adiel@gmail.com"}
+                );
             //
-            User user2 = context.Users.Find("bbb");
-            User user3 = context.Users.Find("ccc");
-            context.Users.Remove(user2);
-            context.Users.Remove(user3);
         }
     }
 }

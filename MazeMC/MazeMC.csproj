@@ -64,7 +64,8 @@
     <Compile Include="Controllers\ServerController.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Models\IModel.cs" />
-    <Compile Include="Models\MazeModel.cs" />
+    <Compile Include="Models\MultiplayerModel.cs" />
+    <Compile Include="Models\SingleplayerModel.cs" />
     <Compile Include="Move.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

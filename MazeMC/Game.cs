@@ -39,7 +39,7 @@ namespace MazeMC
         /// </summary>
         /// <param name="maze">The maze.</param>
         /// <param name="model">The model.</param>
-        public Game(Maze maze, MazeModel model)
+        public Game(Maze maze, MultiplayerModel model)
         {
             _playersReadCloseMessage = 0;
             _directions = new Dictionary<string, Direction>
@@ -63,15 +63,17 @@ namespace MazeMC
 
         public Maze Maze { get; }
 
-        /// <summary>
-        ///     Adds the player.
-        /// </summary>
-        /// <param name="client">The client.</param>
-        public void AddPlayer(string client)
+		public List<string> Players => _players;
+
+		/// <summary>
+		///     Adds the player.
+		/// </summary>
+		/// <param name="client">The client.</param>
+		public void AddPlayer(string clientId)
         {
-            _players.Add(client);
+            Players.Add(clientId);
             _positions.Add(Maze.InitialPos);
-            if (_players.Count == 2)
+            if (Players.Count == 2)
                 _isPlayer2Connected = true;
         }
 
@@ -83,7 +85,7 @@ namespace MazeMC
         /// </returns>
         public bool IsStarted()
         {
-            return _players.Count == 2;
+            return Players.Count == 2;
         }
 
         /// <summary>
@@ -103,7 +105,7 @@ namespace MazeMC
         /// </summary>
         /// <param name="direction">The direction.</param>
         /// <param name="client">The client.</param>
-        public string AddMove(string direction, string client)
+        public Move AddMove(string direction, string client)
         {
             Direction dir = new Direction();
             switch (direction)
@@ -121,23 +123,23 @@ namespace MazeMC
                     dir = Direction.Left;
                     break;
             }
-            int clientId = client == _players[0] ? 0 : 1;
+            int clientId = client.Equals(Players[0]) ? 0 : 1;
             Move move = new Move(dir, Maze.Name, clientId);
             _moves.Enqueue(move);
-            return move.ToJson();
+            return move;
         }
 
         /// <summary>
         ///     Gets the next game state.
         ///     responsible for passing the current state for both players before disposing it
         /// </summary>
-        /// <param name="playerClient">The player client.</param>
+        /// <param name="playerId">The player client.</param>
         /// <returns>
         ///     string represantation of the game state
         /// </returns>
-        public string GetState(string playerClient)
+        public string GetState(string playerId)
         {
-            int indexOfClient = _players.IndexOf(playerClient);
+            int indexOfClient = Players.IndexOf(playerId);
             //sleep while the client already read the next state, ot rhe state hasn't changed
             while (_changes.Count == 0 || _lastReaderIndex == indexOfClient)
                 Thread.Sleep(10);

@@ -7,7 +7,7 @@ namespace MazeMC
     /// <summary>
     ///     gives serialization abilities to move msg
     /// </summary>
-    internal class Move
+    public class Move
     {
 
         /// <summary>
