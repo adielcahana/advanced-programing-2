@@ -11,6 +11,8 @@ namespace MazeMC
 {
     public class Game
     {
+		public delegate void OnNewState(string name, string player1, string player2);
+	    public event OnNewState NewState;
         private static Dictionary<string, Direction> _directions;
 
         /// <summary>
@@ -139,29 +141,9 @@ namespace MazeMC
         /// </returns>
         public string GetState(string playerId)
         {
-            int indexOfClient = Players.IndexOf(playerId);
-            //sleep while the client already read the next state, ot rhe state hasn't changed
-            while (_changes.Count == 0 || _lastReaderIndex == indexOfClient)
-                Thread.Sleep(10);
-
             Move move;
-            lock (this)
-            {
-                // if the next state wasn't already read by one the players
-                if (_lastReaderIndex == -1)
-                {
-                    _changes.TryPeek(out move);
-                    _lastReaderIndex = indexOfClient;
-                }
-                else // if the next state was already read by one the players, dispose it
-                {
-                    _changes.TryDequeue(out move);
-                    _lastReaderIndex = -1;
-                }
-	            //case of closing state represented by irrelevant move
-	            if (move.ClientId == -1) _playersReadCloseMessage++;
-			}
-	        if (move.ClientId == -1) return "close";
+	        _changes.TryPeek(out move);
+	        //if (move.ClientId == -1) return "close";
 			return move.ToJson();
         }
 
@@ -210,6 +192,7 @@ namespace MazeMC
                 }
                 //update _changes with an irelevant Move that closes the game
                 _changes.Enqueue(new Move(Direction.Up, null));
+	            NewState(Maze.Name, _players[0], _players[1]);
             }).Start();
         }
 

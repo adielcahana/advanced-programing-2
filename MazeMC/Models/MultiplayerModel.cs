@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using System.Text;
 using MazeAdapterLib;
 using MazeGeneratorLib;
 using MazeLib;
@@ -13,6 +14,8 @@ namespace MazeMC.Models
 {
 	public class MultiplayerModel
 	{
+		public delegate void OnNewState(string name, string player1, string player2);
+		public event OnNewState NewState;
 		private readonly DFSMazeGenerator _generator;
 
 		/// <summary>
@@ -79,6 +82,10 @@ namespace MazeMC.Models
 			Maze maze = _generator.Generate(rows, cols);
 			maze.Name = name;
 			Game game = new Game(maze, this);
+			game.NewState += new Game.OnNewState(delegate (string gameName, string player1, string player2)
+			{
+				NewState(gameName, player1, player2);
+			});
 			_games.Add(name, game);
 			game.AddPlayer(playerId);
 			//game.Initialize();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using MazeLib;
 using MazeMC;
+using MazeMC.Models;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -15,6 +16,16 @@ namespace WebServer
 	{
 		private static MultiPlayerModel model = new MultiPlayerModel();
 
+		public MultiplayerHub()
+		{
+			model.NewState += new MultiplayerModel.OnNewState(delegate (string gameName, string player1, string player2)
+			{
+				string move = model.GetState(gameName, player1);
+				Clients.Client(player1).newState(move);
+				Clients.Client(player2).newState(move);
+			});
+		}
+		
 		public JObject CreateList()
 		{
 			string list = model.CreateList();
