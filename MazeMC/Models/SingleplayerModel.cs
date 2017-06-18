@@ -63,9 +63,11 @@ namespace MazeMC.Models
 		/// </returns>
 		public Maze GenerateMaze(string name, int row, int col)
 		{
-			if (_mazes.ContainsKey(name))
-				return null;
-			Maze maze = _generator.Generate(col, row);
+            Maze maze = null;
+            _mazes.TryGetValue(name, out maze);
+            if (maze != null)
+				return maze;
+			maze = _generator.Generate(col, row);
 			maze.Name = name;
 			//save the maze
 			_mazes.Add(name, maze);

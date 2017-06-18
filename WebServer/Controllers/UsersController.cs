@@ -83,14 +83,18 @@ namespace WebServer.Controllers
         public IHttpActionResult AddUser(User user)
         {
 
+            user.JoinDate = findDate(DateTime.Today.ToString());
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             user.Password = ComputeHash(user.Password);
-            db.Users.Add(user);
 
+            db.Users.Add(user);
+            Rank rank = new Rank() { Id = user.Id, JoinDate = user.JoinDate, GamesWon = 0, GamesLost = 0 };
+            db.Ranks.Add(rank);
             try
             {
                 db.SaveChanges();
@@ -148,6 +152,12 @@ namespace WebServer.Controllers
             string hash64 = Convert.ToBase64String(hash);
             return hash64;
         }
+
+        private string findDate(string date)
+        {
+            return date.Split()[0];
+        }
+
 
     }
 }

@@ -38,7 +38,11 @@ select {
 button:active {
     transform: translateY(4px);
 }
-th {
+table{
+    font-weight:bold;
+}
+th,td {
+    text-align:center;
     border: 1px solid white;
     color: white;
     margin-left: 50px;

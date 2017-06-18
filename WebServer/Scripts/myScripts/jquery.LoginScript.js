@@ -12,7 +12,7 @@ var ViewModel = function () {
 
             var user = data;
 
-            alert("wellcome " + user["Id"]);
+            alert("welcome " + user["Id"]);
             sessionStorage.Connect = 1;
             sessionStorage.username = user["Id"];
             window.location.href = "MainPage.html";

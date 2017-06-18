@@ -66,3 +66,7 @@ canvas {
 .Navigation{
     width:100%;
 }
+.multiMaze{
+    width: 400px;
+    height: 400px;
+}

@@ -21,10 +21,9 @@ namespace WebServer.Migrations
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data. E.g.
             //
-                context.Users.AddOrUpdate(
-                  new User { Id = "adiel", Password = "1234", Email = "adiel@gmail.com"}
-                );
-            //
+            context.Users.AddOrUpdate(
+                 new User() { Id = "aaa", Password = "aaa", Email = "aaa", JoinDate = "aaa" }
+            );
         }
     }
 }
