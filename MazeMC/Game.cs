@@ -142,7 +142,7 @@ namespace MazeMC
         public string GetState(string playerId)
         {
             Move move;
-	        _changes.TryPeek(out move);
+	        _changes.TryDequeue(out move);
 	        //if (move.ClientId == -1) return "close";
 			return move.ToJson();
         }
@@ -188,12 +188,13 @@ namespace MazeMC
                                 break;
                         }
                         _changes.Enqueue(move);
-                    }
+	                    NewState(Maze.Name, _players[0], _players[1]);
+					}
                 }
                 //update _changes with an irelevant Move that closes the game
                 _changes.Enqueue(new Move(Direction.Up, null));
 	            NewState(Maze.Name, _players[0], _players[1]);
-            }).Start();
+			}).Start();
         }
 
         /// <summary>

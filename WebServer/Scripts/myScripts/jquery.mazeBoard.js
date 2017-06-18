@@ -64,13 +64,13 @@
                 {
                     switch (direction)
                     {
-                    case "up":
+                    case "Up":
                         return this._data[this._playerRow - 1][this._playerCol] == 0;
-                    case "down":
+                    case "Down":
                         return this._data[this._playerRow + 1][this._playerCol] == 0;
-                    case "right":
+                    case "Right":
                         return this._data[this._playerRow][this._playerCol + 1] == 0;
-                    case"left":
+                    case"Left":
                         return this._data[this._playerRow][this._playerCol - 1] == 0;
                     default:
                         var e = new Error();
@@ -98,10 +98,10 @@
                 var width = this._canvas.width / cols;
                 var height = this._canvas.height / rows;
                 switch (direction) {
-                case "right":
+                case "Right":
                     this._player = this._playerRight;
                     break;
-                case "left":
+                case "Left":
                     this._player = this._playerLeft;
                     break;
                default:
@@ -109,19 +109,19 @@
                 }
                 if (this.isValidMove(direction)) {
                     switch (direction) {
-                    case "up":
+                    case "Up":
                         ctx.fillRect(width * this._playerCol, height * this._playerRow, width, height);
                         this._playerRow -= 1;
                         break;
-                    case "down":
+                    case "Down":
                         ctx.fillRect(width * this._playerCol, height * this._playerRow, width, height);
                         this._playerRow += 1;
                         break;
-                    case "right":
+                    case "Right":
                         ctx.fillRect(width * this._playerCol, height * this._playerRow, width, height);
                         this._playerCol += 1;
                         break;
-                    case "left":
+                    case "Left":
                         ctx.fillRect(width * this._playerCol, height * this._playerRow, width, height);
                         this._playerCol -= 1;
                         break;
@@ -153,16 +153,16 @@
                 function stage() {
                     switch (solution[i]) {
                         case 0: //left 
-                            board.move("left");
+                            board.move("Left");
                             break;
                         case 1:
-                            board.move("right");
+                            board.move("Right");
                             break;
                         case 2:
-                            board.move("up");
+                            board.move("Up");
                             break;
                         case 3:
-                            board.move("down");
+                            board.move("Down");
                             break;
                     }
                     if (i < solution.length) {

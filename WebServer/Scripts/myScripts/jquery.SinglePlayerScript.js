@@ -59,16 +59,16 @@ function startGame() {
         document.onkeydown = function (e) {
             switch (e.which) {
             case 37:
-                board.makeMove("left");
+                board.makeMove("Left");
                 break;
             case 38:
-                board.makeMove("up");
+                board.makeMove("Up");
                 break;
             case 39:
-                board.makeMove("right");
+                board.makeMove("Right");
                 break;
             case 40:
-                board.makeMove("down");
+                board.makeMove("Down");
                 break;
             default:
                 break;

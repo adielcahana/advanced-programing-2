@@ -15,38 +15,50 @@ namespace WebServer
 	public class MultiplayerHub : Hub
 	{
 		private static MultiPlayerModel model = new MultiPlayerModel();
+		private static bool firstConnection = true;
 
 		public MultiplayerHub()
 		{
-			model.NewState += new MultiplayerModel.OnNewState(delegate (string gameName, string player1, string player2)
+			if (firstConnection)
 			{
-				string move = model.GetState(gameName, player1);
-				Clients.Client(player1).newState(move);
-				Clients.Client(player2).newState(move);
-			});
+				model.NewState += new MultiplayerModel.OnNewState(delegate(string gameName, string player1, string player2)
+				{
+					string move = model.GetState(gameName, player1);
+					JObject obj = JObject.Parse(move);
+					Clients.Client(player1).newState(obj);
+					Clients.Client(player2).newState(obj);
+				});
+				firstConnection = false;
+			}
 		}
 		
-		public JObject CreateList()
+		public void CreateList()
 		{
 			string list = model.CreateList();
 			List<string> gamesList = JsonConvert.DeserializeObject<List<string>>(list);
 			JObject obj = new JObject();
 			obj["games"] = JToken.FromObject(gamesList);
-			return obj;
+			Clients.Client(Context.ConnectionId).list(obj);
 		}
 
-		public JObject StartGame(string name, int row, int col)
+		public void StartGame(string name, int row, int col)
 		{
 			Maze maze = model.NewGame(name, row, col, getClientId());
 			JObject obj = JObject.Parse(maze.ToJSON());
-			return obj;
+			Clients.Client(Context.ConnectionId).createGame(obj);
+			//push new game to all clients
+			string list = model.CreateList();
+			List<string> gamesList = JsonConvert.DeserializeObject<List<string>>(list);
+			obj = new JObject();
+			obj["games"] = JToken.FromObject(gamesList);
+			Clients.All.list(obj);
 		}
 
-		public JObject JoinGame(string name)
+		public void JoinGame(string name)
 		{
 			Maze maze = model.JoinGame(name, getClientId());
 			JObject obj = JObject.Parse(maze.ToJSON());
-			return obj;
+			Clients.Client(Context.ConnectionId).createGame(obj);
 		}
 
 		public void FinishGame(string name)
@@ -54,12 +66,9 @@ namespace WebServer
 			model.FinishGame(name, getClientId());
 		}
 
-		public JObject AddMove(string name, string direction)
+		public void AddMove(string name, string direction)
 		{
 			model.AddMove(name, direction, getClientId());
-			string state = model.GetState(name, getClientId());
-			JObject obj = JObject.Parse(state);
-			return obj;
 		}
 
 		private string getClientId()
