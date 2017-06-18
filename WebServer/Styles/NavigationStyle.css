@@ -3,31 +3,27 @@
     display: inline;
 }
 nav {
-    width:100%;
     background-color: black;
     color: gray;
 }
 a {
     margin: 0px 0px 0px 20px;
-    background-color: black;
     color: gray;
     padding: 20px 20px;
     text-align: center;
     display: inline-block;
     font-size: 20px;
-    padding: 15px 25px;
     cursor: pointer;
     text-decoration: none;
     outline: none;
     border: none;
 }
+.navbar-right{
+    margin: 0px 0px 0px 0px;
+}
 a:active {
     transform: translateY(4px);
 }
-.rightSide{
-    float:right;
-}
 .navbar{
-    width:100%;
     background-color:black;
 }

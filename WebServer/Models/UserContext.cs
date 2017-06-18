@@ -20,5 +20,7 @@ namespace WebServer.Models
         }
 
         public System.Data.Entity.DbSet<WebServer.Models.User> Users { get; set; }
+
+        public System.Data.Entity.DbSet<WebServer.Models.Rank> Ranks { get; set; }
     }
 }
