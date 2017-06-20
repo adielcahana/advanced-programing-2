@@ -49,7 +49,6 @@ function StartGame() {
     id = 0;
     $("#mazeCanvas").hide();
     $(".loader").show();
-    alert("wait for second player");
     var name = $("#Name").val();
     var rows = $("#Rows").val();
     var cols = $("#Cols").val();
@@ -64,7 +63,31 @@ function JoinGame() {
     game.server.joinGame(name);
 }
 
-game.client.createGame = function(data) {
+function OnKeyPress(e) {
+    switch (e.which) {
+    case 37:
+        game.server.addMove(board._name, "Left");
+        break;
+    case 38:
+        game.server.addMove(board._name, "Up");
+        break;
+    case 39:
+        game.server.addMove(board._name, "Right");
+        break;
+    case 40:
+        game.server.addMove(board._name, "Down");
+        break;
+    default:
+        break;
+    }
+}
+
+game.client.initGame = function (data) {
+    if (data["msg"] != undefined) {
+        alert(data["msg"]);
+        $(".loader").hide();
+        return;
+    }
     var cols = data["Cols"];
     var maze = [];
     var row = [];
@@ -81,7 +104,7 @@ game.client.createGame = function(data) {
         }
     };
     maze.push(row);
-    board = $("#mazeCanvas").mazeBoard(name,
+    board = $("#mazeCanvas").mazeBoard(data["Name"],
         maze,
         data["Start"]["Row"],
         data["Start"]["Col"],
@@ -92,7 +115,7 @@ game.client.createGame = function(data) {
         exit,
         wall,
         true);
-    otherBoard = $("#otherMazeCanvas").mazeBoard(name,
+    otherBoard = $("#otherMazeCanvas").mazeBoard(data["Name"],
         maze,
         data["Start"]["Row"],
         data["Start"]["Col"],
@@ -103,31 +126,27 @@ game.client.createGame = function(data) {
         exit,
         wall,
         true);
-    document.onkeydown = function (e) {
-        switch (e.which) {
-        case 37:
-            game.server.addMove(data["Name"], "Left");
-            break;
-        case 38:
-            game.server.addMove(data["Name"], "Up");
-            break;
-        case 39:
-            game.server.addMove(data["Name"], "Right");
-            break;
-        case 40:
-            game.server.addMove(data["Name"], "Down");            
-            break;
-        default:
-            break;
-        }
+    alert("waiting for second player");
+    if (id == 1) {
+        document.onkeydown = OnKeyPress;
+        board.drawMaze();
+        otherBoard.drawMaze();
+        $(".loader").hide();
+        $("#mazeCanvas").show();
+        $("#otherMazeCanvas").show();
+        document.title = name;
     }
+};
+
+game.client.startGame = function() {
+    document.onkeydown = OnKeyPress;
     board.drawMaze();
     otherBoard.drawMaze();
     $(".loader").hide();
     $("#mazeCanvas").show();
     $("#otherMazeCanvas").show();
     document.title = name;
-};
+}
 
 $("#join")[0].onclick = JoinGame;
 $("#start")[0].onclick = StartGame;

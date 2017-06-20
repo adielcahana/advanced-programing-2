@@ -20,7 +20,12 @@ namespace WebServer.Controllers
 	    public JObject GenerateMaze(string name, int row, int col)
 	    {
 		    Maze maze = model.GenerateMaze(name, row, col);
-			JObject obj = JObject.Parse(maze.ToJSON());
+		    JObject obj;
+			if (maze == null)
+			{
+				return null;
+			}
+			obj = JObject.Parse(maze.ToJSON());
 		    return obj;
 	    }
 

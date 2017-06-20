@@ -11,6 +11,8 @@ namespace MazeMC
 {
     public class Game
     {
+	    public delegate void OnGameStart(string player1, string player2);
+	    public event OnGameStart GameStart;
 		public delegate void OnNewState(string name, string player1, string player2);
 	    public event OnNewState NewState;
         private static Dictionary<string, Direction> _directions;
@@ -75,8 +77,11 @@ namespace MazeMC
         {
             Players.Add(clientId);
             _positions.Add(Maze.InitialPos);
-            if (Players.Count == 2)
-                _isPlayer2Connected = true;
+	        if (Players.Count == 2)
+	        {
+				_isPlayer2Connected = true;
+		        GameStart(_players[0], _players[1]);
+			}
         }
 
         /// <summary>
@@ -95,11 +100,11 @@ namespace MazeMC
         ///     waiting for the next player to connect
         /// </summary>
         //todo add this again
-        public void Initialize()
+        private void Initialize()
         {
             while (!_isPlayer2Connected)
                 Thread.Sleep(10);
-        }
+		}
 
 
         /// <summary>

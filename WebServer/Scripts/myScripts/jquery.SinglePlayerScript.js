@@ -46,7 +46,7 @@ function startGame() {
             }
         };
         maze.push(row);
-        board = $("#mazeCanvas").mazeBoard(name, maze,
+        board = $("#mazeCanvas").mazeBoard(data["Name"], maze,
             data["Start"]["Row"],
             data["Start"]["Col"],
             data["End"]["Row"],
@@ -72,6 +72,10 @@ function startGame() {
                 break;
             default:
                 break;
+            }
+            if (board.gameFinished() == true) {
+                alert("You won!");
+                window.location.replace("/Pages/MainPage.html");
             }
         }
         board.drawMaze();

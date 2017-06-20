@@ -28,6 +28,10 @@ namespace WebServer
 					Clients.Client(player1).newState(obj);
 					Clients.Client(player2).newState(obj);
 				});
+				model.GameStart += new MultiplayerModel.OnGameStart(delegate (string player1, string player2)
+				{
+					Clients.Client(player1).startGame();
+				});
 				firstConnection = false;
 			}
 		}
@@ -43,22 +47,50 @@ namespace WebServer
 
 		public void StartGame(string name, int row, int col)
 		{
+			JObject obj;
 			Maze maze = model.NewGame(name, row, col, getClientId());
-			JObject obj = JObject.Parse(maze.ToJSON());
-			Clients.Client(Context.ConnectionId).createGame(obj);
-			//push new game to all clients
-			string list = model.CreateList();
-			List<string> gamesList = JsonConvert.DeserializeObject<List<string>>(list);
-			obj = new JObject();
-			obj["games"] = JToken.FromObject(gamesList);
-			Clients.All.list(obj);
+			if (maze == null)
+			{
+				obj = new JObject
+				{
+					["msg"] = "name already exist"
+				};
+			}
+			else
+			{
+				obj = JObject.Parse(maze.ToJSON());
+				//push new game to all clients lists
+				string list = model.CreateList();
+				List<string> gamesList = JsonConvert.DeserializeObject<List<string>>(list);
+				JObject gamesListObj = new JObject();
+				gamesListObj["games"] = JToken.FromObject(gamesList);
+				Clients.All.list(gamesListObj);
+			}
+			Clients.Client(Context.ConnectionId).initGame(obj);
 		}
 
 		public void JoinGame(string name)
 		{
+			JObject obj;
 			Maze maze = model.JoinGame(name, getClientId());
-			JObject obj = JObject.Parse(maze.ToJSON());
-			Clients.Client(Context.ConnectionId).createGame(obj);
+			if (maze == null)
+			{
+				obj = new JObject
+				{
+					["msg"] = "game already full"
+				};
+			}
+			else
+			{
+				obj = JObject.Parse(maze.ToJSON());
+				//remove game name from clients list
+				string list = model.CreateList();
+				List<string> gamesList = JsonConvert.DeserializeObject<List<string>>(list);
+				JObject gamesListObj = new JObject();
+				gamesListObj["games"] = JToken.FromObject(gamesList);
+				Clients.All.list(gamesListObj);
+			}
+			Clients.Client(Context.ConnectionId).initGame(obj);
 		}
 
 		public void FinishGame(string name)

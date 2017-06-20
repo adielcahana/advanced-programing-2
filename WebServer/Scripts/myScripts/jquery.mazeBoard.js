@@ -85,6 +85,10 @@
                 }  
             }
 
+            gameFinished() {
+                return this._playerCol == this._exitCol && this._playerRow == this._exitRow;
+            }
+
             makeMove(direction) {
                 if (this._isEnabled == true) {
                     this.move(direction);

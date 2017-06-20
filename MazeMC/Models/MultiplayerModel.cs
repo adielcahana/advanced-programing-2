@@ -14,6 +14,8 @@ namespace MazeMC.Models
 {
 	public class MultiplayerModel
 	{
+		public delegate void OnGameStart(string player1, string player2);
+		public event OnGameStart GameStart;
 		public delegate void OnNewState(string name, string player1, string player2);
 		public event OnNewState NewState;
 		private readonly DFSMazeGenerator _generator;
@@ -54,8 +56,9 @@ namespace MazeMC.Models
 			//   return "no games avaliable";
 			List<string> names = new List<string>(_games.Keys.Count);
 			foreach (string name in _games.Keys)
-				names.Add(name);
-
+			{
+				if (!_games[name].IsStarted()) names.Add(name);
+			}
 			names.Add("game1");
 			names.Add("game2");
 			names.Add("game3");
@@ -85,6 +88,10 @@ namespace MazeMC.Models
 			game.NewState += new Game.OnNewState(delegate (string gameName, string player1, string player2)
 			{
 				NewState(gameName, player1, player2);
+			});
+			game.GameStart += new Game.OnGameStart(delegate (string player1, string player2)
+			{
+				GameStart(player1, player2);
 			});
 			_games.Add(name, game);
 			game.AddPlayer(playerId);

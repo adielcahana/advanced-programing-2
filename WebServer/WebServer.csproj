@@ -165,7 +165,6 @@
     <Content Include="images\goal.png" />
     <Content Include="images\MazeGif.gif" />
     <Content Include="images\wall.png" />
-    <Content Include="Pages\example.html" />
     <Content Include="Pages\LoginPage.html" />
     <Content Include="Pages\MainPage.html" />
     <Content Include="Pages\MultiPlayerPage.html" />
