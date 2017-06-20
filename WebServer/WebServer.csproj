@@ -199,7 +199,7 @@
     <Content Include="Scripts\knockout-3.4.2.debug.js" />
     <Content Include="Scripts\knockout-3.4.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\RankingScript.js" />
+    <Content Include="Scripts\myScripts\RankingScrips.js" />
     <Content Include="Styles\GeneralStyle.css" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.1.1.min.map" />
@@ -223,22 +223,18 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\RanksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Migrations\201706161634446_Initial.cs" />
-    <Compile Include="Migrations\201706161634446_Initial.Designer.cs">
-      <DependentUpon>201706161634446_Initial.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Rank.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserContext.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\SinglePlayerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\MultiplayerHub.cs" />
     <Compile Include="Models\MultiPlayerModel.cs" />
-    <Compile Include="Models\Rank.cs" />
     <Compile Include="Models\SinglePlayerModel.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserContext.cs" />
+    <Compile Include="Controllers\MultiplayerHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -269,11 +265,6 @@
       <Project>{12367745-207b-4c95-915e-b85faab8d452}</Project>
       <Name>SearchAlgorithmsLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706161634446_Initial.resx">
-      <DependentUpon>201706161634446_Initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
