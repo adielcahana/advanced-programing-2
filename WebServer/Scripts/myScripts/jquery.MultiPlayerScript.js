@@ -26,6 +26,14 @@ game.client.newState = function(move) {
     } else {
         otherBoard.makeMove(move["Direction"]);
     }
+    if (board.gameFinished() == true) {
+        game.server.finishGame(board._name);
+    }
+};
+
+game.client.finishGame = function (msg) {
+    alert(msg["msg"]);
+    window.location.replace("/Pages/MainPage.html");
 };
 
 function MultiplayerVM() {
@@ -58,8 +66,12 @@ function StartGame() {
 function JoinGame() {
     id = 1;
     $("#mazeCanvas").hide();
-    $(".loader").show();
     var name = $("#select").val();
+    if (name == undefined) {
+        alert("You need to choose game");
+        return;
+    }
+    $(".loader").show();
     game.server.joinGame(name);
 }
 

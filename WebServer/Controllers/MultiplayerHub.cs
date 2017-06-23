@@ -32,7 +32,21 @@ namespace WebServer
 				{
 					Clients.Client(player1).startGame();
 				});
-				firstConnection = false;
+                model.GameFinish += new MultiplayerModel.OnGameFinish(delegate (string gameName, string player1, string player2)
+                {
+                    JObject obj = new JObject
+                    {
+                        ["msg"] = "You Won!"
+                    };
+                    Clients.Client(player1).finishGame(obj);
+                    obj = new JObject
+                    {
+                        ["msg"] = "You Lose!"
+                    };
+                    Clients.Client(player2).finishGame(obj);
+                    model.SetFinishMessageSent(gameName);
+                });
+                firstConnection = false;
 			}
 		}
 		

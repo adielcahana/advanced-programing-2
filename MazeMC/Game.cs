@@ -15,6 +15,8 @@ namespace MazeMC
 	    public event OnGameStart GameStart;
 		public delegate void OnNewState(string name, string player1, string player2);
 	    public event OnNewState NewState;
+        public delegate void OnGameFinish(string name, string player1, string player2);
+        public event OnGameFinish GameFinish;
         private static Dictionary<string, Direction> _directions;
 
         /// <summary>
@@ -22,10 +24,10 @@ namespace MazeMC
         /// </summary>
         private readonly ConcurrentQueue<Move> _changes;
 
-        private int _playersReadCloseMessage;
+        private bool _finishMessageSentToPlayers;
         private bool _gameFinished;
         private bool _isPlayer2Connected;
-        
+        private string _winner;
         /// <summary>
         ///     The input moves
         /// </summary>
@@ -45,7 +47,7 @@ namespace MazeMC
         /// <param name="model">The model.</param>
         public Game(Maze maze, MultiplayerModel model)
         {
-            _playersReadCloseMessage = 0;
+            _finishMessageSentToPlayers = false;
             _directions = new Dictionary<string, Direction>
             {
                 {Direction.Up.ToString(), Direction.Up},
@@ -155,8 +157,9 @@ namespace MazeMC
         /// <summary>
         ///     Finishes the game.
         /// </summary>
-        public void Finish()
+        public void Finish(string winner)
         {
+            _winner = winner;
             _gameFinished = true;
         }
 
@@ -198,8 +201,19 @@ namespace MazeMC
                 }
                 //update _changes with an irelevant Move that closes the game
                 _changes.Enqueue(new Move(Direction.Up, null));
-	            NewState(Maze.Name, _players[0], _players[1]);
+                if (_players[0].Equals(_winner)){
+                    GameFinish(Maze.Name, _players[0], _players[1]);
+                }
+                else
+                {
+                    GameFinish(Maze.Name, _players[1], _players[0]);
+                }
 			}).Start();
+        }
+
+        public void SetFinishMessageSent()
+        {
+            _finishMessageSentToPlayers = true;
         }
 
         /// <summary>
@@ -208,7 +222,7 @@ namespace MazeMC
         /// <returns></returns>
         public bool BothFinish()
         {
-            return _playersReadCloseMessage == 2;
+            return _finishMessageSentToPlayers;
         }
     }
 }

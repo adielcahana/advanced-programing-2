@@ -15,12 +15,6 @@ namespace WebServer
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "GetList",
-                routeTemplate: "api/{controller}",
-                defaults: new { controller = "MultiPlayer" }
-            );
-
-            config.Routes.MapHttpRoute(
                 name: "GetUser",
                 routeTemplate: "api/{controller}/{id}/{Password}",
                 defaults: new { controller = "User" }

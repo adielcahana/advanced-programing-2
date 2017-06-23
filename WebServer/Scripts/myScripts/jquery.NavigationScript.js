@@ -16,10 +16,10 @@ $("#Login").click(function () {
     if (value == "Log off") {
         sessionStorage.Connect = 0;
         alert("You Log off");
-        window.location.href = "MainPage.html";
+        window.location.replace("MainPage.html");
         return;
     }
-    window.location.href = "LoginPage.html";
+    window.location.replace("LoginPage.html");
 });
 
 $("#Register").click(function () {
@@ -27,15 +27,15 @@ $("#Register").click(function () {
     if (value == "Log off") {
         return;
     }
-    window.location.href = "RegisterPage.html";
+    window.location.replace("RegisterPage.html");
 });
 
 $("#MultiPlayer_Game").click(function () {
     /*var value = $("#Login").text();
     if (value == "Login") {
         alert("For multiplayer game you need to login");
-        window.location.href = "LoginPage.html";
+        window.location.replace("LoginPage.html");
         return;
     }*/
-    window.location.href = "MultiPlayerPage.html";
+    window.location.replace("MultiPlayerPage.html");
 });

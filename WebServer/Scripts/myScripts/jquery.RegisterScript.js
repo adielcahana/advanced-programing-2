@@ -19,9 +19,22 @@
             Password: password,
             Email: email
         };
-        $.post(UsersUri, user).done(function (item) { self.users.push(item); });
-        alert("User registered successfully");
-        window.location.href = "MainPage.html";
+        $.post(UsersUri, user).done(function (item) {
+            self.users.push(item);
+            alert("User registered successfully");
+            window.location.replace("MainPage.html");
+        })
+        .fail(function (jqXHR, status, errorThrown) {
+            if (errorThrown == "BadRequest") {
+                alert('Wrong details');
+            }
+            else if (errorThrown == "Conflict") {
+                alert('Username allredy exist');
+            }
+            else {
+                alert('Failed send request to server');
+            }
+        })
     }
 };
 ko.applyBindings(new ViewModel());

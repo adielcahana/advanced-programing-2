@@ -18,7 +18,9 @@ namespace MazeMC.Models
 		public event OnGameStart GameStart;
 		public delegate void OnNewState(string name, string player1, string player2);
 		public event OnNewState NewState;
-		private readonly DFSMazeGenerator _generator;
+        public delegate void OnGameFinish(string name, string player1, string player2);
+        public event OnGameFinish GameFinish;
+        private readonly DFSMazeGenerator _generator;
 
 		/// <summary>
 		///     The mazes cache
@@ -59,10 +61,6 @@ namespace MazeMC.Models
 			{
 				if (!_games[name].IsStarted()) names.Add(name);
 			}
-			names.Add("game1");
-			names.Add("game2");
-			names.Add("game3");
-
 			return JsonConvert.SerializeObject(names, Formatting.Indented);
 		}
 
@@ -93,7 +91,11 @@ namespace MazeMC.Models
 			{
 				GameStart(player1, player2);
 			});
-			_games.Add(name, game);
+            game.GameFinish += new Game.OnGameFinish(delegate (string gameName, string player1, string player2)
+            {
+                GameFinish(gameName, player1, player2);
+            });
+            _games.Add(name, game);
 			game.AddPlayer(playerId);
 			//game.Initialize();
 			game.Start();
@@ -130,22 +132,27 @@ namespace MazeMC.Models
 		/// <param name="client">The clientId.</param>
 		public void FinishGame(string name, string client)
 		{
-			_games[name].Finish();
-			while (!_games[name].BothFinish())
+			_games[name].Finish(client);
+            while (!_games[name].BothFinish())
 			{
 				System.Threading.Thread.Sleep(10);
 			}
 			_games.Remove(name);
 		}
 
-		/// <summary>
-		/// Adds move to the given game
-		/// </summary>
-		/// <param name="name">The name.</param>
-		/// <param name="direction">The direction.</param>
-		/// <param name="clientId">The clientId.</param>
-		/// <returns></returns>
-		public Move AddMove(string name, string direction, string clientId)
+        public void SetFinishMessageSent(string name)
+        {
+            _games[name].SetFinishMessageSent();
+        }
+
+        /// <summary>
+        /// Adds move to the given game
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="direction">The direction.</param>
+        /// <param name="clientId">The clientId.</param>
+        /// <returns></returns>
+        public Move AddMove(string name, string direction, string clientId)
 		{
 			return _games[name].AddMove(direction, clientId);
 		}

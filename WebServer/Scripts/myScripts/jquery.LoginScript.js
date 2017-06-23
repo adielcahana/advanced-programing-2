@@ -2,7 +2,7 @@
 
 var ViewModel = function () {
 
-    var self = this; // make 'this' available to subfunctions or closures
+    var self = this;
     var UsersUri = '/api/Users/';
 
     self.checkUser = function () {
@@ -15,8 +15,16 @@ var ViewModel = function () {
             alert("welcome " + user["Id"]);
             sessionStorage.Connect = 1;
             sessionStorage.username = user["Id"];
-            window.location.href = "MainPage.html";
-        });
+            window.location.replace("MainPage.html");
+        })
+        .fail(function (jqXHR, status, errorThrown) {
+            if (errorThrown == "Not Found") {
+                alert('Wrong username or password');
+            }
+            else {
+                alert('Failed send request to server');
+            }
+        })
     }
 };
 ko.applyBindings(new ViewModel());
