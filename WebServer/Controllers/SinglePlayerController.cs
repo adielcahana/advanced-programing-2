@@ -20,7 +20,7 @@ namespace WebServer.Controllers
 		/// <summary>
 		/// The Single Player model
 		/// </summary>
-		private static SinglePlayerModel model = new SinglePlayerModel();
+		private static SingleplayerModel model = new SingleplayerModel();
 
 		/// <summary>
 		/// Generates the maze.

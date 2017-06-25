@@ -12,16 +12,34 @@ using WebServer.Models;
 
 namespace WebServer
 {
+	/// <summary>
+	/// signalR hub for multiplayer game
+	/// </summary>
+	/// <seealso cref="Microsoft.AspNet.SignalR.Hub" />
 	public class MultiplayerHub : Hub
 	{
-		private static MultiPlayerModel model = new MultiPlayerModel();
-        private UserContext db = new UserContext();
-        private static bool firstConnection = true;
+		/// <summary>
+		/// The model
+		/// </summary>
+		private static MultiplayerModel model = new MultiplayerModel();
+		/// <summary>
+		/// The database
+		/// </summary>
+		private UserContext db = new UserContext();
+		/// <summary>
+		/// indicates if the connection is the first
+		/// </summary>
+		private static bool firstConnection = true;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MultiplayerHub"/> class.
+		/// </summary>
 		public MultiplayerHub()
 		{
+			//initialize model events in the first connection
 			if (firstConnection)
 			{
+				//defines what happens when a new move is avaliable
 				model.NewState += new MultiplayerModel.OnNewState(delegate(string gameName, string player1, string player2)
 				{
 					string move = model.GetState(gameName, player1);
@@ -29,11 +47,13 @@ namespace WebServer
 					Clients.Client(player1).newState(obj);
 					Clients.Client(player2).newState(obj);
 				});
+				//defines what happens when a new game is avaliable
 				model.GameStart += new MultiplayerModel.OnGameStart(delegate (string player1, string player2)
 				{
 					Clients.Client(player1).startGame();
 				});
-                model.GameFinish += new MultiplayerModel.OnGameFinish(delegate (string gameName, string winner, string loser)
+				//defines what happens when a game has ended
+				model.GameFinish += new MultiplayerModel.OnGameFinish(delegate (string gameName, string winner, string loser)
                 {
                     string winnerUsername = model.GetUsernameById(gameName, winner);
                     JObject obj = new JObject
@@ -41,10 +61,9 @@ namespace WebServer
                         ["msg"] = "You Won!"
                     };
                     Clients.Client(winner).finishGame(obj);
+					//updates the db ranks
                     Rank winnerRank = db.Ranks.Find(winnerUsername);
-//                    db.Ranks.Remove(winnerRank);
                     winnerRank.GamesWon++;
-//                    db.Ranks.Add(winnerRank);
                     string loserUsername = model.GetUsernameById(gameName, loser);
                     obj = new JObject
                     {
@@ -52,9 +71,7 @@ namespace WebServer
                     };
                     Clients.Client(loser).finishGame(obj);
                     Rank loserRank = db.Ranks.Find(loserUsername);
-//                    db.Ranks.Remove(loserRank);
                     loserRank.GamesLost++;
-//                    db.Ranks.Add(loserRank);
                     model.SetFinishMessageSent(gameName);
                     db.SaveChanges();
                 });

@@ -14,6 +14,18 @@ namespace WebServer
 		public static void Register(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
-        }
+
+	        config.Routes.MapHttpRoute(
+		        name: "GetUser",
+		        routeTemplate: "api/{controller}/{id}/{Password}",
+		        defaults: new {controller = "User"}
+	        );
+
+	        config.Routes.MapHttpRoute(
+		        name: "DefaultApi",
+		        routeTemplate: "api/{controllser}/{id}",
+		        defaults: new { id = RouteParameter.Optional }
+	        );
+		}
     }
 }

@@ -222,6 +222,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\RanksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Migrations\201706252007320_Initial.cs" />
+    <Compile Include="Migrations\201706252007320_Initial.Designer.cs">
+      <DependentUpon>201706252007320_Initial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Rank.cs" />
     <Compile Include="Models\User.cs" />
@@ -231,8 +235,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\MultiPlayerModel.cs" />
-    <Compile Include="Models\SinglePlayerModel.cs" />
     <Compile Include="Controllers\MultiplayerHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -263,6 +265,11 @@
       <Project>{12367745-207b-4c95-915e-b85faab8d452}</Project>
       <Name>SearchAlgorithmsLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201706252007320_Initial.resx">
+      <DependentUpon>201706252007320_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
