@@ -15,7 +15,8 @@ namespace WebServer
 	public class MultiplayerHub : Hub
 	{
 		private static MultiPlayerModel model = new MultiPlayerModel();
-		private static bool firstConnection = true;
+        private UserContext db = new UserContext();
+        private static bool firstConnection = true;
 
 		public MultiplayerHub()
 		{
@@ -32,18 +33,26 @@ namespace WebServer
 				{
 					Clients.Client(player1).startGame();
 				});
-                model.GameFinish += new MultiplayerModel.OnGameFinish(delegate (string gameName, string player1, string player2)
+                model.GameFinish += new MultiplayerModel.OnGameFinish(delegate (string gameName, string winner, string loser)
                 {
+                    string winnerUsername = model.GetUsernameById(gameName, winner);
                     JObject obj = new JObject
                     {
                         ["msg"] = "You Won!"
                     };
-                    Clients.Client(player1).finishGame(obj);
+                    Clients.Client(winner).finishGame(obj);
+                    Rank winnerRank = db.Ranks.Find(winnerUsername);
+                    winnerRank.GamesWon++;
+                    db.Ranks.Add(winnerRank);
+                    string loserUsername = model.GetUsernameById(gameName, loser);
                     obj = new JObject
                     {
                         ["msg"] = "You Lose!"
                     };
-                    Clients.Client(player2).finishGame(obj);
+                    Clients.Client(loser).finishGame(obj);
+                    Rank loserRank = db.Ranks.Find(loserUsername);
+                    loserRank.GamesLost++;
+                    db.Ranks.Add(loserRank);
                     model.SetFinishMessageSent(gameName);
                 });
                 firstConnection = false;
@@ -59,10 +68,10 @@ namespace WebServer
 			Clients.Client(Context.ConnectionId).list(obj);
 		}
 
-		public void StartGame(string name, int row, int col)
+		public void StartGame(string name, int row, int col, string username)
 		{
 			JObject obj;
-			Maze maze = model.NewGame(name, row, col, getClientId());
+			Maze maze = model.NewGame(name, row, col, getClientId(), username);
 			if (maze == null)
 			{
 				obj = new JObject
@@ -83,10 +92,10 @@ namespace WebServer
 			Clients.Client(Context.ConnectionId).initGame(obj);
 		}
 
-		public void JoinGame(string name)
+		public void JoinGame(string name, string username)
 		{
 			JObject obj;
-			Maze maze = model.JoinGame(name, getClientId());
+			Maze maze = model.JoinGame(name, getClientId(), username);
 			if (maze == null)
 			{
 				obj = new JObject

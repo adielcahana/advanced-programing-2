@@ -31,11 +31,11 @@ $("#Register").click(function () {
 });
 
 $("#MultiPlayer_Game").click(function () {
-    /*var value = $("#Login").text();
+    var value = $("#Login").text();
     if (value == "Login") {
         alert("For multiplayer game you need to login");
         window.location.replace("LoginPage.html");
         return;
-    }*/
+    }
     window.location.replace("MultiPlayerPage.html");
 });

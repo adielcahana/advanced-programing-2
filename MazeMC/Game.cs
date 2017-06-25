@@ -14,7 +14,7 @@ namespace MazeMC
 	    public event OnGameStart GameStart;
 		public delegate void OnNewState(string name, string player1, string player2);
 	    public event OnNewState NewState;
-        public delegate void OnGameFinish(string name, string player1, string player2);
+        public delegate void OnGameFinish(string name, string winner, string loser);
         public event OnGameFinish GameFinish;
         private static Dictionary<string, Direction> _directions;
 
@@ -32,6 +32,7 @@ namespace MazeMC
         /// </summary>
         private readonly ConcurrentQueue<Move> _moves;
         private readonly List<string> _players;
+        private readonly new Dictionary<string, string> _usernames;
         private readonly List<Position> _positions;
 
         /// <summary>
@@ -56,6 +57,7 @@ namespace MazeMC
             };
 
             _players = new List<string>();
+            _usernames = new Dictionary<string, string>();
             _positions = new List<Position>();
             _moves = new ConcurrentQueue<Move>();
             _changes = new ConcurrentQueue<Move>();
@@ -74,9 +76,10 @@ namespace MazeMC
 		///     Adds the player.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		public void AddPlayer(string clientId)
+		public void AddPlayer(string clientId, string username)
         {
             Players.Add(clientId);
+            _usernames.Add(clientId, username);
             _positions.Add(Maze.InitialPos);
 	        if (Players.Count == 2)
 	        {
@@ -213,6 +216,13 @@ namespace MazeMC
         public void SetFinishMessageSent()
         {
             _finishMessageSentToPlayers = true;
+        }
+
+        public string GetUsernameById(string clientId)
+        {
+            string username;
+            _usernames.TryGetValue(clientId, out username);
+            return username;
         }
 
         /// <summary>

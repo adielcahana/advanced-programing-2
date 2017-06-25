@@ -17,7 +17,7 @@ namespace MazeMC.Models
 		public event OnGameStart GameStart;
 		public delegate void OnNewState(string name, string player1, string player2);
 		public event OnNewState NewState;
-        public delegate void OnGameFinish(string name, string player1, string player2);
+        public delegate void OnGameFinish(string name, string winner, string loser);
         public event OnGameFinish GameFinish;
         private readonly DFSMazeGenerator _generator;
 
@@ -73,7 +73,7 @@ namespace MazeMC.Models
 		/// <returns>
 		///     the maze detailes
 		/// </returns>
-		public Maze NewGame(string name, int rows, int cols, string playerId)
+		public Maze NewGame(string name, int rows, int cols, string playerId, string username)
 		{
 			// check if the game exist
 			if (_games.ContainsKey(name))
@@ -95,7 +95,7 @@ namespace MazeMC.Models
                 GameFinish(gameName, player1, player2);
             });
             _games.Add(name, game);
-			game.AddPlayer(playerId);
+			game.AddPlayer(playerId, username);
 			//game.Initialize();
 			game.Start();
 			return maze;
@@ -109,7 +109,7 @@ namespace MazeMC.Models
 		/// <returns>
 		///     the maze detailes
 		/// </returns>
-		public Maze JoinGame(string name, string player2)
+		public Maze JoinGame(string name, string player2, string username)
 		{
 			Game game;
 			if (_games.TryGetValue(name, out game))
@@ -118,7 +118,7 @@ namespace MazeMC.Models
 				{
 					return null;
 				}
-				game.AddPlayer(player2);
+				game.AddPlayer(player2, username);
 				return game.Maze;
 			}
 			return null;
@@ -138,6 +138,11 @@ namespace MazeMC.Models
 			}
 			_games.Remove(name);
 		}
+
+        public string GetUsernameById(string name, string clientId)
+        {
+            return _games[name].GetUsernameById(clientId);
+        }
 
         public void SetFinishMessageSent(string name)
         {
