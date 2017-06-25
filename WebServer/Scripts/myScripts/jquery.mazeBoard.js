@@ -152,7 +152,7 @@
                     width,
                     height);
             }
-
+            
             solve(solution) {
                 var timer;
                 this._isEnabled = false;

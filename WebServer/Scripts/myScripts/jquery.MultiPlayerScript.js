@@ -66,13 +66,17 @@ function StartGame() {
 };
 
 function JoinGame() {
-    id = 1;
-    $("#mazeCanvas").hide();
     var name = $("#select").val();
     if (name == undefined) {
         alert("You need to choose game");
         return;
-    }
+    } 
+    if (name == board._name) {
+        alert("can't join a game you started");
+        return;
+    } 
+    id = 1;
+    $("#mazeCanvas").hide();
     $(".loader").show();
     game.server.joinGame(name);
 }

@@ -12,7 +12,6 @@
                 user.Rank = rank;
                 rank = rank + 1;
             }
-
             );
             self.Ranks(data);
         });
