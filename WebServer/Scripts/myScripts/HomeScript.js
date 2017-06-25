@@ -1,4 +1,8 @@
-﻿$(document).ready(function () {
+﻿
+/*
+if setting don't exist, load default setting in local storage
+*/
+$(document).ready(function () {
     if (localStorage.Rows == undefined) {
         localStorage.Rows = 10;
     }

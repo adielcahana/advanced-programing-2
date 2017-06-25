@@ -14,7 +14,7 @@ namespace WebServer
 {
 	public class MultiplayerHub : Hub
 	{
-		private static MultiPlayerModel model = new MultiPlayerModel();
+		private static MultiplayerModel model = new MultiplayerModel();
         private UserContext db = new UserContext();
         private static bool firstConnection = true;
 

@@ -32,7 +32,7 @@ namespace MazeMC
         /// </summary>
         private readonly ConcurrentQueue<Move> _moves;
         private readonly List<string> _players;
-        private readonly new Dictionary<string, string> _usernames;
+        private readonly Dictionary<string, string> _usernames;
         private readonly List<Position> _positions;
 
         /// <summary>
@@ -152,7 +152,6 @@ namespace MazeMC
         {
             Move move;
 	        _changes.TryDequeue(out move);
-	        //if (move.ClientId == -1) return "close";
 			return move.ToJson();
         }
 
@@ -182,6 +181,7 @@ namespace MazeMC
                     {
                         int row = _positions[move.ClientId].Row;
                         int col = _positions[move.ClientId].Col;
+                        // set new position
                         switch (move.MoveDirection)
                         {
                             case Direction.Up:
@@ -198,11 +198,13 @@ namespace MazeMC
                                 break;
                         }
                         _changes.Enqueue(move);
-	                    NewState(Maze.Name, _players[0], _players[1]);
+                        // add move event
+                        NewState(Maze.Name, _players[0], _players[1]);
 					}
                 }
                 //update _changes with an irelevant Move that closes the game
                 _changes.Enqueue(new Move(Direction.Up, null));
+                // add finish event
                 if (_players[0].Equals(_winner)){
                     GameFinish(Maze.Name, _players[0], _players[1]);
                 }
@@ -213,11 +215,19 @@ namespace MazeMC
 			}).Start();
         }
 
+        /// <summary>
+        /// Sets that finish message sent.
+        /// </summary>
         public void SetFinishMessageSent()
         {
             _finishMessageSentToPlayers = true;
         }
 
+        /// <summary>
+        /// Gets the username by client id.
+        /// </summary>
+        /// <param name="clientId">The client identifier.</param>
+        /// <returns></returns>
         public string GetUsernameById(string clientId)
         {
             string username;

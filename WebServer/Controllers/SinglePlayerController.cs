@@ -13,7 +13,7 @@ namespace WebServer.Controllers
 {
     public class SinglePlayerController : ApiController
     {
-	    private static SinglePlayerModel model = new SinglePlayerModel();
+	    private static SingleplayerModel model = new SingleplayerModel();
 
 	    [HttpGet]
 		[Route("SinglePlayer/{name}/{row}/{col}")]

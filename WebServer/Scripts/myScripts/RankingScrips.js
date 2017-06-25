@@ -1,11 +1,16 @@
-﻿var ViewModel = function () {
-    var self = this; // make 'this' available to subfunctions or closures
+﻿/*
+view model for data binding
+*/
+var ViewModel = function () {
+    var self = this;
 
-    self.Ranks = ko.observableArray(); // enables data binding
+    self.Ranks = ko.observableArray();
     self.rank = ko.observableArray();
     var RanksUri = '/api/Ranks/';
+    // get all the rank table
     function getRanks() {
         $.getJSON(RanksUri).done(function (data) {
+            // sort the user ranks by wins - loses 
             data.sort(function (a, b) { return (b.GamesWon - b.GamesLost) - (a.GamesWon - a.GamesLost) });
             rank = 1;
             data.forEach(function (user) {
@@ -17,7 +22,6 @@
             self.Ranks(data);
         });
     }
-    // Fetch the initial data
     getRanks();
 };
 ko.applyBindings(new ViewModel());

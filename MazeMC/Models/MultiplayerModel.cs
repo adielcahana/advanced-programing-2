@@ -31,6 +31,9 @@ namespace MazeMC.Models
         /// </summary>
         private readonly Dictionary<string, Game> _games;
 
+        /// <summary>
+        /// Constructor of the <see cref="MultiplayerModel"/> class.
+        /// </summary>
         public MultiplayerModel()
         {
             _mazes = new Dictionary<string, Maze>();
@@ -47,9 +50,6 @@ namespace MazeMC.Models
         /// </returns>
         public string CreateList()
         {
-
-            //if (_games.Count == 0)
-            //   return "no games avaliable";
             List<string> names = new List<string>(_games.Keys.Count);
             foreach (string name in _games.Keys)
             {
@@ -77,21 +77,23 @@ namespace MazeMC.Models
             Maze maze = _generator.Generate(rows, cols);
             maze.Name = name;
             Game game = new Game(maze, this);
+            // add delegate of new state
             game.NewState += new Game.OnNewState(delegate (string gameName, string player1, string player2)
             {
                 NewState(gameName, player1, player2);
             });
+            // add delegate of start game
             game.GameStart += new Game.OnGameStart(delegate (string player1, string player2)
             {
                 GameStart(player1, player2);
             });
+            // add delegate of finish game
             game.GameFinish += new Game.OnGameFinish(delegate (string gameName, string player1, string player2)
             {
                 GameFinish(gameName, player1, player2);
             });
             _games.Add(name, game);
             game.AddPlayer(playerId, username);
-            //game.Initialize();
             game.Start();
             return maze;
         }
@@ -134,11 +136,21 @@ namespace MazeMC.Models
             _games.Remove(name);
         }
 
+        /// <summary>
+        /// Gets the username by id.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="clientId">The client identifier.</param>
+        /// <returns></returns>
         public string GetUsernameById(string name, string clientId)
         {
             return _games[name].GetUsernameById(clientId);
         }
 
+        /// <summary>
+        /// Sets that finish message sent.
+        /// </summary>
+        /// <param name="name">The name.</param>
         public void SetFinishMessageSent(string name)
         {
             _games[name].SetFinishMessageSent();
