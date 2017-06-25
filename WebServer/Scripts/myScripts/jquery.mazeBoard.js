@@ -1,19 +1,19 @@
-// JavaScript source code
+// JQuery Plugin with maze board functionallity
 (function($) {
     $.fn.mazeBoard = function(name, mazeData,
         startRow,
         startCol,
         exitRow,
         exitCol,
-        playerRight,
-        layeLeft,
+        playerRightImg,
+        playeLeftImg,
         exitImage,
         wallImg,
         isEnabled,
         callback) {
 
         class mazeBoard {
-            constructor(name, mazeData, startRow, startCol, exitRow, exitCol, playerRight, playerLeft, exitImage, wallImg, isEnabled, callback, canvas) {
+            constructor(name, mazeData, startRow, startCol, exitRow, exitCol, playerRightImg, playerLeftImg, exitImage, wallImg, isEnabled, callback, canvas) {
                 this._name = name;
                 this._data = mazeData;
                 this._startRow = startRow;
@@ -22,22 +22,22 @@
                 this._exitCol = exitCol;
                 this._playerRow = startRow;
                 this._playerCol = startCol;
-                this._playerLeft = playerLeft;
-                this._playerRight = playerRight;
-                this._player = playerRight;
+                this._playerLeft = playerLeftImg;
+                this._playerRight = playerRightImg;
+                this._player = playerRightImg;
                 this._exitImg = exitImage;
                 this._wallImg = wallImg;
                 this._isEnabled = isEnabled;
                 this._onmove = callback;
                 this._canvas = canvas;
             }
-
+            //reset the maze. draw the player at the start point
             reset() {
                 this._playerRow = this._startRow;
                 this._playerCol = this._startCol;
                 this.drawMaze();
             }
-
+            //draw the current state on the canvas
             drawMaze() {
                 var ctx = this._canvas.getContext("2d");
                 ctx.strokeStyle = "black";
@@ -59,7 +59,7 @@
                     }
                 }
             }
-
+            //validate the mive direction
             isValidMove(direction) {
                 try
                 {
@@ -86,16 +86,18 @@
                 }  
             }
 
+            //check if the player has reached the exit
             gameFinished() {
                 return this._playerCol == this._exitCol && this._playerRow == this._exitRow;
             }
 
+            //public method - move the player in a certain direction
             makeMove(direction) {
                 if (this._isEnabled == true) {
                     this.move(direction);
                 }
             }
-
+            //private method -move the player in a certain direction
             move(direction) {
                 var ctx = this._canvas.getContext("2d");
                 var rows = this._data.length;
@@ -112,6 +114,10 @@
                default:
                     break;
                 }
+                /*
+                *if the move is valid, clean the last place the player was at
+                *and update the player location
+                */
                 if (this.isValidMove(direction)) {
                     switch (direction) {
                     case "Up":
@@ -135,9 +141,11 @@
                         e.message = "wrong argument in move";
                         throw e;
                     }
+                    //call the call back function
                     if (self._onmove != null) {
                         self._onmove(this._playerRow, this._playerCol, direction);
                     }
+                    //redraw the exit image
                     if (this._playerRow != this._exitRow || this._playerCol != this._exitCol) {
                         ctx.drawImage(this._exitImg,
                             width * this._exitCol,
@@ -146,13 +154,15 @@
                             height);
                     }
                 }
+                //draw the player image
                 ctx.drawImage(this._player,
                     width * this._playerCol,
                     height * this._playerRow,
                     width,
                     height);
             }
-            
+
+            //create the solve animation
             solve(solution) {
                 var timer;
                 this._isEnabled = false;
@@ -183,18 +193,18 @@
                 timer = setInterval(stage, 500);
             }
         }
-
+        //return the maze class
         return new mazeBoard(name, mazeData,
             startRow,
             startCol,
             exitRow,
             exitCol,
-            playerRight,
-            layeLeft,
+            playerRightImg,
+            playeLeftImg,
             exitImage,
             wallImg,
             isEnabled,
-            null,
+            callback,
             $(this)[0]);
     }
 })(jQuery);
