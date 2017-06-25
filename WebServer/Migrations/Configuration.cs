@@ -14,16 +14,6 @@ namespace WebServer.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(WebServer.Models.UserContext context)
-        {
-            //  This method will be called after migrating to the latest version.
-
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            context.Users.AddOrUpdate(
-                 new User() { Id = "aaa", Password = "aaa", Email = "aaa", JoinDate = "aaa" }
-            );
-        }
+        protected override void Seed(WebServer.Models.UserContext context) { }
     }
 }

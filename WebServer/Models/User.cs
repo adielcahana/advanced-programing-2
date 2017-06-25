@@ -6,7 +6,11 @@ using System.Web;
 
 namespace WebServer.Models
 {
-    public class User
+
+	/// <summary>
+	/// player information
+	/// </summary>
+	public class User
     {
         public string Id { get; set; }
         [Required]

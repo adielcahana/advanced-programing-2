@@ -1,9 +1,11 @@
-﻿$(document).ready(function () {
+﻿//load defualt settings and define buttons events
+$(document).ready(function () {
     loadSettings();
     $("#start")[0].onclick = startGame;
     $("#solve")[0].onclick = SolveGame;
 });
 
+//load defualt settings
 function loadSettings() {
     $('#Name').val("name");
     $('#Rows').val(localStorage.Rows);
@@ -12,6 +14,7 @@ function loadSettings() {
 }
 
 var board;
+//load game pictures
 exit = new Image();
 player_left = new Image();
 player_right = new Image();
@@ -21,6 +24,7 @@ player_left.src = '../images/dave_left.png';
 player_right.src = '../images/dave_right.png';
 wall.src = '../images/wall.png';
 
+// defines what happens when the player clicks the start game button
 function startGame() {
     $("#mazeCanvas").hide();
     $(".loader").show();
@@ -76,6 +80,7 @@ function startGame() {
             default:
                 break;
             }
+            //check if the player reached the exit
             if (board.gameFinished() == true) {
                 alert("You won!");
                 window.location.replace("/Pages/MainPage.html");
@@ -87,7 +92,7 @@ function startGame() {
         document.title = name;
     });
 }
-
+// defines what happens when the player clicks the solve game button
 function SolveGame() {
     var alg = $("#Algorithm").val();
     var apiUrl = '/SinglePlayer/' + board._name + "/" + alg;
@@ -98,6 +103,7 @@ function SolveGame() {
         var solSrl = data["Solution"];
         var solution = [];
         var i = solSrl.length - 1;
+        //convert the list to integers
         for (var c of solSrl) {
             solution[i] = parseInt(c);
             i--;

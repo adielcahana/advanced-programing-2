@@ -6,7 +6,10 @@ using System.Web;
 
 namespace WebServer.Models
 {
-    public class Rank
+	/// <summary>
+	/// player rank
+	/// </summary>
+	public class Rank
     {
         public string Id { get; set; }
         [Required]
