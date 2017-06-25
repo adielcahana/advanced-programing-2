@@ -4,7 +4,6 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using MazeLib;
-using MazeMC.Controllers;
 using MazeMC.Models;
 
 namespace MazeMC

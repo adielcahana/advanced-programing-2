@@ -6,7 +6,6 @@ using MazeAdapterLib;
 using MazeGeneratorLib;
 using MazeLib;
 using Newtonsoft.Json;
-using MazeMC.Controllers;
 using SearchAlgorithmsLib;
 using SearchAlgorithmsLib.Algorithms;
 

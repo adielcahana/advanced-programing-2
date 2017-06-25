@@ -49,19 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\Close.cs" />
-    <Compile Include="Commands\Generate.cs" />
-    <Compile Include="Commands\GetState.cs" />
-    <Compile Include="Commands\ICommand.cs" />
-    <Compile Include="Commands\Join.cs" />
-    <Compile Include="Commands\List.cs" />
-    <Compile Include="Commands\Play.cs" />
-    <Compile Include="Commands\Solve.cs" />
-    <Compile Include="Commands\Start.cs" />
-    <Compile Include="Controllers\Controller.cs" />
-    <Compile Include="Controllers\GameController.cs" />
-    <Compile Include="Controllers\IController.cs" />
-    <Compile Include="Controllers\ServerController.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\MultiplayerModel.cs" />

@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
     loadSettings();
+    $("#join")[0].onclick = JoinGame;
+    $("#start")[0].onclick = StartGame;
 });
 
 function loadSettings() {
@@ -162,5 +164,3 @@ game.client.startGame = function() {
     document.title = name;
 }
 
-$("#join")[0].onclick = JoinGame;
-$("#start")[0].onclick = StartGame;
