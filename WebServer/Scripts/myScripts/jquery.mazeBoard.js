@@ -158,7 +158,7 @@
                 this._isEnabled = false;
                 var board = this;
                 var i = 0;
-                function stage() {
+                 function stage() {
                     switch (solution[i]) {
                         case 0: //left 
                             board.move("Left");
@@ -194,6 +194,7 @@
             exitImage,
             wallImg,
             isEnabled,
+            null,
             $(this)[0]);
     }
 })(jQuery);
