@@ -42,8 +42,9 @@ namespace WebServer
                     };
                     Clients.Client(winner).finishGame(obj);
                     Rank winnerRank = db.Ranks.Find(winnerUsername);
+//                    db.Ranks.Remove(winnerRank);
                     winnerRank.GamesWon++;
-                    db.Ranks.Add(winnerRank);
+//                    db.Ranks.Add(winnerRank);
                     string loserUsername = model.GetUsernameById(gameName, loser);
                     obj = new JObject
                     {
@@ -51,9 +52,11 @@ namespace WebServer
                     };
                     Clients.Client(loser).finishGame(obj);
                     Rank loserRank = db.Ranks.Find(loserUsername);
+//                    db.Ranks.Remove(loserRank);
                     loserRank.GamesLost++;
-                    db.Ranks.Add(loserRank);
+//                    db.Ranks.Add(loserRank);
                     model.SetFinishMessageSent(gameName);
+                    db.SaveChanges();
                 });
                 firstConnection = false;
 			}

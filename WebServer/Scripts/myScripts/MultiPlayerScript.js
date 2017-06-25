@@ -62,11 +62,13 @@ function StartGame() {
     var name = $("#Name").val();
     var rows = $("#Rows").val();
     var cols = $("#Cols").val();
-    game.server.startGame(name, rows, cols);
+    var username = sessionStorage.username;
+    game.server.startGame(name, rows, cols, username);
 };
 
 function JoinGame() {
     var name = $("#select").val();
+    var username = sessionStorage.username;
     if (name == undefined) {
         alert("You need to choose game");
         return;
@@ -78,7 +80,7 @@ function JoinGame() {
     id = 1;
     $("#mazeCanvas").hide();
     $(".loader").show();
-    game.server.joinGame(name);
+    game.server.joinGame(name, username);
 }
 
 function OnKeyPress(e) {
