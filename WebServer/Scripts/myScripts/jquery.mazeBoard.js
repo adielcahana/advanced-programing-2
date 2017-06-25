@@ -9,10 +9,11 @@
         layeLeft,
         exitImage,
         wallImg,
-        isEnabled) {
+        isEnabled,
+        callback) {
 
         class mazeBoard {
-            constructor(name, mazeData, startRow, startCol, exitRow, exitCol, playerRight, playerLeft, exitImage, wallImg, isEnabled, canvas) {
+            constructor(name, mazeData, startRow, startCol, exitRow, exitCol, playerRight, playerLeft, exitImage, wallImg, isEnabled, callback, canvas) {
                 this._name = name;
                 this._data = mazeData;
                 this._startRow = startRow;
@@ -27,7 +28,7 @@
                 this._exitImg = exitImage;
                 this._wallImg = wallImg;
                 this._isEnabled = isEnabled;
-                //this._move = callback;
+                this._onmove = callback;
                 this._canvas = canvas;
             }
 
@@ -129,10 +130,13 @@
                         ctx.fillRect(width * this._playerCol, height * this._playerRow, width, height);
                         this._playerCol -= 1;
                         break;
-                        default:
-                            var e = new Error();
-                            e.message = "wrong argument in move";
-                            throw e;
+                    default:
+                        var e = new Error();
+                        e.message = "wrong argument in move";
+                        throw e;
+                    }
+                    if (self._onmove != null) {
+                        self._onmove(this._playerRow, this._playerCol, direction);
                     }
                     if (this._playerRow != this._exitRow || this._playerCol != this._exitCol) {
                         ctx.drawImage(this._exitImg,

@@ -55,7 +55,8 @@ function startGame() {
             player_left,
             exit,
             wall,
-            true);
+            true,
+            null);
         document.onkeydown = function (e) {
             switch (e.which) {
             case 37:

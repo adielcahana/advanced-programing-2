@@ -126,7 +126,8 @@ game.client.initGame = function (data) {
         player_left,
         exit,
         wall,
-        true);
+        true,
+        null);
     otherBoard = $("#otherMazeCanvas").mazeBoard(data["Name"],
         maze,
         data["Start"]["Row"],
@@ -137,7 +138,8 @@ game.client.initGame = function (data) {
         player_left,
         exit,
         wall,
-        true);
+        true,
+        null);
     alert("waiting for second player");
     if (id == 1) {
         document.onkeydown = OnKeyPress;
