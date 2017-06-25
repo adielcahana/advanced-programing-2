@@ -8,25 +8,16 @@ using System.Web.Routing;
 
 namespace WebServer
 {
-    public class RouteConfig
+	public class RouteConfig
     {
-        public static void RegisterRoutes(RouteCollection routes)
+		/// <summary>
+		/// Registers the routes.
+		/// </summary>
+		/// <param name="routes">The routes.</param>
+		public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
 	        routes.MapMvcAttributeRoutes();
-
-//			routes.MapRoute(
-//		        name: "GenerateMaze",
-//		        url: "{controller}/{action}/{name}/{row}/{col}",
-//		        defaults: new { controller = "SinglePlayer",action = "GenerateMaze", name = "", row=0, col=0 }
-//	        );
-//
-//			routes.MapRoute(
-//                name: "Default",
-//                url: "{controller}/{action}/{id}",
-//                defaults: new { action = "Index", id = UrlParameter.Optional }
-//            );
 		}
     }
 }

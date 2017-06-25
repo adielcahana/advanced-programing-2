@@ -248,7 +248,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="fonts\" />
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="Views\MultiPlayer\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MazeAdapterLib\MazeAdapterLib.csproj">

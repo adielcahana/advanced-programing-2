@@ -11,11 +11,25 @@ using WebServer.Models;
 
 namespace WebServer.Controllers
 {
-    public class SinglePlayerController : ApiController
+	/// <summary>
+	/// web api controller for single player
+	/// </summary>
+	/// <seealso cref="System.Web.Http.ApiController" />
+	public class SinglePlayerController : ApiController
     {
-	    private static SinglePlayerModel model = new SinglePlayerModel();
+		/// <summary>
+		/// The Single Player model
+		/// </summary>
+		private static SinglePlayerModel model = new SinglePlayerModel();
 
-	    [HttpGet]
+		/// <summary>
+		/// Generates the maze.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="row">The row.</param>
+		/// <param name="col">The col.</param>
+		/// <returns> maze json object</returns>
+		[HttpGet]
 		[Route("SinglePlayer/{name}/{row}/{col}")]
 	    public JObject GenerateMaze(string name, int row, int col)
 	    {
@@ -29,7 +43,13 @@ namespace WebServer.Controllers
 		    return obj;
 	    }
 
-	    [HttpGet]
+		/// <summary>
+		/// Solves the maze.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <param name="algorithm">The algorithm.</param>
+		/// <returns> json lists of directions </returns>
+		[HttpGet]
 	    [Route("SinglePlayer/{name}/{algorithm}")]
 		public JObject SolveMaze(string name, Algorithm algorithm)
 	    {
