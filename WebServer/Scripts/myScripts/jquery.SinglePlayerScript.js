@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
     loadSettings();
+    $("#start")[0].onclick = startGame;
+    $("#solve")[0].onclick = SolveGame;
 });
 
 function loadSettings() {
@@ -105,5 +107,3 @@ function SolveGame() {
     });
 }
 
-$("#start")[0].onclick = startGame;
-$("#solve")[0].onclick = SolveGame;
