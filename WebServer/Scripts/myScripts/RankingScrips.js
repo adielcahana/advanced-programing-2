@@ -13,6 +13,7 @@ var ViewModel = function () {
             // sort the user ranks by wins - loses 
             data.sort(function (a, b) { return (b.GamesWon - b.GamesLost) - (a.GamesWon - a.GamesLost) });
             rank = 1;
+            // add the right rank for the user
             data.forEach(function (user) {
                 user.Rank = rank;
                 rank = rank + 1;

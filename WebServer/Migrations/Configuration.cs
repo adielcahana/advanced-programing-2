@@ -14,6 +14,6 @@ namespace WebServer.Migrations
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(WebServer.Models.UserContext context) { }
+        protected override void Seed(WebServer.Models.UserContext context) {}
     }
 }

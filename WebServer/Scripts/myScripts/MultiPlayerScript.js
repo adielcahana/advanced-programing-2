@@ -188,4 +188,3 @@ game.client.startGame = function() {
     $("#otherMazeCanvas").show();
     document.title = name;
 }
-
